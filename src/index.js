@@ -1,17 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { FieldValue, firebase } from './lib/firebase';
+import FirebaseConfig from './context/firebase';
+
+/* Don't pass too many things as value prop to provider. B/C its at root level
+if any value in the provider is changed it will trigger the entire tree to re-render.*/
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+	<FirebaseConfig.Provider value={{ firebase, FieldValue }}>
+		<App />
+	</FirebaseConfig.Provider>,
+	document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
