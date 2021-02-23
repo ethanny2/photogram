@@ -1,6 +1,7 @@
 import firebaseApp from 'firebase/app';
 /*Tree shaking */
 import 'firebase/firebase-firestore';
+import 'firebase/firebase-auth';
 // import { seedDatabase } from '../seed';
 
 const {
