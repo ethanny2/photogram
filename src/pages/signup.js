@@ -3,7 +3,7 @@ import phoneImg from '../images/iphone-with-profile.jpg';
 import logo from '../images/logo.png';
 import * as ROUTES from '../constants/routes';
 import { Link, useHistory } from 'react-router-dom';
-import { validateEmail, upperCasefullName, isInputAlphaBet } from '../utils';
+import { validateEmail, upperCaseFullName, isInputAlphaBet } from '../utils';
 import firebaseContext from '../context/firebase';
 import { doesUsernameExist } from '../services/firebase';
 
@@ -99,7 +99,7 @@ export default function SignUp() {
 							onChange={({ target }) => {
 								console.log(isInputAlphaBet(target.value));
 								if (isInputAlphaBet(target.value)) {
-									setfullName(upperCasefullName(target.value));
+									setfullName(upperCaseFullName(target.value));
 								}
 							}}
 						/>

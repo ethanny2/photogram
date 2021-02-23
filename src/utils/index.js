@@ -8,6 +8,7 @@ export const isInputAlphaBet = (str) => {
 	const pattern = /^[a-zA-Z\s]*$/;  
 	return pattern.test(str);
 }
+
 export const upperCaseFullName = (str) => {
 	if (str.length <= 0) return "";
 	const space = str.indexOf(' ');
