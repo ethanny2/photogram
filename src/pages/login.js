@@ -16,8 +16,8 @@ export default function Login() {
 		password === '' || email === '' || validateEmail(email) === false;
 
 	const handleLogin = async (e) => {
+		e.preventDefault();
 		try {
-			e.preventDefault();
 			const response = await firebase
 				.auth()
 				.signInWithEmailAndPassword(email, password);

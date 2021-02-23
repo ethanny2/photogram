@@ -3,8 +3,9 @@ import phoneImg from '../images/iphone-with-profile.jpg';
 import logo from '../images/logo.png';
 import * as ROUTES from '../constants/routes';
 import { Link, useHistory } from 'react-router-dom';
-import { validateEmail, upperCaseFullName, isInputAlphaBet } from '../utils';
+import { validateEmail, upperCasefullName, isInputAlphaBet } from '../utils';
 import firebaseContext from '../context/firebase';
+import { doesUsernameExist } from '../services/firebase';
 
 /*
   Setup state and error handling/ form validation.
@@ -14,12 +15,15 @@ import firebaseContext from '../context/firebase';
 
 export default function SignUp() {
 	const [username, setUsername] = useState('');
-	const [fullname, setFullName] = useState('');
+	const [fullName, setfullName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
 	const isInvalid =
-		password === '' || email === '' || validateEmail(email) === false;
+		password === '' ||
+		email === '' ||
+		fullName === '' ||
+		validateEmail(email) === false;
 	const { firebase } = useContext(firebaseContext);
 	const history = useHistory();
 
@@ -28,19 +32,43 @@ export default function SignUp() {
 	}, []);
 
 	const handleSignUp = async (e) => {
-		try {
-			e.preventDefault();
-			const response = await firebase
-				.auth()
-				.createUserWithEmailAndPassword(email, password);
-			console.log({ response });
-			console.log('Signup successfull');
-		} catch (error) {
-			setUsername('');
+		e.preventDefault();
+		const usernameExists = await doesUsernameExist(username);
+		//If length is 0 that is falsey, if not length is 1 and user name exists
+		if (!usernameExists.length) {
+			console.log('This username is not in use');
+			try {
+				const createdUserResult = await firebase
+					.auth()
+					.createUserWithEmailAndPassword(email, password);
+				console.log({ createdUserResult });
+				console.log('Signup successfull');
+				/* This is different from the documents in firestore this is on the auth side*/
+				await createdUserResult.user.updateProfile({
+					displayName: username
+				});
+				await firebase.firestore().collection('user').add({
+					userId: createdUserResult.user.uid,
+					username: username.toLowerCase(),
+					fullName,
+					emailAddress: email.toLowerCase(),
+					following: [],
+					followers: [],
+					dateCreated: Date.now()
+				});
+				history.push(ROUTES.DASHBOARD);
+			} catch (error) {
+				setfullName('');
+				setError(error.message);
+				console.log('Signup failed');
+			}
+		} else {
 			setEmail('');
 			setPassword('');
-			setError(error.message);
-			console.log('Signup failed');
+			setfullName('');
+			setUsername('');
+			setError('That username is already taken, please try another.');
+			console.log('That user name is already in use');
 		}
 	};
 
@@ -67,11 +95,11 @@ export default function SignUp() {
 							className='text-sm w-full text-gray bg-gray-background mr-3 py-5 px-4 h-2 border rounded mb-2'
 							type='text'
 							placeholder='Full name'
-							value={fullname}
+							value={fullName}
 							onChange={({ target }) => {
-                console.log(isInputAlphaBet(target.value));
+								console.log(isInputAlphaBet(target.value));
 								if (isInputAlphaBet(target.value)) {
-                  setFullName(upperCaseFullName(target.value));
+									setfullName(upperCasefullName(target.value));
 								}
 							}}
 						/>
