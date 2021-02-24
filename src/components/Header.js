@@ -9,6 +9,7 @@ import daliAvatar from '../images/avatars/dali.jpg';
 export default function Header() {
 	const { firebase } = useContext(FirebaseContext);
 	const {user} = useContext(UserContext);
+	console.log({user});
 	return (
 		<header className='bg-white w-full border-b mb-8 h-16'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
