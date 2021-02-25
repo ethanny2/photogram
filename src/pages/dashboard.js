@@ -8,7 +8,7 @@ export default function DashBoard() {
 		document.title = 'Instagram';
 	});
 	return (
-		<section className='bg-gray-100 h-screen'>
+		<section className='bg-gray-100'>
 			<Header  />
 			<div className="grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg">
 				<Timeline />

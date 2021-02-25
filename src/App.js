@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as ROUTES from './constants/routes';
 import './index.css';
@@ -20,7 +20,6 @@ const NotFound = lazy(() => import('./pages/not-found'));
 
 function App() {
 	const {user} = useAuthListener();
-	// console.log({user});
 	return (
 		<UserContext.Provider value={{user}}>
 			<Router>
