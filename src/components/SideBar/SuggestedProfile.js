@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import sampleAvatar from '../../images/avatars/raphael.jpg';
 import { Link } from 'react-router-dom';
+import {
+	getUserByUserId,
+	updateUserFollowing,
+	updateFollowedUserFollowers
+} from '../../services/firebase';
 /* 
   userDocId- is the docID of the suggested user in this sidebar 
   username - The username of the suggested user to display next to their photo
@@ -16,6 +21,14 @@ export default function SuggestedProfile({
 	const [followed, setFollowed] = useState(false);
 	async function handleFollowUser() {
 		setFollowed(true);
+		/*
+		  getUserByUserId(profileId) //get other persons account
+		 	update their followed list with updateFollowedUserFollowers()
+			update my (logged in user) following list updateUserFollowing
+		*/
+		const [{ docId }] = await getUserByUserId(userId);
+		await updateUserFollowing(docId, profileId);
+		await updateFollowedUserFollowers(userDocId, userId);
 	}
 	return !followed ? (
 		<div className='flex flex-row items-center align-items justify-between'>
