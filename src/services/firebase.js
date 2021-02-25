@@ -108,6 +108,51 @@ export async function updateFollowedUserFollowers(
 		});
 }
 
+export async function getUserByUsername(username) {
+	const response = await firebase
+		.firestore()
+		.collection('users')
+		.where('username', '==', username)
+		.get();
+	const user = response.docs.map((item) => ({
+		...item.data(),
+		docId: item.id
+	}));
+
+	//Returns array of doc data; if true arr.length > 0
+	return user.length > 0 ? user : false;
+}
+
+export async function getUserIdByUsername(username) {
+	const result = await firebase
+		.firestore()
+		.collection('users')
+		.where('username', '==', username)
+		.get();
+
+	const [{ userId = null }] = result.docs.map((item) => ({
+		...item.data()
+	}));
+	return userId;
+}
+
+export async function getUserPhotosByUsername(username) {
+	const userId = await getUserIdByUsername(username);
+	const result = await firebase
+		.firestore()
+		.collection('photos')
+		.where('userId', '==', userId)
+		.get();
+
+		console.log({userId});
+	const photos = result.docs.map((item) => ({
+		...item.data(),
+		docId: item.id
+	}));
+
+	return photos;
+}
+
 /* Get list of followed accounts for current user;
 Yep... next lesson he literally addresses all of this...
 */
