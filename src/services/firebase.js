@@ -57,3 +57,28 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 
 	return photosWithUserDetails;
 }
+
+/* Get list of followed accounts for current user;*/
+export async function getSuggestedProfiles(userId) {
+	//get 10 random users
+	const result = await firebase.firestore().collection('users').limit(10).get();
+	//Map over the result docs and pull out user data, the returned array is filtered
+	// and checks if THE LOGGED IN USER (userId) was among those 10 people????
+	// Why not just get by id I don't get it
+	// This just straight up won't work at scale if its just getting the first 10
+	// users and checking if the logged in person is among those documents....
+
+	const [{ following: userFollowing = [] }] = result.docs
+		.map((user) => user.data())
+		.filter((profile) => profile.userId === userId);
+
+	// Here we map over the 10 random users we got, get the doc data + id,
+	// filter it based on if its not the current Logged in Users account
+	// and our 'userFollowing' array doesn't already contain them.
+	return result.docs
+		.map((user) => ({ ...user.data(), docId: user.id }))
+		.filter(
+			(profile) =>
+				profile.userId !== userId && !userFollowing.includes(profile.userId)
+		);
+}
