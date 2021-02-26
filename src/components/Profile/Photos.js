@@ -18,11 +18,11 @@ export default function Photos({ photos }) {
 									key={photo.docId}
 									className='relative group col-span-1 transition-opacity	duration-500 z-10 '
 								>
-									<div className='text-md text-black font-bold flex justify-center items-center h-full w-full
+									{/* <div className='text-md text-black font-bold flex justify-center items-center h-full w-full
                    absolute bg-black bg-opacity-0 invisible bg-gray-200  duration-500
                      transition-opacity	  group-hover:bg-opacity-50  group-hover:visible group-hover:z-20'>
 										testing
-									</div>
+									</div> */}
 									<img src={photo.imageSrc} alt={photo.caption} />
 								</figure>
 							);

@@ -9,7 +9,7 @@ import {
 const reducer = (state, newState) => ({ ...state, ...newState });
 const initialState = {
 	profile: {},
-	photosCollection: [],
+	photosCollection: null,
 	followerCount: 0
 };
 
@@ -42,13 +42,13 @@ export default function Profile({ username }) {
 	return (
 		<>
 			<Header
-        photosCount={photosCollection.length}
+				photosCount={photosCollection ? photosCollection.length : 0}
 				profile={profile}
 				followerCount={followerCount}
-        setFollowerCount={dispatch}
-        username={username}
+				setFollowerCount={dispatch}
+				username={username}
 			/>
-			<Photos  photos={photosCollection} />
+			<Photos photos={photosCollection} />
 		</>
 	);
 }

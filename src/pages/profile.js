@@ -21,11 +21,11 @@ export default function Profile() {
 		checkUserExistsToLoadProfile();
 	}, [username, history]);
 	return userExists ? (
-		<section className='bg-gray'>
+		<main className='bg-gray'>
 			<Header></Header>
-			<div className='mx-auto max-w-screen-lg'>
+			<section className='mx-auto max-w-screen-lg'>
 				<UserProfile username={username} />
-			</div>
-		</section>
+			</section>
+		</main>
 	) : null;
 }

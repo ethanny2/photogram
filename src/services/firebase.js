@@ -1,5 +1,77 @@
 import { firebase, FieldValue } from '../lib/firebase';
 
+/*
+	activeUsername - is the currently logged in users profileId
+	profileUserId - is the current persons profile page we visited
+*/
+export async function isUserFollowingProfile(activeUsername, profileUserId) {
+	const result = await firebase
+		.firestore()
+		.collection('users')
+		.where('username', '==', activeUsername) // ethanny2 (active logged in user)
+		.where('following', 'array-contains', profileUserId)
+		.get();
+
+	const [response = {}] = result.docs.map((item) => ({
+		...item.data(),
+		docId: item.id
+	}));
+	/* !! Coerses the value on the right to its boolean equivalent;
+	 If reponse.fullName is thruthy return true vice versa */
+	return !!response.fullName;
+}
+
+export async function toggleFollow(
+	isFollowingProfile, //If active user is following this person already
+	activeUserDocId, //The active users docId in firestore
+	profileDocId, //The docId of the person who is not the logged in user
+	profileId, //The profileId(called userId in firestore) of the person who is not the logged in user
+	followingUserId //The logged in user's userId
+) {
+	//Updates ME; the logged in user
+	await updateUserFollowing(activeUserDocId, profileId, isFollowingProfile);
+	//Updates the following count of the person the logged in user just followed.
+	await updateFollowedUserFollowers(
+		profileDocId,
+		followingUserId,
+		isFollowingProfile
+	);
+}
+
+/*Update the 'logged in user's following list; we followed someone new */
+export async function updateUserFollowing(
+	docId,
+	profileId,
+	isFollowingProfile
+) {
+	const response = await firebase
+		.firestore()
+		.collection('users')
+		.doc(docId)
+		.update({
+			following: isFollowingProfile
+				? FieldValue.arrayRemove(profileId)
+				: FieldValue.arrayUnion(profileId)
+		});
+}
+
+/*Update the followed list of the person the logged in user (docId) just followed */
+export async function updateFollowedUserFollowers(
+	docId, //The user whose follwers we wish to update
+	followingUserId, //logged in user
+	isFollowingProfile
+) {
+	const response = await firebase
+		.firestore()
+		.collection('users')
+		.doc(docId)
+		.update({
+			followers: isFollowingProfile
+				? FieldValue.arrayRemove(followingUserId)
+				: FieldValue.arrayUnion(followingUserId)
+		});
+}
+
 export async function doesUsernameExist(username) {
 	const result = await firebase
 		.firestore()
@@ -74,40 +146,6 @@ export async function getSuggestedProfiles(userId) {
 		);
 }
 
-/*Update the 'logged in user's following list; we followed someone new */
-export async function updateUserFollowing(
-	docId,
-	profileId,
-	isFollowingProfile
-) {
-	const response = await firebase
-		.firestore()
-		.collection('users')
-		.doc(docId)
-		.update({
-			following: isFollowingProfile
-				? FieldValue.arrayRemove(profileId)
-				: FieldValue.arrayUnion(profileId)
-		});
-}
-
-/*Update the followed list of the person the logged in user (docId) just followed */
-export async function updateFollowedUserFollowers(
-	docId, //The user whose follwers we wish to update
-	followingUserId, //logged in user
-	isFollowingProfile
-) {
-	const response = await firebase
-		.firestore()
-		.collection('users')
-		.doc(docId)
-		.update({
-			following: isFollowingProfile
-				? FieldValue.arrayRemove(followingUserId)
-				: FieldValue.arrayUnion(followingUserId)
-		});
-}
-
 export async function getUserByUsername(username) {
 	const response = await firebase
 		.firestore()
@@ -144,7 +182,7 @@ export async function getUserPhotosByUsername(username) {
 		.where('userId', '==', userId)
 		.get();
 
-		console.log({userId});
+	console.log({ userId });
 	const photos = result.docs.map((item) => ({
 		...item.data(),
 		docId: item.id
@@ -152,30 +190,3 @@ export async function getUserPhotosByUsername(username) {
 
 	return photos;
 }
-
-/* Get list of followed accounts for current user;
-Yep... next lesson he literally addresses all of this...
-*/
-// export async function getSuggestedProfiles(userId) {
-// 	//get 10 random users
-// 	const result = await firebase.firestore().collection('users').limit(10).get();
-// 	//Map over the result docs and pull out user data, the returned array is filtered
-// 	// and checks if THE LOGGED IN USER (userId) was among those 10 people????
-// 	// Why not just get by id I don't get it
-// 	// This just straight up won't work at scale if its just getting the first 10
-// 	// users and checking if the logged in person is among those documents....
-
-// 	const [{ following: userFollowing = [] }] = result.docs
-// 		.map((user) => user.data())
-// 		.filter((profile) => profile.userId === userId);
-
-// 	// Here we map over the 10 random users we got, get the doc data + id,
-// 	// filter it based on if its not the current Logged in Users account
-// 	// and our 'userFollowing' array doesn't already contain them.
-// 	return result.docs
-// 		.map((user) => ({ ...user.data(), docId: user.id }))
-// 		.filter(
-// 			(profile) =>
-// 				profile.userId !== userId && !userFollowing.includes(profile.userId)
-// 		);
-// }
