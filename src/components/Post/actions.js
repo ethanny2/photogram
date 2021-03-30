@@ -25,7 +25,7 @@ export default function Actions({
 				.doc(docId)
 				.update({
 					/* assume toggle liked is the boolean before the state update
-					If false add them from likes  
+					If false add them to likes  
 					If true remove them from likes b/c it will update to the opposite*/
 					likes: toggleLiked
 						? FieldValue.arrayRemove(userId)
@@ -40,9 +40,6 @@ export default function Actions({
 			<div className='flex justify-between p-4'>
 				<div className='flex'>
 					<svg
-						//First outer function calls handleToggleLiked for the backend side
-						// Second returned function just toggles the localState to change UI of heart btn
-						//WE'RE NOT DOING ANYTHING WITH THE RETURN VALUE OF handleToggleLiked; we IGNORE IT
 						onClick={() => handleToggleLiked()}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {

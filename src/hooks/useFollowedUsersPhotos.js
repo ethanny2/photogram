@@ -15,7 +15,7 @@ export default function useFollowedUsersPhotos() {
 			if (followingUserIds && followingUserIds[0].following.length > 0) {
 				let followedUserPhotos = await getUserFollowedPhotos(
 					userId,
-					followingUserIds[0].following
+					followingUserIds[0].following //Arr of ppl logged in person follows
 				);
 				//Recent first;
 				followedUserPhotos.sort((a, b) => b.dateCreated - a.dateCreated);

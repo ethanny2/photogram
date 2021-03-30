@@ -13,13 +13,14 @@ export default function useUser() {
 	const { user } = useContext(UserContext);
 	useEffect(() => {
 		async function getUserObjByUserId() {
+			// Comes back as array of 1 person; destructure it
 			const [response] = await getUserByUserId(user.uid);
 			//in here we need to query for the user data in firestore
 			//store details of user in this state
 			setActiveUser({ ...response });
 		}
 		//We know if user is truthy they are logged in
-		//as check the id just in case b/c {} is also truthy?
+		//and check the id just in case b/c {} is also truthy?
 		//the udid auth = userID in firestore
 		if (user && user.uid) {
 			getUserObjByUserId();

@@ -9,8 +9,8 @@ import {
 /* 
   userDocId- is the docID of the suggested user in this sidebar 
   username - The username of the suggested user to display next to their photo
-  profileId - The docId of the currently logged in user so we can add the suggestions to our follow list
-  userId - Our userId in firestore for adding us to the selected users 'following' list
+  profileId - is the userId of the suggested user in this sidebar 
+  userId - Logged in users userId in firestore 
 */
 export default function SuggestedProfile({
 	userDocId,
@@ -21,11 +21,7 @@ export default function SuggestedProfile({
 	const [followed, setFollowed] = useState(false);
 	async function handleFollowUser() {
 		setFollowed(true);
-		/*
-		  getUserByUserId(profileId) //get other persons account
-		 	update their followed list with updateFollowedUserFollowers()
-			update my (logged in user) following list updateUserFollowing
-		*/
+		// Get logged in users docId
 		const [{ docId }] = await getUserByUserId(userId);
 		await updateUserFollowing(docId, profileId);
 		await updateFollowedUserFollowers(userDocId, userId);

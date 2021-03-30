@@ -48,6 +48,9 @@ export async function updateUserFollowing(
 		.firestore()
 		.collection('users')
 		.doc(docId)
+		// We never use that last boolean arg so this is always false
+		// If we were already following the user the getSuggestedProfiles(
+		// function that returned still data would already filter them out.
 		.update({
 			following: isFollowingProfile
 				? FieldValue.arrayRemove(profileId)
@@ -80,7 +83,8 @@ export async function doesUsernameExist(username) {
 		.get();
 
 	/* Returns an array of documents in collection even if only one matched
-    I don't get this... if it fails we return [] but that's still truthy....*/
+    I don't get this... if it fails we return [] but that's still truthy. 
+		Ok we just use the length of the array*/
 	return result.docs.map((user) => user.data().length > 0);
 }
 
@@ -102,13 +106,15 @@ export async function getUserByUserId(userId) {
 	return user;
 }
 
-/* This doesn't need userID we already have the arr of userIds for the ppl
-they follow. THIS IS PHOTOS FROM PPL YOU FOLLOW*/
+/*
+ userID need to check if they liked the photo!
+ THIS IS PHOTOS FROM PPL YOU FOLLOW
+ */
 export async function getUserFollowedPhotos(userId, followingUserIds) {
 	const result = await firebase
 		.firestore()
 		.collection('photos')
-		.where('userId', 'in', followingUserIds) //Matches up to 10 ids from the array
+		.where('userId', 'in', followingUserIds) //Grabs up to 10 user objects from ur following ID list
 		.get();
 
 	const userFollowedPhotos = result.docs.map((item) => ({
