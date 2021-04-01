@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+import PropTypes from 'prop-types';
+
 import Actions from './actions';
 import Header from './header';
 import Footer from './footer';
@@ -31,3 +33,16 @@ export default function Post({ content }) {
 		</article>
 	);
 }
+
+Post.propTypes = {
+	content: PropTypes.shape({
+		username: PropTypes.string.isRequired,
+		imageSrc: PropTypes.string.isRequired,
+		caption: PropTypes.string.isRequired,
+		docId: PropTypes.string.isRequired,
+		userLikedPhoto: PropTypes.bool.isRequired,
+		likes: PropTypes.array.isRequired,
+		comments: PropTypes.array.isRequired,
+		dateCreated: PropTypes.number.isRequired
+	})
+};

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import AddComment from './addComment';
 import { formatDistance } from 'date-fns';
+import PropTypes from 'prop-types';
 
 export default function Comments({
 	docId,
@@ -15,7 +16,7 @@ export default function Comments({
 			<div className='p-4 pt-1 pb-4'>
 				{comments.length >= 3 && (
 					<p className='text-sm text-gray-500 mb-1 cursor-pointer'>
-						View all {comments.length} comments
+						View all comments
 					</p>
 				)}
 				{comments.slice(0, 3).map((item) => {
@@ -41,3 +42,10 @@ export default function Comments({
 		</>
 	);
 }
+
+Comments.propTypes = {
+	docId: PropTypes.string.isRequired,
+	comments: PropTypes.array.isRequired,
+	posted: PropTypes.number.isRequired,
+	commentInput: PropTypes.object.isRequired
+};

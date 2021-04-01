@@ -1,6 +1,7 @@
 import FirebaseContext from '../../context/firebase';
 import UserContext from '../../context/user';
 import { useContext, useState } from 'react';
+import PropTypes from 'prop-types';
 
 /* Actions include making a like, a bookmark or comment? */
 export default function Actions({
@@ -92,3 +93,10 @@ export default function Actions({
 		</>
 	);
 }
+
+Actions.propTypes = {
+	docId: PropTypes.string.isRequired,
+	totalLikes: PropTypes.number.isRequired,
+	likedPhoto: PropTypes.bool.isRequired,
+	handleFocus: PropTypes.func.isRequired
+};

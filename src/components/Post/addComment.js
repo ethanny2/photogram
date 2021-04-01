@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import FirebaseContext from '../../context/firebase';
 import UserContext from '../../context/user';
+import PropTypes from 'prop-types';
 
 export default function AddComment({
 	docId,
@@ -12,7 +13,7 @@ export default function AddComment({
 	const {
 		user: { displayName }
 	} = useContext(UserContext);
-  console.log(displayName);
+	console.log(displayName);
 	const [comment, setComment] = useState('');
 	const handleSumbit = async (event) => {
 		event.preventDefault();
@@ -65,3 +66,10 @@ export default function AddComment({
 		</div>
 	);
 }
+
+AddComment.propTypes = {
+	docId: PropTypes.string.isRequired,
+	comments: PropTypes.array.isRequired,
+	setComments: PropTypes.func.isRequired,
+	commentInput: PropTypes.object.isRequired
+};

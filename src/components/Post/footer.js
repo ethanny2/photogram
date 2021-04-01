@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export default function Footer({ username, caption }) {
 	return (
 		<footer className='p-4 pt-2 pb-0'>
@@ -6,3 +8,8 @@ export default function Footer({ username, caption }) {
 		</footer>
 	);
 }
+
+Footer.propTypes = {
+	username: PropTypes.string.isRequired,
+	caption: PropTypes.string.isRequired
+};

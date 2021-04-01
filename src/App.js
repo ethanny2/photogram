@@ -1,5 +1,8 @@
 import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import ProtectedRoute from './helpers/protected-route';
+import IsUserLoggedIn from './helpers/is-user-logged-in';
+
 import * as ROUTES from './constants/routes';
 import './index.css';
 import UserContext from './context/user';
@@ -19,16 +22,31 @@ const Profile = lazy(() => import('./pages/profile'));
 const NotFound = lazy(() => import('./pages/not-found'));
 
 function App() {
-	const {user} = useAuthListener();
+	const { user } = useAuthListener();
+	console.log({ user });
 	return (
-		<UserContext.Provider value={{user}}>
+		<UserContext.Provider value={{ user }}>
 			<Router>
 				<Suspense fallback={<p>Loading....</p>}>
 					<Switch>
-						<Route path={ROUTES.LOGIN} component={Login} />
-						<Route path={ROUTES.SIGN_UP} component={SignUp} />
+						<IsUserLoggedIn
+							user={user}
+							loggedInPath={ROUTES.DASHBOARD}
+							path={ROUTES.LOGIN}
+						>
+							<Login />
+						</IsUserLoggedIn>
+						<IsUserLoggedIn
+							user={user}
+							loggedInPath={ROUTES.DASHBOARD}
+							path={ROUTES.SIGN_UP}
+						>
+							<SignUp />
+						</IsUserLoggedIn>
 						<Route path={ROUTES.PROFILE} component={Profile} />
-						<Route path={ROUTES.DASHBOARD} component={Dashboard} exact />
+						<ProtectedRoute user={user} path={ROUTES.DASHBOARD} exact>
+							<Dashboard />
+						</ProtectedRoute>
 						{/* Last route is always served if nothing is found with no path prop*/}
 						<Route component={NotFound} />
 					</Switch>
