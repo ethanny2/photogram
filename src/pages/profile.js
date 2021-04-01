@@ -13,14 +13,16 @@ export default function Profile() {
 		async function checkUserExistsToLoadProfile() {
 			const [user] = await getUserByUsername(username);
 			if (user.userId > 0) {
-				setUser(user[0]);
+				setUser(user);
 			} else {
 				history.push(ROUTES.NOT_FOUND);
 			}
-			console.log({ user });
 		}
 		checkUserExistsToLoadProfile();
 	}, [username, history]);
+
+	console.log({ user });
+
 	return user?.username ? (
 		<main className='bg-gray'>
 			<Header></Header>

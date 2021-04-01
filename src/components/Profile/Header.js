@@ -7,14 +7,14 @@ import PropTypes from 'prop-types';
 
 export default function Header({
 	photosCount,
-	followerCount: followers,
+	followerCount,
 	setFollowerCount,
 	profile: {
 		docId: profileDocId,
 		userId: profileUserId,
 		fullName,
 		following = [],
-		// followers = [],
+		followers = [],
 		username: profileUsername
 	}
 }) {
@@ -24,10 +24,11 @@ export default function Header({
 	const { user } = useUser(); //For the logged in person
 	//Show button only if there is someone logged in and this is not their page
 	const activeBtnFollow = user.username && user.username !== profileUsername;
-	console.log({ followers });
+	console.log({ followerCount });
 
 	useEffect(() => {
 		const isLoggedInUserFollowingProfile = async () => {
+			// Returns boolean
 			const isFollowing = await isUserFollowingProfile(
 				user.username,
 				profileUserId
@@ -50,7 +51,7 @@ export default function Header({
       vice-versa
      */
 		setFollowerCount({
-			followerCount: isFollowingProfile ? followers - 1 : followers + 1
+			followerCount: isFollowingProfile ? followerCount - 1 : followerCount + 1
 		});
 		await toggleFollow(
 			isFollowingProfile,
@@ -78,6 +79,9 @@ export default function Header({
 							className='bg-blue-500 font-bold text-sm rounded text-white w-20 h-8'
 							type='button'
 							onClick={handleToggleFollow}
+							onKeyDown={({ key }) => {
+								if (key === 'Enter') handleToggleFollow();
+							}}
 						>
 							{isFollowingProfile ? 'Unfollow' : 'Follow'}
 						</button>
@@ -93,7 +97,8 @@ export default function Header({
 							</p>
 							<p className='mr-10'>
 								<span className='font-bold'>
-									{followers} {followers === 1 ? 'follower' : 'followers'}
+									{followerCount}{' '}
+									{followerCount === 1 ? 'follower' : 'followers'}
 								</span>
 							</p>
 							<p className='mr-10'>
@@ -120,7 +125,6 @@ Header.propTypes = {
 	photosCount: PropTypes.number.isRequired,
 	followerCount: PropTypes.number.isRequired,
 	setFollowerCount: PropTypes.func.isRequired,
-	// username: PropTypes.string.isRequired,
 	profile: PropTypes.shape({
 		docId: PropTypes.string,
 		userId: PropTypes.string,

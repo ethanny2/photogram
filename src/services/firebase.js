@@ -25,11 +25,11 @@ export async function toggleFollow(
 	isFollowingProfile, //If active user is following this person already
 	activeUserDocId, //The active users docId in firestore
 	profileDocId, //The docId of the person who is not the logged in user
-	profileId, //The profileId(called userId in firestore) of the person who is not the logged in user
+	profileUserId, //The profileId(called userId in firestore) of the person who is not the logged in user
 	followingUserId //The logged in user's userId
 ) {
 	//Updates ME; the logged in user
-	await updateUserFollowing(activeUserDocId, profileId, isFollowingProfile);
+	await updateUserFollowing(activeUserDocId, profileUserId, isFollowingProfile);
 	//Updates the following count of the person the logged in user just followed.
 	await updateFollowedUserFollowers(
 		profileDocId,
