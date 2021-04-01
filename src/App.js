@@ -23,6 +23,7 @@ const NotFound = lazy(() => import('./pages/not-found'));
 
 function App() {
 	const { user } = useAuthListener();
+	//helloworld11
 	console.log({ user });
 	return (
 		<UserContext.Provider value={{ user }}>

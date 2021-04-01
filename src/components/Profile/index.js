@@ -2,9 +2,9 @@ import React, { useEffect, useReducer } from 'react';
 import Header from './Header';
 import Photos from './Photos';
 import {
-	getUserByUsername,
 	getUserPhotosByUsername
 } from '../../services/firebase';
+import PropTypes from 'prop-types';
 
 const reducer = (state, newState) => ({ ...state, ...newState });
 const initialState = {
@@ -13,7 +13,7 @@ const initialState = {
 	followerCount: 0
 };
 
-export default function Profile({ username }) {
+export default function Profile({ user }) {
 	/* First thing destructured is our state obj, 2nd is the dispatch function*/
 	const [{ profile, photosCollection, followerCount }, dispatch] = useReducer(
 		reducer,
@@ -22,14 +22,8 @@ export default function Profile({ username }) {
 	useEffect(() => {
 		/* Think about caching here in localStorage so we can save a network call
     if we already visited this profile before */
-
 		async function getProfileInfoAndPhotos() {
-			/* First we destructure the first item from the array
-      we know that first item is an object. We can rename that object
-      and spread all its properties into a newly named variable. */
-			const [{ ...user }] = await getUserByUsername(username);
-			console.log({ user });
-			const photos = await getUserPhotosByUsername(username);
+			const photos = await getUserPhotosByUsername(user.username);
 			console.log({ photos });
 			dispatch({
 				profile: user,
@@ -37,8 +31,10 @@ export default function Profile({ username }) {
 				followerCount: user.followers.length
 			});
 		}
-		getProfileInfoAndPhotos();
-	}, [username]);
+		if (user.username) {
+			getProfileInfoAndPhotos();
+		}
+	}, [user.username]);
 	return (
 		<>
 			<Header
@@ -46,9 +42,21 @@ export default function Profile({ username }) {
 				profile={profile}
 				followerCount={followerCount}
 				setFollowerCount={dispatch}
-				username={username}
+				// username={user.username}
 			/>
 			<Photos photos={photosCollection} />
 		</>
 	);
 }
+
+Profile.propTypes = {
+	user: PropTypes.shape({
+		dateCreated: PropTypes.number.isRequired,
+		emailAddress: PropTypes.string.isRequired,
+		followers: PropTypes.array.isRequired,
+		following: PropTypes.array.isRequired,
+		fullName: PropTypes.string.isRequired,
+		userId: PropTypes.string.isRequired,
+		username: PropTypes.string.isRequired
+	}).isRequired
+};

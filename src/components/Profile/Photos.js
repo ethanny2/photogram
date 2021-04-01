@@ -1,5 +1,6 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
+import PropTypes from 'prop-types';
 
 // future task: add onhover with the comments length & add the likes
 // future future task: add a lightbox where you can add comments!
@@ -37,3 +38,7 @@ export default function Photos({ photos }) {
 		</div>
 	);
 }
+
+Photos.propTypes = {
+	photos: PropTypes.array.isRequired
+};

@@ -158,13 +158,13 @@ export async function getUserByUsername(username) {
 		.collection('users')
 		.where('username', '==', username)
 		.get();
-	const user = response.docs.map((item) => ({
+	return response.docs.map((item) => ({
 		...item.data(),
 		docId: item.id
 	}));
 
 	//Returns array of doc data; if true arr.length > 0
-	return user.length > 0 ? user : false;
+	// return user.length > 0 ? user : false;
 }
 
 export async function getUserIdByUsername(username) {
@@ -180,6 +180,7 @@ export async function getUserIdByUsername(username) {
 	return userId;
 }
 
+// Don't we have userID from prop user to Profile/index.js (userProfile)?
 export async function getUserPhotosByUsername(username) {
 	const userId = await getUserIdByUsername(username);
 	const result = await firebase
