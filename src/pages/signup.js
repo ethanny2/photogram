@@ -47,7 +47,7 @@ export default function SignUp() {
 				await createdUserResult.user.updateProfile({
 					displayName: username
 				});
-				await firebase.firestore().collection('user').add({
+				await firebase.firestore().collection('users').add({
 					userId: createdUserResult.user.uid,
 					username: username.toLowerCase(),
 					fullName,

@@ -1,33 +1,30 @@
-import { useState, useEffect, useContext } from 'react';
-import UserContext from '../context/user';
-import { getUserByUserId, getUserFollowedPhotos } from '../services/firebase';
+import { useState, useEffect } from 'react';
+import { getUserFollowedPhotos } from '../services/firebase';
 
-export default function useFollowedUsersPhotos() {
+export default function useFollowedUsersPhotos(user) {
 	const [photos, setPhotos] = useState(null);
-	const {
-		user: { uid: userId = '' }
-	} = useContext(UserContext);
+
 	useEffect(() => {
 		async function getTimelinePhotos() {
-			const followingUserIds = await getUserByUserId(userId);
-			//If the user object comes back good and they follow at least 1 person
-			// Always comes back in array even if only one doc
-			if (followingUserIds && followingUserIds[0].following.length > 0) {
+			if (user?.following?.length > 0) {
 				let followedUserPhotos = await getUserFollowedPhotos(
-					userId,
-					followingUserIds[0].following //Arr of ppl logged in person follows
+					user.userId,
+					user.following //Arr of ppl logged in person follows
 				);
 				//Recent first;
 				followedUserPhotos.sort((a, b) => b.dateCreated - a.dateCreated);
 				console.log({ followedUserPhotos });
 				setPhotos(followedUserPhotos);
+			} else {
+				// To stop the skelton loading
+				setPhotos([]);
 			}
 		}
 		//Default is empty string; falsey value
-		if (userId) {
+		if (user?.userId) {
 			getTimelinePhotos();
 		}
-	}, [userId]);
-  console.log({photos});
+	}, [user?.userId, user?.following]);
+	console.log({ photos });
 	return { photos };
 }

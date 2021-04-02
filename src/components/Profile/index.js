@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
-import Header from './Header';
-import Photos from './Photos';
+import Header from './header';
+import Photos from './photos';
 import {
 	getUserPhotosByUsername
 } from '../../services/firebase';
@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 const reducer = (state, newState) => ({ ...state, ...newState });
 const initialState = {
 	profile: {},
-	photosCollection: null,
+	photosCollection: [],
 	followerCount: 0
 };
 

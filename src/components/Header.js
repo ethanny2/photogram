@@ -4,11 +4,14 @@ import * as ROUTES from '../constants/routes';
 import FirebaseContext from '../context/firebase';
 import UserContext from '../context/user';
 import logo from '../images/logo.png';
+import useUser from '../hooks/useUser';
 import daliAvatar from '../images/avatars/dali.jpg';
-
+import { useHistory } from 'react-router-dom';
 export default function Header() {
 	const { firebase } = useContext(FirebaseContext);
-	const { user } = useContext(UserContext);
+	const { user: loggedInUser } = useContext(UserContext);
+	const { user } = useUser(loggedInUser?.uid);
+	const history = useHistory();
 	console.log({ user });
 	return (
 		<header className='bg-white w-full border-b mb-8 h-16'>
@@ -22,7 +25,7 @@ export default function Header() {
 						</h1>
 					</li>
 					<li className='text-gray-700 text-center flex items-center items-center justify-self-end cursor-pointer p-2'>
-						{user ? (
+						{user?.username ? (
 							<>
 								<Link to={ROUTES.DASHBOARD} arial-label='Home'>
 									<svg
@@ -43,7 +46,10 @@ export default function Header() {
 								<button
 									type='button'
 									className='font-bold'
-									onClick={() => firebase.auth().signOut()}
+									onClick={() => {
+										firebase.auth().signOut();
+										history.push(ROUTES.LOGIN);
+									}}
 									onKeyDown={({ key }) => {
 										if (key === 'Enter') firebase.auth().signOut();
 									}}
@@ -64,13 +70,15 @@ export default function Header() {
 									</svg>
 								</button>
 								<div className='flex items-center cursor-pointer mx-2'>
-									<Link to={`/p/${user.displayName}`}>
-										<img
-											className='w-12 rounded-full h-12 flex'
-											src={daliAvatar}
-											alt={`${user.displayName} profile `}
-										/>
-									</Link>
+									{user?.username ? (
+										<Link to={`/p/${user?.username}`}>
+											<img
+												className='w-12 rounded-full h-12 flex'
+												src={daliAvatar}
+												alt={`${user.username} profile `}
+											/>
+										</Link>
+									) : null}
 								</div>
 							</>
 						) : (

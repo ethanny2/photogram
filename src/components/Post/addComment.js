@@ -18,7 +18,7 @@ export default function AddComment({
 	const handleSumbit = async (event) => {
 		event.preventDefault();
 		//Add new comment and set state in comment.js component
-		setComments([{ displayName, comment }, ...comments]);
+		setComments([  { displayName, comment }, ...comments,]);
 		//Clear local state for writing in input
 		setComment('');
 		return firebase

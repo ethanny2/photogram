@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
-import UserContext from '../context/user';
+import { useState, useEffect } from 'react';
 import { getUserByUserId } from '../services/firebase';
 /* 
   The auth listener is just conerned with if a login or logout happens and
@@ -8,23 +7,22 @@ import { getUserByUserId } from '../services/firebase';
   *Remember auth and firestore are two different services; this serves
   as the link between them.
 */
-export default function useUser() {
+export default function useUser(userId) {
 	const [activeUser, setActiveUser] = useState({});
-	const { user } = useContext(UserContext);
 	useEffect(() => {
-		async function getUserObjByUserId() {
+		async function getUserObjByUserId(userId) {
 			// Comes back as array of 1 person; destructure it
-			const [response] = await getUserByUserId(user.uid);
+			const [user] = await getUserByUserId(userId);
 			//in here we need to query for the user data in firestore
 			//store details of user in this state
-			setActiveUser({ ...response });
+			setActiveUser(user || {});
 		}
 		//We know if user is truthy they are logged in
 		//and check the id just in case b/c {} is also truthy?
 		//the udid auth = userID in firestore
-		if (user && user.uid) {
-			getUserObjByUserId();
+		if (userId) {
+			getUserObjByUserId(userId);
 		}
-	}, [user]);
+	}, [userId]);
 	return { user: activeUser };
 }

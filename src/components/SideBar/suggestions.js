@@ -1,6 +1,6 @@
 import { memo, useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import SuggestedProfile from './SuggestedProfile';
+import SuggestedProfile from './suggestedProfile';
 import { getSuggestedProfiles } from '../../services/firebase';
 
 /* 

@@ -1,7 +1,7 @@
-import React, { lazy, Suspense, useEffect } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ProtectedRoute from './helpers/protected-route';
-import IsUserLoggedIn from './helpers/is-user-logged-in';
+// import IsUserLoggedIn from './helpers/is-user-logged-in';
 
 import * as ROUTES from './constants/routes';
 import './index.css';
@@ -30,20 +30,26 @@ function App() {
 			<Router>
 				<Suspense fallback={<p>Loading....</p>}>
 					<Switch>
-						<IsUserLoggedIn
+						{/* <IsUserLoggedIn
 							user={user}
 							loggedInPath={ROUTES.DASHBOARD}
 							path={ROUTES.LOGIN}
 						>
 							<Login />
-						</IsUserLoggedIn>
-						<IsUserLoggedIn
+
+						</IsUserLoggedIn> */}
+						<Route path={ROUTES.LOGIN} component={Login} />
+						<Route path={ROUTES.SIGN_UP} component={SignUp} />
+
+						{/* <IsUserLoggedIn
 							user={user}
 							loggedInPath={ROUTES.DASHBOARD}
 							path={ROUTES.SIGN_UP}
 						>
 							<SignUp />
-						</IsUserLoggedIn>
+
+						</IsUserLoggedIn> */}
+
 						<Route path={ROUTES.PROFILE} component={Profile} />
 						<ProtectedRoute user={user} path={ROUTES.DASHBOARD} exact>
 							<Dashboard />

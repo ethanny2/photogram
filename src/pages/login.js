@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import phoneImg from '../images/iphone-with-profile.jpg';
+// https://web.dev/preload-critical-assets/
+// Pre load image in webpack 4.6.0 or later; comment is necessary
 import logo from '../images/logo.png';
+// import(_ /* webpackPreload: true */, '../images/logo.png');
 import * as ROUTES from '../constants/routes';
 import { Link, useHistory } from 'react-router-dom';
 import { validateEmail } from '../utils';
@@ -34,6 +37,9 @@ export default function Login() {
 	useEffect(() => {
 		//Set document title for better SEO on each page
 		document.title = 'Login - Instagram';
+		//preload image
+		const img = new Image();
+		img.src = logo;
 	}, []);
 	return (
 		<section className='container flex mx-auto max-w-screen-md items-center h-screen'>
@@ -72,7 +78,7 @@ export default function Login() {
 								isInvalid && 'opacity-50 cursor-not-allowed'
 							}`}
 						>
-							Log In
+							Login
 						</button>
 					</form>
 				</div>

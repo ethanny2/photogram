@@ -153,6 +153,7 @@ export async function getSuggestedProfiles(userId) {
 }
 
 export async function getUserByUsername(username) {
+	console.log({ username });
 	const response = await firebase
 		.firestore()
 		.collection('users')

@@ -2,9 +2,8 @@ import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import PropTypes from 'prop-types';
 
-// future task: add onhover with the comments length & add the likes
 // future future task: add a lightbox where you can add comments!
-export default function Photos({ photos }) {
+export default function Photos({ photos = null}) {
 	return (
 		<div className='h-16 border-t border-gray mt-12 pt-4'>
 			<div className='grid grid-cols-3 gap-8 mt-4 mb-12'>
@@ -17,8 +16,8 @@ export default function Photos({ photos }) {
 							return (
 								<figure key={photo.docId} className='relative group col-span-1'>
 									<img src={photo.imageSrc} alt={photo.caption} />
-									<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex'>
-										<p className='flex-items center text-white font-bold'>
+									<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-gray-200 bg-black-faded group-hover:flex'>
+										<p className='flex items-center text-white font-bold'>
 											<svg
 												xmlns='http://www.w3.org/2000/svg'
 												fill='none'
@@ -62,7 +61,7 @@ export default function Photos({ photos }) {
 
 			{!photos ||
 				(photos && photos.length === 0 && (
-					<p className='text-center text-2xl'>No Photos Yet</p>
+					<p className='text-center text-2xl'>No Posts Yet</p>
 				))}
 		</div>
 	);
