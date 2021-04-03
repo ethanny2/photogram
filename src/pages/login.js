@@ -21,10 +21,7 @@ export default function Login() {
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await firebase
-				.auth()
-				.signInWithEmailAndPassword(email, password);
-			console.log({ response });
+			await firebase.auth().signInWithEmailAndPassword(email, password);
 			history.push(ROUTES.DASHBOARD);
 		} catch (error) {
 			console.log('Failed login');
@@ -53,8 +50,12 @@ export default function Login() {
 					<h1 className='flex justify-center w-full'>
 						<img src={logo} alt='Instagram' className='mt-2 w-6/12 mb-4' />
 					</h1>
-					{error && <p className='mb-4 text-xs text-red-500'>{error}</p>}
-					<form onSubmit={handleLogin} autoComplete='off'>
+					{error && (
+						<p data-testid='error' className='mb-4 text-xs text-red-500'>
+							{error}
+						</p>
+					)}
+					<form data-testid='login' onSubmit={handleLogin} autoComplete='off'>
 						<input
 							aria-label='Enter your email address'
 							className='text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2'
@@ -86,7 +87,11 @@ export default function Login() {
 				<div className='flex justify-center items-center flex-col w-full bg-white p-4 border'>
 					<p className='text-sm'>
 						Don't have an account?{' '}
-						<Link to={ROUTES.SIGN_UP} className='font-bold text-blue-500'>
+						<Link
+							to={ROUTES.SIGN_UP}
+							className='font-bold text-blue-500'
+							data-testid='sign-up'
+						>
 							Sign up
 						</Link>
 					</p>
