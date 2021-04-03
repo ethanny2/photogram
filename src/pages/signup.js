@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import phoneImg from '../images/iphone-with-profile.jpg';
 import logo from '../images/logo.png';
 import * as ROUTES from '../constants/routes';
 import { Link, useHistory } from 'react-router-dom';
@@ -36,13 +35,10 @@ export default function SignUp() {
 		const usernameExists = await doesUsernameExist(username);
 		//If length is 0 that is falsey, if not length is 1 and user name exists
 		if (!usernameExists.length) {
-			console.log('This username is not in use');
 			try {
 				const createdUserResult = await firebase
 					.auth()
 					.createUserWithEmailAndPassword(email, password);
-				console.log({ createdUserResult });
-				console.log('Signup successfull');
 				/* This is different from the documents in firestore this is on the auth side*/
 				await createdUserResult.user.updateProfile({
 					displayName: username
@@ -59,8 +55,10 @@ export default function SignUp() {
 				history.push(ROUTES.DASHBOARD);
 			} catch (error) {
 				setfullName('');
+				setEmail('');
+				setPassword('');
+				setUsername('');
 				setError(error.message);
-				console.log('Signup failed');
 			}
 		} else {
 			setEmail('');
@@ -68,7 +66,6 @@ export default function SignUp() {
 			setfullName('');
 			setUsername('');
 			setError('That username is already taken, please try another.');
-			console.log('That user name is already in use');
 		}
 	};
 
@@ -80,8 +77,12 @@ export default function SignUp() {
 					<h1 className='flex justify-center w-full'>
 						<img src={logo} alt='Instagram' className='mt-2 w-6/12 mb-4' />
 					</h1>
-					{error && <p className='mb-4 text-xs text-red-500'>{error}</p>}
-					<form onSubmit={handleSignUp} autoComplete='off'>
+					{error && (
+						<p data-testid='error' className='mb-4 text-xs text-red-500'>
+							{error}
+						</p>
+					)}
+					<form data-testid='signup' onSubmit={handleSignUp} autoComplete='off'>
 						<input
 							aria-label='Enter your username'
 							className='text-sm w-full text-gray bg-gray-background mr-3 py-5 px-4 h-2 border rounded mb-2'

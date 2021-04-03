@@ -36,7 +36,7 @@
 			"!<rootDir>/src/seed.js",
 			"!<rootDir>/src/helpers/*.js",
 			"!<rootDir>/src/hooks/*.js",
-			"!<rootDir>/src/services/firebase/*.js"
+			"!<rootDir>/src/services/firebase.js"
 		],
 		"coverageThreshold": {
 			"global": {

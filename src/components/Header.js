@@ -7,12 +7,12 @@ import logo from '../images/logo.png';
 import useUser from '../hooks/useUser';
 import daliAvatar from '../images/avatars/dali.jpg';
 import { useHistory } from 'react-router-dom';
+
 export default function Header() {
 	const { firebase } = useContext(FirebaseContext);
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
-	console.log({ user });
 	return (
 		<header className='bg-white w-full border-b mb-8 h-16'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
@@ -88,7 +88,7 @@ export default function Header() {
 										type='button'
 										className='bg-blue-500 font-bold text-sm rounded text-white w-20 h-8'
 									>
-										Login
+									Log In
 									</button>
 								</Link>
 								<Link to={ROUTES.SIGN_UP}>
