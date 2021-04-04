@@ -13,7 +13,7 @@ export default function Profile() {
 		async function checkUserExistsToLoadProfile() {
 			const [user] = await getUserByUsername(username);
 			console.log({ user });
-			console.log(user.userId);
+			console.log(user?.userId);
 			if (user?.userId) {
 				setUser(user);
 			} else {
