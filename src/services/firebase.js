@@ -136,9 +136,9 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 	return photosWithUserDetails;
 }
 
-export async function getSuggestedProfiles(userId) {
+export async function getSuggestedProfiles(userId, following) {
 	const result = await firebase.firestore().collection('users').limit(10).get();
-	const [{ following }] = await getUserByUserId(userId);
+	// const [{ following }] = await getUserByUserId(userId);
 
 	//Map to get the document data of 10 random users
 	// filter out any user that is

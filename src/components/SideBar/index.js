@@ -8,10 +8,15 @@ export default function Sidebar() {
 	const {
 		user: { docId = '', fullName, username, userId, following } = {}
 	} = useContext(LoggedInUserContext);
+	console.log({ userId });
 	return (
 		<section className='ml-3'>
 			<User fullName={fullName} username={username} />
-			<Suggestions userId={userId} />
+			<Suggestions
+				userId={userId}
+				following={following}
+				loggedInUserDocId={docId}
+			/>
 		</section>
 	);
 }

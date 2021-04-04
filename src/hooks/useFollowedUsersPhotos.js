@@ -13,7 +13,7 @@ export default function useFollowedUsersPhotos(user) {
 				);
 				//Recent first;
 				followedUserPhotos.sort((a, b) => b.dateCreated - a.dateCreated);
-				console.log({ followedUserPhotos });
+				// console.log({ followedUserPhotos });
 				setPhotos(followedUserPhotos);
 			} else {
 				// To stop the skelton loading
@@ -25,6 +25,6 @@ export default function useFollowedUsersPhotos(user) {
 			getTimelinePhotos();
 		}
 	}, [user?.userId, user?.following]);
-	console.log({ photos });
+	// console.log({ photos });
 	return { photos };
 }

@@ -41,6 +41,7 @@ export default function Actions({
 			<div className='flex justify-between p-4'>
 				<div className='flex'>
 					<svg
+						data-testid={`like-photo-${docId}`}
 						onClick={() => handleToggleLiked()}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {
@@ -48,7 +49,7 @@ export default function Actions({
 							}
 						}}
 						className={`w-8 mr-4 select-none cursor-pointer 
-						 ${toggleLiked ? '	fill-current text-red-500' : 'text-black'}`}
+						 ${toggleLiked ? 'fill-current text-red-500' : 'text-black'}`}
 						xmlns='http://www.w3.org/2000/svg'
 						fill='none'
 						viewBox='0 0 24 24'
@@ -63,6 +64,7 @@ export default function Actions({
 						/>
 					</svg>
 					<svg
+						data-testid={`focus-input-${docId}`}
 						onClick={handleFocus}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {

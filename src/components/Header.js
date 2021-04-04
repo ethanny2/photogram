@@ -45,6 +45,7 @@ export default function Header() {
 								</Link>
 								<button
 									type='button'
+									title="Sign Out"
 									className='font-bold'
 									onClick={() => {
 										firebase.auth().signOut();
@@ -75,7 +76,7 @@ export default function Header() {
 											<img
 												className='w-12 rounded-full h-12 flex'
 												src={daliAvatar}
-												alt={`${user.username} profile `}
+												alt={`${user.username} profile`}
 											/>
 										</Link>
 									) : null}

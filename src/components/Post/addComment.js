@@ -18,7 +18,7 @@ export default function AddComment({
 	const handleSumbit = async (event) => {
 		event.preventDefault();
 		//Add new comment and set state in comment.js component
-		setComments([  { displayName, comment }, ...comments,]);
+		setComments([{ displayName, comment }, ...comments]);
 		//Clear local state for writing in input
 		setComment('');
 		return firebase
@@ -32,6 +32,7 @@ export default function AddComment({
 	return (
 		<div className='border-t border-gray'>
 			<form
+				data-testid={`submit-comment-${docId}`}
 				action='POST'
 				className='flex w-full justify-between pr-5 pl-0'
 				onSubmit={(event) =>
@@ -41,6 +42,7 @@ export default function AddComment({
 				}
 			>
 				<input
+					data-testid={`add-comment-${docId}`}
 					className='text-sm text-gray w-full mr-3 py-5 px-4'
 					type='text'
 					aria-label='Add a comment'

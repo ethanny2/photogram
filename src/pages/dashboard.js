@@ -12,7 +12,8 @@ component*/
 export default function DashBoard({ user: loggedInUser }) {
 	// Gets user details out of firebase; different from userContext (just gets auth account)
 	const { user } = useUser(loggedInUser.uid);
-	console.log(user);
+	console.log({ user });
+
 	useEffect(() => {
 		document.title = 'Instagram';
 	});

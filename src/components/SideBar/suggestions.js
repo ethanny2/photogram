@@ -2,18 +2,19 @@ import { memo, useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import SuggestedProfile from './suggestedProfile';
 import { getSuggestedProfiles } from '../../services/firebase';
+import PropTypes from 'prop-types';
 
 /* 
   Get user id to specifically filter our accounts the 
   logged in user follows. User id may not be ready on first render.
   Need to re-run our useEffect 
 */
-const Suggestions = ({ userId }) => {
+const Suggestions = ({ userId, following, loggedInUserDocId}) => {
 	const [profiles, setProfiles] = useState(null);
   console.log({profiles});
 	useEffect(() => {
 		async function suggestedProfiles() {
-			const response = await getSuggestedProfiles(userId);
+			const response = await getSuggestedProfiles(userId, following);
 			setProfiles(response);
 		}
 		if (userId) {
@@ -33,10 +34,11 @@ const Suggestions = ({ userId }) => {
 						{profiles.map((profile) => (
 							<SuggestedProfile
 								key={profile.docId}
-								userDocId={profile.docId}
+								profileDocId={profile.docId}
 								username={profile.username}
 								profileId={profile.userId}
 								userId={userId}
+								loggedInUserDocId={loggedInUserDocId}
 							/>
 						))}
 					</div>
@@ -47,3 +49,10 @@ const Suggestions = ({ userId }) => {
 };
 
 export default memo(Suggestions);
+
+
+Suggestions.propTypes = {
+  userId: PropTypes.string,
+  following: PropTypes.array,
+  loggedInUserDocId: PropTypes.string
+};
