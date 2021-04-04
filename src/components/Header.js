@@ -14,7 +14,7 @@ export default function Header() {
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
 	return (
-		<header className='bg-white w-full border-b mb-8 h-16'>
+		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-4 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
 				<ul className='flex justify-between h-full'>
 					<li className='text-gray-700 text-center flex items-center items-center cursor-pointer'>
@@ -70,11 +70,11 @@ export default function Header() {
 										/>
 									</svg>
 								</button>
-								<div className='flex items-center cursor-pointer mx-2'>
+								<div className='flex items-center cursor-pointer lg:mx-2'>
 									{user?.username ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
-												className='w-12 rounded-full h-12 flex'
+												className=' w-10 lg:w-12 rounded-full h-8 lg:h-12 flex'
 												src={daliAvatar}
 												alt={`${user.username} profile`}
 											/>

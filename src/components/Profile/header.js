@@ -74,7 +74,7 @@ export default function Header({
 			<div className='container flex justify-center items-center'>
 				{profileUsername ? (
 					<img
-						className='rounded-full h-40 w-40 flex'
+						className='rounded-full h-20 w-15 lg:h-40 md:w-20 lg:w-40 flex'
 						src={sampleAvatar}
 						alt={`${profileUsername} profile`}
 					/>
@@ -87,7 +87,7 @@ export default function Header({
 					<p className='text-2xl mr-4'>{profileUsername}</p>
 					{activeBtnFollow && (
 						<button
-							className='bg-blue-500 font-bold text-sm rounded text-white w-20 h-8'
+							className='bg-blue-500 font-bold text-sm rounded text-white w-20 h-7'
 							type='button'
 							onClick={handleToggleFollow}
 							onKeyDown={({ key }) => {
@@ -98,7 +98,7 @@ export default function Header({
 						</button>
 					)}
 				</div>
-				<div className='container flex mt-4'>
+				<div className='container flex mt-4 flex-col lg:flex-row'>
 					{followers === undefined || following === undefined ? (
 						<Skeleton width={677} height={24} count={1} />
 					) : (

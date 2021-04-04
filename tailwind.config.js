@@ -1,7 +1,7 @@
 module.exports = {
 	// Manual purge but should be done automatically with NODE_ENV set to production
 	purge: {
-		enabled: true,
+		// enabled: true,
 		content: [
 			'./src/**/*.{js,jsx,ts,tsx}',
 			'./public/index.html',
@@ -18,8 +18,9 @@ module.exports = {
 		extend: {}
 	},
 	variants: {
-		display: ['group-hover'],
-		extend: {}
+		extend: {
+			display: ['group-hover']
+		}
 	},
 	plugins: []
 };

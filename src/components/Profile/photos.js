@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 // future future task: add a lightbox where you can add comments!
 export default function Photos({ photos = null}) {
 	return (
-		<div className='h-16 border-t border-gray mt-12 pt-4'>
-			<div className='grid grid-cols-3 gap-8 mt-4 mb-12'>
+		<div className='h-16 border-t border-gray mt-12 px-4 lg:px-0'>
+			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 mb-12 lg'>
 				{!photos
 					? [...new Array(9)].map((_, index) => (
 							<Skeleton key={index} count={1} width={320} height={400} />
@@ -16,6 +16,7 @@ export default function Photos({ photos = null}) {
 							return (
 								<figure key={photo.docId} className='relative group col-span-1'>
 									<img src={photo.imageSrc} alt={photo.caption} />
+									{/* This is leaking out on smaller devices widths */}
 									<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-gray-200 bg-black-faded group-hover:flex'>
 										<p className='flex items-center text-white font-bold'>
 											<svg

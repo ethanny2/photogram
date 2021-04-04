@@ -9,7 +9,7 @@ export default function Timeline() {
 	const { photos } = useFollowedUserPhotos(user);
 	console.log({ photos });
 	return (
-		<section className='container col-span-2'>
+		<section className='col-span-3 md:col-span-2'>
 			{photos ? (
 				photos.map((photo) => {
 					return <Post key={photo.docId} content={photo}></Post>;

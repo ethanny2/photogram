@@ -38,15 +38,19 @@ export default function Login() {
 		img.src = logo;
 	}, []);
 	return (
-		<section className='container flex mx-auto max-w-screen-md items-center h-screen'>
-			<div className='flex w-3/5'>
-				<img src={phoneImg} alt='iPhone with Instagram app' />
+		<section className='container flex flex-col lg:flex-row mx-auto max-w-screen-md items-center h-screen px-4 lg:px-0'>
+			<div className='hidden lg:flex w-5/5 lg:w-3/5 '>
+				<img
+					src={phoneImg}
+					alt='iPhone with Instagram app'
+					className='object-scale-down'
+				/>
 			</div>
 			{/* Div to align right side modals */}
-			<div className='flex flex-col w-2/5'>
+			<div className='flex flex-col w-full lg:w-2/5 justify-center h-full max-w-sm  m-auto'>
 				{/* Div to group form and logo */}
 				<div className='flex flex-col items-center bg-white p-4 border mb-4'>
-					<h1 className='flex justify-center w-full'>
+					<h1 className='flex justify-center w-4/5 lg:w-full'>
 						<img src={logo} alt='Instagram' className='mt-2 w-6/12 mb-4' />
 					</h1>
 					{error && (
