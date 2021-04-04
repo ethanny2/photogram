@@ -155,9 +155,11 @@ describe('<Dashboard />', () => {
 				//Why does this exist down here only...
 				const followBtn = screen.getByRole('button', { name: /Follow/i });
 				// Only 1 user in the suggested
-				fireEvent.click(getByText('Follow'));
+				fireEvent.click(followBtn);
 				await expect(updateUserFollowing).toHaveBeenCalled();
 				await expect(updateFollowedUserFollowers).toHaveBeenCalled();
+				// Sidebar should disappear when clicked
+				expect(followBtn).toBeFalsy();
 			});
 		});
 	});
