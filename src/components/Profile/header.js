@@ -16,7 +16,7 @@ export default function Header({
 		fullName,
 		following,
 		followers,
-		username: profileUsername = ""
+		username: profileUsername = ''
 	}
 }) {
 	/* Check if logged in person is following this person; but keep in mind
@@ -68,7 +68,7 @@ export default function Header({
 			user.userId
 		);
 	};
-
+	console.log('following in profile header is', following);
 	return (
 		<header className='grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg'>
 			<div className='container flex justify-center items-center'>
@@ -113,7 +113,7 @@ export default function Header({
 								</span>
 							</p>
 							<p className='mr-10'>
-								<span className='font-bold'>{following.length} following </span>
+								<span className='font-bold'>{following.length} following</span>
 							</p>
 						</>
 					)}
