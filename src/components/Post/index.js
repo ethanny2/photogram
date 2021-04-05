@@ -6,6 +6,8 @@ import Header from './header';
 import Footer from './footer';
 import Comments from './comments';
 import Image from './image';
+import Lightbox from '../LightBox';
+import { useState } from 'react';
 
 export default function Post({ content }) {
 	const commentInput = useRef(null);
@@ -13,8 +15,13 @@ export default function Post({ content }) {
 		/*Storing a dom ref to an input tag to focus it */
 		commentInput.current.focus();
 	};
+	const [lightboxVisible, setLightboxVisible] = useState(false);
 	return (
-		<article className='rounded col-span-4 border bg-white mb-16'>
+		<article
+			onClick={() => setLightboxVisible((prevState) => !prevState)}
+			className='rounded col-span-4 border bg-white mb-16'
+		>
+			<Lightbox visible={lightboxVisible} content={content} />
 			<Header username={content.username}></Header>
 			<Image src={content.imageSrc} caption={content.caption}></Image>
 			<Actions
