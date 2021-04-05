@@ -1,27 +1,19 @@
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
-
 import Actions from './actions';
 import Header from './header';
 import Footer from './footer';
 import Comments from './comments';
 import Image from './image';
-import Lightbox from '../LightBox';
-import { useState } from 'react';
 
-export default function Post({ content }) {
+export default function Post({ content, setLightboxConfig }) {
 	const commentInput = useRef(null);
 	const handleFocus = () => {
 		/*Storing a dom ref to an input tag to focus it */
 		commentInput.current.focus();
 	};
-	const [lightboxVisible, setLightboxVisible] = useState(false);
 	return (
-		<article
-			onClick={() => setLightboxVisible((prevState) => !prevState)}
-			className='rounded col-span-4 border bg-white mb-16'
-		>
-			<Lightbox visible={lightboxVisible} content={content} />
+		<article className='rounded col-span-4 border bg-white mb-16'>
 			<Header username={content.username}></Header>
 			<Image src={content.imageSrc} caption={content.caption}></Image>
 			<Actions
@@ -32,6 +24,9 @@ export default function Post({ content }) {
 			/>
 			<Footer username={content.username} caption={content.caption} />
 			<Comments
+				//To set light box
+				content={content}
+				setLightboxConfig={setLightboxConfig}
 				docId={content.docId}
 				comments={content.comments}
 				posted={content.dateCreated}
@@ -51,5 +46,6 @@ Post.propTypes = {
 		likes: PropTypes.array.isRequired,
 		comments: PropTypes.array.isRequired,
 		dateCreated: PropTypes.number.isRequired
-	})
+	}),
+	setLightboxConfig: PropTypes.func.isRequired
 };
