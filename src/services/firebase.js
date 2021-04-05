@@ -109,12 +109,27 @@ export async function getUserByUserId(userId) {
 /*
  userID need to check if they liked the photo!
  THIS IS PHOTOS FROM PPL YOU FOLLOW
+
+ Notes:
+ Limit to 5-10 photos per user? 
+ No I think its fine its still sorted by date so the order 
+ of posts should look random. And we only get 10 people so it realistically
+ cannot be that many photos.
+
+ Need random people you follow for timeline
+ Need to randomize array of photos ? No already sorted by date
+
+ I don't think this will scale? If you reach the bottom of the page we should re-run
+ this function for more posts but what guarentees it won't just pull in the same users?
+ I need to gather the userIds or docid of all the users who have timeline photos (var userFollowedPhotos)
+ aren't repeated. And I need to have infinite scroll + throttle. Also need debounce for the search function.
+
  */
 export async function getUserFollowedPhotos(userId, followingUserIds) {
 	const result = await firebase
 		.firestore()
 		.collection('photos')
-		.where('userId', 'in', followingUserIds) //Grabs up to 10 user objects from ur following ID list
+		.where('userId', 'in', followingUserIds) //Grabs up to 10 user objects from ur following ID list; 10 random?
 		.get();
 
 	const userFollowedPhotos = result.docs.map((item) => ({
@@ -182,6 +197,7 @@ export async function getUserIdByUsername(username) {
 }
 
 // Don't we have userID from prop user to Profile/index.js (userProfile)?
+// How about only get the first 5 recent photos from this account;
 export async function getUserPhotosByUsername(username) {
 	const userId = await getUserIdByUsername(username);
 	const result = await firebase
