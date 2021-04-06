@@ -18,7 +18,7 @@ export default function AddComment({
 	const handleSumbit = async (event) => {
 		event.preventDefault();
 		//Add new comment and set state in comment.js component
-		setComments([{ displayName, comment }, ...comments]);
+		setComments([...comments, { displayName, comment }]);
 		//Clear local state for writing in input
 		setComment('');
 		return firebase
@@ -30,11 +30,11 @@ export default function AddComment({
 			});
 	};
 	return (
-		<div className='border-t border-gray'>
+		<div className='border-t border-gray flex-shrink-0 flex-grow'>
 			<form
 				data-testid={`submit-comment-${docId}`}
 				action='POST'
-				className='flex w-full justify-between pr-5 pl-0'
+				className='flex w-full justify-between pr-5 pl-0 h-full'
 				onSubmit={(event) =>
 					/*If comment length typed is 3 or more chars submit the comment
           otherwise just prevent the refresh */

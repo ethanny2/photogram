@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AddComment from './addComment';
 import { formatDistance } from 'date-fns';
 import PropTypes from 'prop-types';
-import Lightbox from '../LightBox';
 
 export default function Comments({
 	docId,
@@ -14,20 +13,27 @@ export default function Comments({
 	content
 }) {
 	const [comments, setComments] = useState(allComments);
+	useEffect(() => {
+		setLightboxConfig({
+			comments
+		});
+	}, [comments, setLightboxConfig]);
 	return (
 		<>
-			{/* {lightboxVisible ? (
-				<Lightbox visible={lightboxVisible} content={content} />
-			) : null} */}
 			<div className='p-4 pt-1 pb-4'>
 				{comments.length >= 3 && (
 					// On click show lightbox
 					<p
 						onClick={() => {
 							console.log('Clicked view all comments');
+							// Have to pass local state for comments in here + setter
+							// in order to have the change reflected on the lightbox itself
+							// and on the actual post
 							setLightboxConfig({
 								visible: true,
-								content
+								content,
+								comments,
+								setComments
 							});
 						}}
 						className='text-sm text-gray-500 mb-1 cursor-pointer'
@@ -35,7 +41,8 @@ export default function Comments({
 						View all comments
 					</p>
 				)}
-				{comments.slice(0, 3).map((item) => {
+				{/* Get LAST 3 comments or 1 to get recent comments  */}
+				{comments.slice(Math.max(comments.length - 3, 1)).map((item) => {
 					return (
 						<p key={`${item.comment}-${item.displayName}`} className='mb-1'>
 							<Link to={`/p/${item.displayName}`}>

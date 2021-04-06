@@ -10,7 +10,6 @@ import  { useEffect } from "react";
          */
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
-                alert("You clicked outside of me!");
                 dismissFunction();
             }
         }

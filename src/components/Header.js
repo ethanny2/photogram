@@ -74,7 +74,7 @@ export default function Header() {
 									{user?.username ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
-												className=' w-10 lg:w-12 rounded-full h-8 lg:h-12 flex'
+												className=' w-28 h-8 md:w-10 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
 												src={daliAvatar}
 												alt={`${user.username} profile`}
 											/>

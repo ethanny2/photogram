@@ -87,7 +87,7 @@ export default function Actions({
 					</svg>
 				</div>
 			</div>
-			<div className='p-4 py-0'>
+			<div className='p-4 py-2'>
 				<p className='font-bold'>
 					{likes === 1 ? `${likes} like` : `${likes} likes`}
 				</p>

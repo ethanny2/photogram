@@ -17,7 +17,8 @@ export default function Header({
 		following,
 		followers,
 		username: profileUsername = ''
-	}
+	},
+	user
 }) {
 	/* Check if logged in person is following this person; but keep in mind
   not logged in people can see this page as well */
@@ -26,8 +27,8 @@ export default function Header({
 	// obj as a prop nor is this wrapped under the logged in user provider on Dashboard
 	// so we have to just use Usercontext then useUser to fetch the firebase versiin
 	// of the user
-	const { user: loggedInUser } = useContext(UserContext);
-	const { user } = useUser(loggedInUser?.uid);
+	// const { user: loggedInUser } = useContext(UserContext);
+	// const { user } = useUser(loggedInUser?.uid);
 	console.log({ profileUsername });
 	//Show button only if there is someone logged in and this is not their page
 	const activeBtnFollow =

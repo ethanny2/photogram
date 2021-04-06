@@ -1,0 +1,19 @@
+/* width */
+.lightbox-comments::-webkit-scrollbar {
+	width: 3px;
+}
+
+/* Track */
+.lightbox-comments::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+.lightbox-comments::-webkit-scrollbar-thumb {
+	background: #808080;
+}
+
+/* Handle on hover */
+.lightbox-comments::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

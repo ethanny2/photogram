@@ -5,6 +5,7 @@ import Post from '../components/Post';
 import LoggedInUserContext from '../context/logged-in-user';
 import LightBoxContext from '../context/lightbox';
 import LightBox from '../components/LightBox';
+import useLightbox from '../hooks/useLightbox';
 /*
 const LightboxContext = createContext({
 	visible: false,
@@ -13,31 +14,30 @@ const LightboxContext = createContext({
 	setContent: () => {}
 });
 */
-const reducer = (state, newState) => ({ ...state, ...newState });
-const lightboxInitialState = {
-	visible: false,
-	onDismiss: () => {},
-	content: null
-};
-
 export default function Timeline() {
 	const { user } = useContext(LoggedInUserContext);
 	const { photos } = useFollowedUserPhotos(user);
 	console.log({ photos });
-	const [{ visible, content }, dispatch] = useReducer(
-		reducer,
-		lightboxInitialState
-	);
-	const onLightboxClose = () => dispatch({ visible: false });
-	useEffect(() => {
-		visible
-			? (document.getElementById('root').style.filter = 'blur(2px)')
-			: (document.getElementById('root').style.filter = '');
-	}, [visible]);
+	const [
+		visible,
+		content,
+		comments,
+		setComments,
+		dispatch,
+		onLightboxClose
+	] = useLightbox();
+	const lightboxState = {
+		visible,
+		content,
+		comments,
+		setComments,
+		dispatch,
+		onLightboxClose
+	};
 	return (
-		<LightBoxContext.Provider value={{ lightboxInitialState }}>
+		<LightBoxContext.Provider value={{ lightboxState }}>
 			{visible ? (
-				<LightBox content={content} onDismiss={onLightboxClose} />
+				<LightBox/>
 			) : null}
 			<section className='col-span-3 md:col-span-2'>
 				{photos ? (
