@@ -1,16 +1,11 @@
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import './LightBox.css';
-export default function Body({
-	docId,
-	comments: allComments,
-	posted,
-	commentInput,
-	caption,
-	username
-}) {
+import { useContext } from 'react';
+import LightBoxContext from '../../context/lightbox';
+export default function Body({ caption, username }) {
 	//
-	console.log({ allComments });
+	const { comments: allComments } = useContext(LightBoxContext);
 	return (
 		<div className='lightbox-comments comment-grow flex border-b border-gray-primary items-start flex-col justify-start overflow-y-scroll p-3  h-6/6 md:h-5/6	w-full'>
 			<p key={`${caption}-${username}`} className='mb-3'>
@@ -34,10 +29,6 @@ export default function Body({
 }
 
 Body.propTypes = {
-	docId: PropTypes.string.isRequired,
-	comments: PropTypes.array.isRequired,
-	posted: PropTypes.number.isRequired,
-	commentInput: PropTypes.object.isRequired,
 	caption: PropTypes.string.isRequired,
 	username: PropTypes.string.isRequired
 };

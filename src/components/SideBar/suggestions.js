@@ -9,9 +9,9 @@ import PropTypes from 'prop-types';
   logged in user follows. User id may not be ready on first render.
   Need to re-run our useEffect 
 */
-const Suggestions = ({ userId, following, loggedInUserDocId}) => {
+const Suggestions = ({ userId, following, loggedInUserDocId }) => {
 	const [profiles, setProfiles] = useState(null);
-  console.log({profiles});
+	console.log({ profiles });
 	useEffect(() => {
 		async function suggestedProfiles() {
 			const response = await getSuggestedProfiles(userId, following);
@@ -20,7 +20,7 @@ const Suggestions = ({ userId, following, loggedInUserDocId}) => {
 		if (userId) {
 			suggestedProfiles();
 		}
-	}, [userId]);
+	}, [userId, following]);
 	return (
 		<div>
 			{!profiles ? (
@@ -50,9 +50,8 @@ const Suggestions = ({ userId, following, loggedInUserDocId}) => {
 
 export default memo(Suggestions);
 
-
 Suggestions.propTypes = {
-  userId: PropTypes.string,
-  following: PropTypes.array,
-  loggedInUserDocId: PropTypes.string
+	userId: PropTypes.string,
+	following: PropTypes.array,
+	loggedInUserDocId: PropTypes.string
 };

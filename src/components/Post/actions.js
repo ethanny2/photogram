@@ -1,24 +1,22 @@
 import FirebaseContext from '../../context/firebase';
 import UserContext from '../../context/user';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
+import LightBoxContext from '../../context/lightbox';
 
-/* Actions include making a like, a bookmark or comment? */
-export default function Actions({
-	docId,
-	totalLikes,
-	likedPhoto,
-	handleFocus
-}) {
-	const [toggleLiked, setToggleLiked] = useState(likedPhoto);
-	const [likes, setLikes] = useState(totalLikes);
+export default function Actions({ handleFocus }) {
+	const { content, dispatch, totalLikes, userLiked } = useContext(
+		LightBoxContext
+	);
 	const { firebase, FieldValue } = useContext(FirebaseContext);
 	const {
 		user: { uid: userId = '' }
 	} = useContext(UserContext);
+	const docId = content.docId;
+
 	const handleToggleLiked = async () => {
 		/* Swtich the local state for toggle ASYNC DON'T ASSUME ITS DONE*/
-		setToggleLiked((prevState) => !prevState);
+		// setToggleLiked((prevState) => !prevState);
 		try {
 			const response = firebase
 				.firestore()
@@ -28,14 +26,16 @@ export default function Actions({
 					/* assume toggle liked is the boolean before the state update
 					If false add them to likes  
 					If true remove them from likes b/c it will update to the opposite*/
-					likes: toggleLiked
+					likes: userLiked
 						? FieldValue.arrayRemove(userId)
 						: FieldValue.arrayUnion(userId)
 				});
-			setLikes((prevState) => (toggleLiked ? prevState - 1 : prevState + 1));
+			// setLikes((prevState) => (toggleLiked ? prevState - 1 : prevState + 1));
+			const newLikeAmount = userLiked ? totalLikes - 1 : totalLikes + 1;
+			const newUserLiked = !userLiked;
+			dispatch({ totalLikes: newLikeAmount, userLiked: newUserLiked });
 		} catch (error) {}
 	};
-	console.log({ toggleLiked });
 	return (
 		<>
 			<div className='flex justify-between p-4'>
@@ -49,7 +49,7 @@ export default function Actions({
 							}
 						}}
 						className={`w-8 mr-4 select-none cursor-pointer 
-						 ${toggleLiked ? 'fill-current text-red-500' : 'text-black'}`}
+						 ${userLiked ? 'fill-current text-red-500' : 'text-black'}`}
 						xmlns='http://www.w3.org/2000/svg'
 						fill='none'
 						viewBox='0 0 24 24'
@@ -89,7 +89,7 @@ export default function Actions({
 			</div>
 			<div className='p-4 py-2'>
 				<p className='font-bold'>
-					{likes === 1 ? `${likes} like` : `${likes} likes`}
+					{totalLikes === 1 ? `${totalLikes} like` : `${totalLikes} likes`}
 				</p>
 			</div>
 		</>
@@ -97,8 +97,5 @@ export default function Actions({
 }
 
 Actions.propTypes = {
-	docId: PropTypes.string.isRequired,
-	totalLikes: PropTypes.number.isRequired,
-	likedPhoto: PropTypes.bool.isRequired,
 	handleFocus: PropTypes.func.isRequired
 };

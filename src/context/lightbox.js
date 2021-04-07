@@ -1,8 +1,4 @@
 import { createContext } from 'react';
 
-const LightboxContext = createContext({
-	visible: false,
-	onDismiss: () => {},
-	content: null,
-});
+const LightboxContext = createContext(null);
 export default LightboxContext;

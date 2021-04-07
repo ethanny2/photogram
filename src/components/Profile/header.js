@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect,  } from 'react';
 import sampleAvatar from '../../images/avatars/orwell.jpg';
-import useUser from '../../hooks/useUser';
+// import useUser from '../../hooks/useUser';
 import Skeleton from 'react-loading-skeleton';
 import { toggleFollow, isUserFollowingProfile } from '../../services/firebase';
-import UserContext from '../../context/user';
+// import UserContext from '../../context/user';
 import PropTypes from 'prop-types';
 
 export default function Header({
@@ -33,7 +33,7 @@ export default function Header({
 	//Show button only if there is someone logged in and this is not their page
 	const activeBtnFollow =
 		user && user.username && user.username !== profileUsername;
-	console.log({ followerCount });
+	// console.log({ followerCount });
 	useEffect(() => {
 		const isLoggedInUserFollowingProfile = async () => {
 			// Returns boolean

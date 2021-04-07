@@ -44,7 +44,7 @@ export async function updateUserFollowing(
 	profileId,
 	isFollowingProfile
 ) {
-	const response = await firebase
+	await firebase
 		.firestore()
 		.collection('users')
 		.doc(docId)
@@ -64,7 +64,7 @@ export async function updateFollowedUserFollowers(
 	followingUserId, //logged in user
 	isFollowingProfile
 ) {
-	const response = await firebase
+	await firebase
 		.firestore()
 		.collection('users')
 		.doc(docId)

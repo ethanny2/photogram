@@ -21,6 +21,7 @@ export default function Profile({ user }) {
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user: loggedInUserFullProfile } = useUser(loggedInUser?.uid);
 	console.log({ loggedInUserFullProfile });
+	console.log('THIS NEEDS TO MATCH', loggedInUserFullProfile?.userId);
 	useEffect(() => {
 		/* Think about caching here in localStorage so we can save a network call
     if we already visited this profile before */
@@ -29,11 +30,12 @@ export default function Profile({ user }) {
 			console.log({ photos });
 			profileDispatch({
 				profile: user,
-				//Want username on photos, don't know how they got in the photos on the timeline
+				// Include some extra fields on the photo which we can do without
+				// making an extra firebase call
 				photosCollection: photos?.map((photo) => ({
 					...photo,
 					username: user.username,
-					userLikedPhoto: photo.likes.includes()
+					userLikedPhoto: photo.likes.includes(loggedInUserFullProfile?.userId)
 				})),
 				followerCount: user.followers.length
 			});
@@ -41,7 +43,7 @@ export default function Profile({ user }) {
 		if (user.username) {
 			getProfileInfoAndPhotos();
 		}
-	}, [user.username, user]);
+	}, [user.username, user, loggedInUserFullProfile?.userId]);
 	return (
 		<>
 			<Header
@@ -49,7 +51,6 @@ export default function Profile({ user }) {
 				profile={profile}
 				followerCount={followerCount}
 				setFollowerCount={profileDispatch}
-				// username={user.username}
 				user={loggedInUserFullProfile}
 			/>
 			<Photos photos={photosCollection} />

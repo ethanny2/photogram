@@ -1,5 +1,4 @@
 import { useRef, useContext } from 'react';
-import PropTypes from 'prop-types';
 import Actions from '../Post/actions';
 import Header from './header';
 import Body from './body';
@@ -9,28 +8,13 @@ import OutsideModalWrapper from './outsideModalWrapper';
 import AddComment from '../Post/addComment';
 import LightboxContext from '../../context/lightbox';
 
-export default function Lightbox(
-	{
-		// content,
-		// onDismiss,
-		// comments,
-		// setComments
-	}
-) {
+export default function Lightbox() {
 	const commentInput = useRef(null);
 	const handleFocus = () => {
 		/*Storing a dom ref to an input tag to focus it */
 		commentInput.current.focus();
 	};
-	const {
-		lightboxState: {
-			content,
-			comments,
-			setComments,
-			dispatch,
-			onLightboxClose:onDismiss
-		}
-	} = useContext(LightboxContext);
+	const { content, comments, onDismiss } = useContext(LightboxContext);
 
 	console.log('comments in lightbox', comments);
 	return createPortal(
@@ -48,43 +32,12 @@ export default function Lightbox(
 						caption={content.caption}
 						onDismiss={onDismiss}
 					></Header>
-					<Body
-						caption={content.caption}
-						username={content.username}
-						docId={content.docId}
-						comments={comments}
-						posted={content.dateCreated}
-						commentInput={commentInput}
-					></Body>
-					<Actions
-						docId={content.docId}
-						totalLikes={content.likes.length}
-						likedPhoto={content.userLikedPhoto}
-						handleFocus={handleFocus}
-					/>
-					<AddComment
-						docId={content.docId}
-						comments={comments}
-						setComments={setComments}
-						commentInput={commentInput}
-					></AddComment>
+					<Body caption={content.caption} username={content.username}></Body>
+					<Actions handleFocus={handleFocus} />
+					<AddComment commentInput={commentInput}></AddComment>
 				</div>
 			</article>
 		</OutsideModalWrapper>,
 		document.getElementById('lightbox')
 	);
 }
-
-// Lightbox.propTypes = {
-// 	content: PropTypes.shape({
-// 		username: PropTypes.string.isRequired,
-// 		imageSrc: PropTypes.string.isRequired,
-// 		caption: PropTypes.string.isRequired,
-// 		docId: PropTypes.string.isRequired,
-// 		userLikedPhoto: PropTypes.bool.isRequired,
-// 		likes: PropTypes.array.isRequired,
-// 		comments: PropTypes.array.isRequired,
-// 		dateCreated: PropTypes.number.isRequired
-// 	}),
-// 	onDismiss: PropTypes.func.isRequired
-// };

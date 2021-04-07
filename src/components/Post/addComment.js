@@ -2,23 +2,25 @@ import { useState, useContext } from 'react';
 import FirebaseContext from '../../context/firebase';
 import UserContext from '../../context/user';
 import PropTypes from 'prop-types';
+import LightBoxContext from '../../context/lightbox';
 
-export default function AddComment({
-	docId,
-	comments,
-	setComments,
-	commentInput
-}) {
+export default function AddComment({ commentInput }) {
 	const { firebase, FieldValue } = useContext(FirebaseContext);
 	const {
 		user: { displayName }
 	} = useContext(UserContext);
+	const { content, comments, dispatch } = useContext(LightBoxContext);
+	const docId = content?.docId;
 	console.log(displayName);
 	const [comment, setComment] = useState('');
 	const handleSumbit = async (event) => {
 		event.preventDefault();
 		//Add new comment and set state in comment.js component
-		setComments([...comments, { displayName, comment }]);
+		console.log('comments before setComments', comments);
+		// setComments([...comments, { displayName, comment }]);
+		dispatch({ comments: [...comments, { displayName, comment }] });
+
+		console.log('comments after setComments', comments);
 		//Clear local state for writing in input
 		setComment('');
 		return firebase
@@ -70,8 +72,5 @@ export default function AddComment({
 }
 
 AddComment.propTypes = {
-	docId: PropTypes.string.isRequired,
-	comments: PropTypes.array.isRequired,
-	setComments: PropTypes.func.isRequired,
 	commentInput: PropTypes.object.isRequired
 };
