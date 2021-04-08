@@ -7,6 +7,7 @@ import logo from '../images/logo.png';
 import useUser from '../hooks/useUser';
 import daliAvatar from '../images/avatars/dali.jpg';
 import { useHistory } from 'react-router-dom';
+import SearchBar from './SearchBar';
 
 export default function Header() {
 	const { firebase } = useContext(FirebaseContext);
@@ -23,6 +24,9 @@ export default function Header() {
 								<img className='w-1/2 mt-2 ' src={logo} alt='Instagram logo' />
 							</Link>
 						</h1>
+					</li>
+					<li className='text-gray-700 text-center flex items-center items-center'>
+						<SearchBar />
 					</li>
 					<li className='text-gray-700 text-center flex items-center items-center justify-self-end cursor-pointer p-2'>
 						{user?.username ? (
@@ -45,7 +49,7 @@ export default function Header() {
 								</Link>
 								<button
 									type='button'
-									title="Sign Out"
+									title='Sign Out'
 									className='font-bold'
 									onClick={() => {
 										firebase.auth().signOut();
@@ -89,7 +93,7 @@ export default function Header() {
 										type='button'
 										className='bg-blue-500 font-bold text-sm rounded text-white w-20 h-8'
 									>
-									Log In
+										Log In
 									</button>
 								</Link>
 								<Link to={ROUTES.SIGN_UP}>

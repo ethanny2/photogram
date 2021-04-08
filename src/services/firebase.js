@@ -132,6 +132,23 @@ export async function getUserByUserId(userId) {
 }
 
 /*
+  Function used to search for users by name in Firestore.
+	keyword : The search term string ; the user name in firestore
+	limit : Default 8 results with this matching algo
+*/
+export async function userSearch(keyword, limit = 8) {
+	const { docs } = await firebase
+		.firestore()
+		.collection('users')
+		.orderBy('username')
+		.startAt(keyword)
+		.endAt(`${keyword}\uf8ff`)
+		.limit(limit)
+		.get();
+	return docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
+}
+
+/*
  userID need to check if they liked the photo!
  THIS IS PHOTOS FROM PPL YOU FOLLOW
 
