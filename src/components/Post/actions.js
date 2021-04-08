@@ -1,51 +1,39 @@
-import FirebaseContext from '../../context/firebase';
 import UserContext from '../../context/user';
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import LightBoxContext from '../../context/lightbox';
-
+import { handleToggleLiked } from '../../services/firebase';
 export default function Actions({ handleFocus }) {
 	const { content, dispatch, totalLikes, userLiked } = useContext(
 		LightBoxContext
 	);
-	const { firebase, FieldValue } = useContext(FirebaseContext);
 	const {
 		user: { uid: userId = '' }
 	} = useContext(UserContext);
 	const docId = content.docId;
 
-	const handleToggleLiked = async () => {
+	const toggle = async () => {
 		/* Swtich the local state for toggle ASYNC DON'T ASSUME ITS DONE*/
-		// setToggleLiked((prevState) => !prevState);
 		try {
-			const response = firebase
-				.firestore()
-				.collection('photos')
-				.doc(docId)
-				.update({
-					/* assume toggle liked is the boolean before the state update
-					If false add them to likes  
-					If true remove them from likes b/c it will update to the opposite*/
-					likes: userLiked
-						? FieldValue.arrayRemove(userId)
-						: FieldValue.arrayUnion(userId)
-				});
-			// setLikes((prevState) => (toggleLiked ? prevState - 1 : prevState + 1));
+			await handleToggleLiked(userId, docId, userLiked);
 			const newLikeAmount = userLiked ? totalLikes - 1 : totalLikes + 1;
 			const newUserLiked = !userLiked;
 			dispatch({ totalLikes: newLikeAmount, userLiked: newUserLiked });
-		} catch (error) {}
+		} catch (error) {
+			console.error({ error });
+		}
 	};
+
 	return (
 		<>
 			<div className='flex justify-between p-4'>
 				<div className='flex'>
 					<svg
 						data-testid={`like-photo-${docId}`}
-						onClick={() => handleToggleLiked()}
+						onClick={() => toggle()}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter') {
-								handleToggleLiked();
+								toggle();
 							}
 						}}
 						className={`w-8 mr-4 select-none cursor-pointer 

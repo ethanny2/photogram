@@ -38,6 +38,31 @@ export async function toggleFollow(
 	);
 }
 
+// Moved from actions.js now that a double tap can control this
+/* 
+	userId: the id of logged in user
+	docId : the docID of the current post/photo
+	userLiked: A boolean indicating if the logged in user liked the photo or not
+*/
+export const handleToggleLiked = async (userId, docId, userLiked) => {
+	/* Swtich the local state for toggle ASYNC DON'T ASSUME ITS DONE*/
+	try {
+		await firebase
+			.firestore()
+			.collection('photos')
+			.doc(docId)
+			.update({
+				/* assume toggle liked is the boolean before the state update
+				If false add them to likes  
+				If true remove them from likes b/c it will update to the opposite*/
+				likes: userLiked
+					? FieldValue.arrayRemove(userId)
+					: FieldValue.arrayUnion(userId)
+			});
+	} catch (error) {
+		console.error({ error });
+	}
+};
 /*Update the 'logged in user's following list; we followed someone new */
 export async function updateUserFollowing(
 	docId,

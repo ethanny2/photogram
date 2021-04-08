@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import LightBoxContext from '../../context/lightbox';
 import useLightbox from '../../hooks/useLightbox';
 import LightBox from '../LightBox';
+import { useEffect } from 'react';
+
 export default function SinglePhoto({ photo }) {
 	const {
 		visible,
@@ -11,7 +13,14 @@ export default function SinglePhoto({ photo }) {
 		userLiked,
 		dispatch,
 		onDismiss
-	} = useLightbox(photo.likes.length, photo.userLikedPhoto, photo.comments);
+	} = useLightbox(photo.likes.length, photo.userLiked, photo.comments);
+
+	// Needs to render twice before this value is actually in here. The
+	// value passed into useLightbox may still be the value from the
+	// first render (false)
+	useEffect(() => {
+		dispatch({ totalLikes: photo.likes.length, userLiked: photo.userLiked });
+	}, [photo, dispatch]);
 
 	return (
 		<LightBoxContext.Provider
