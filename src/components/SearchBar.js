@@ -1,13 +1,37 @@
 import { debounce } from 'lodash';
 import { useState, useEffect, useCallback } from 'react';
 import { userSearch } from '../services/firebase';
+import samplePhoto from '../images/avatars/karl.jpg';
+import { Link } from 'react-router-dom';
 
 export default function SearchBar() {
 	const [searchText, setSearchText] = useState('');
-  const [results, setResults] = useState(null);
+	const [results, setResults] = useState(null);
+	let debouncedUserSearch = useCallback(
+		debounce(userSearch, 800, { leading: true }),
+		[]
+	); // eslint-disable-line react-hooks/exhaustive-deps
+
+	useEffect(() => {
+		async function getUserNames() {
+			console.log('Getting username for search with term: ' + searchText);
+			const response = await debouncedUserSearch(searchText);
+			console.log(response);
+			if (response) {
+				setResults(response);
+			} else {
+				setResults([]);
+			}
+		}
+		if (searchText.length > 3) {
+			getUserNames();
+		}
+		if (searchText.length === 0) setResults(null);
+	}, [searchText, debouncedUserSearch]);
+
 	return (
 		<div>
-			<form action='POST'>
+			<form action='POST' autoComplete='off'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					className='h-4 w-4 absolute mt-1.5'
@@ -23,7 +47,7 @@ export default function SearchBar() {
 					/>
 				</svg>
 				<input
-					className='border border-gray-primary outline-none ml-5 text-center'
+					className='border  w-10/12  border-gray-primary outline-none ml-5 text-center'
 					aria-label='userSearch'
 					type='text'
 					name='userSearch'
@@ -33,7 +57,48 @@ export default function SearchBar() {
 					onChange={({ target }) => setSearchText(target.value)}
 				/>
 			</form>
-      
+			{results && (
+				<ul
+					className={`m1-3 absolute bg-white w-2/12 py-5 max-w-sm shadow-md rounded border border-gray-100
+					flex flex-col`}
+					style={{ maxWidth: '15rem' }}
+				>
+					{results.length <= 0 ? (
+						<li className='ml-3 flex flex-row justify-start items-center'>
+							<div className='mr-3 '>
+								<p>No users found</p>
+							</div>
+						</li>
+					) : (
+						results.map((user, idx) => {
+							return (
+								<li
+									key={user.userId}
+									className={`ml-3 flex flex-row justify-start items-center ${
+										results.length === idx + 1 ? '' : 'mb-5'
+									}`}
+								>
+									<div className='mr-3 '>
+										<Link to={`/p/${user?.username}`}>
+											<img
+												className=' w-28 h-8 md:w-10 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
+												src={samplePhoto}
+												alt={`${user.username} profile`}
+											/>
+										</Link>
+									</div>
+									<div className='flex flex-col text-left'>
+										<p className='text-lg font-semibold'>{user.username}</p>
+										<span className='text-sm text-gray-300'>
+											{user.fullName}
+										</span>
+									</div>
+								</li>
+							);
+						})
+					)}
+				</ul>
+			)}
 		</div>
 	);
 }

@@ -15,13 +15,13 @@ export default function Header() {
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
 	return (
-		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-4 lg:px-0'>
+		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
-				<ul className='flex justify-between h-full'>
+				<ul className='flex justify-evenly h-full'>
 					<li className='text-gray-700 text-center flex items-center items-center cursor-pointer'>
 						<h1>
 							<Link to={ROUTES.DASHBOARD} aria-label='Dashboard'>
-								<img className='w-1/2 mt-2 ' src={logo} alt='Instagram logo' />
+								<img className='w-1/2 mt-2' src={logo} alt='Instagram logo' />
 							</Link>
 						</h1>
 					</li>
@@ -37,7 +37,7 @@ export default function Header() {
 										fill='none'
 										viewBox='0 0 24 24'
 										stroke='currentColor'
-										className='w-8 mr-6 text-black-light cursor-pointer'
+										className='w-8 mr-6 text-black-light cursor-pointer hidden sm:block'
 									>
 										<path
 											strokeLinecap='round'
