@@ -17,11 +17,14 @@ export default function Header() {
 	return (
 		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
-				<ul className='flex justify-evenly h-full'>
-					<li className='text-gray-700 text-center flex items-center items-center cursor-pointer'>
+				<ul className='flex justify-evenly items-center h-full'>
+					<li
+						style={{ maxWidth: '5rem' }}
+						className=' max-w-sm text-gray-700 text-center flex items-center items-center cursor-pointer'
+					>
 						<h1>
 							<Link to={ROUTES.DASHBOARD} aria-label='Dashboard'>
-								<img className='w-1/2 mt-2' src={logo} alt='Instagram logo' />
+								<img className='w-full mt-2' src={logo} alt='Instagram logo' />
 							</Link>
 						</h1>
 					</li>
@@ -64,7 +67,7 @@ export default function Header() {
 										fill='none'
 										viewBox='0 0 24 24'
 										stroke='currentColor'
-										className='w-8 mr-6 text-black-light cursor-pointer'
+										className='w-8 mr-3 text-black-light cursor-pointer'
 									>
 										<path
 											strokeLinecap='round'
@@ -78,7 +81,7 @@ export default function Header() {
 									{user?.username ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
-												className=' w-28 h-8 md:w-10 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
+												className=' xs2:w-10 xs2:h-9 w-20 h-8 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
 												src={daliAvatar}
 												alt={`${user.username} profile`}
 											/>

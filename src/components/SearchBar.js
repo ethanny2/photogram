@@ -34,7 +34,7 @@ export default function SearchBar() {
 			<form action='POST' autoComplete='off'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
-					className='h-4 w-4 absolute mt-1.5'
+					className='hidden sm:block h-4 w-4 absolute mt-1.5'
 					fill='none'
 					viewBox='0 0 24 24'
 					stroke='currentColor'
@@ -59,12 +59,12 @@ export default function SearchBar() {
 			</form>
 			{results && (
 				<ul
-					className={`m1-3 absolute bg-white w-2/12 py-5 max-w-sm shadow-md rounded border border-gray-100
+					className={`m1-3 xs2:ml-1 md:-ml-3 absolute bg-white w-2/12 xs2:w-6/12 lg:w-8/12 py-2  max-w-sm shadow-md rounded border border-gray-100
 					flex flex-col`}
-					style={{ maxWidth: '15rem' }}
+					style={{ maxWidth: '17rem', minWidth: '10rem' }}
 				>
 					{results.length <= 0 ? (
-						<li className='ml-3 flex flex-row justify-start items-center'>
+						<li className='ml-3 lg:px-2 flex flex-row justify-start items-center'>
 							<div className='mr-3 '>
 								<p>No users found</p>
 							</div>
@@ -78,10 +78,10 @@ export default function SearchBar() {
 										results.length === idx + 1 ? '' : 'mb-5'
 									}`}
 								>
-									<div className='mr-3 '>
+									<div className='mr-3 ' style={{ minWidth: '2rem' }}>
 										<Link to={`/p/${user?.username}`}>
 											<img
-												className=' w-28 h-8 md:w-10 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
+												className=' w-8 h-8 sm:w-8 sm:h-8 md:w-8 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
 												src={samplePhoto}
 												alt={`${user.username} profile`}
 											/>
