@@ -47,7 +47,7 @@ export default function SearchBar() {
 					/>
 				</svg>
 				<input
-					className='border  w-10/12  border-gray-primary outline-none ml-5 text-center'
+					className='border  w-10/12 lg:w-full border-gray-primary outline-none ml-5 text-center'
 					aria-label='userSearch'
 					type='text'
 					name='userSearch'
