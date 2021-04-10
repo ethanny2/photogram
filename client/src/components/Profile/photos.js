@@ -4,7 +4,7 @@ import SinglePhoto from './single-photo';
 
 export default function Photos({ photos = null }) {
 	return (
-		<div className='h-16 border-t border-gray mt-12 px-4 lg:px-0'>
+		<div className='border-t border-gray mt-12 px-4 lg:px-0'>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 mb-12 lg'>
 				{!photos
 					? [...new Array(9)].map((_, index) => (

@@ -5,6 +5,7 @@ import daliAvatar from '../images/avatars/dali.jpg';
 import useUser from '../hooks/useUser';
 import Skeleton from 'react-loading-skeleton';
 import { addPhoto } from '../services/firebase';
+import FooterNav from '../components/FooterNav';
 
 // Make this protected/ only visible by logged in users
 // Prop comes from state passed by <Route></Route>
@@ -85,7 +86,7 @@ export default function NewPost({ user: loggedInUser }) {
 	};
 
 	return (
-		<section className='h-full '>
+		<section className='h-full mb-12 sm:mb-3'>
 			<Header />
 			<article className='py-3 mx-auto flex flex-col justify-between items-center max-w-sm h-full'>
 				{user?.username ? (
@@ -195,6 +196,7 @@ export default function NewPost({ user: loggedInUser }) {
 					</>
 				)}
 			</article>
+			<FooterNav />
 		</section>
 	);
 }

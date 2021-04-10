@@ -5,7 +5,7 @@ import Sidebar from '../components/SideBar';
 import useUser from '../hooks/useUser';
 import PropTypes from 'prop-types';
 import LoggedInUserContext from '../context/logged-in-user';
-
+import FooterNav from '../components/FooterNav';
 /* From useUser; has logged in persons uuid and displayName
 prop comes from protected route render function it can pass state to this 
 component*/
@@ -26,6 +26,7 @@ export default function DashBoard({ user: loggedInUser }) {
 					<Sidebar />
 				</div>
 			</section>
+			<FooterNav />
 		</LoggedInUserContext.Provider>
 	);
 }

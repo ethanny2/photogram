@@ -31,10 +31,10 @@ export default function SearchBar() {
 
 	return (
 		<div>
-			<form action='POST' autoComplete='off'>
+			<form action='POST' autoComplete='off' className="relative">
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
-					className='hidden sm:block h-4 w-4 absolute mt-1.5'
+					className='hidden sm:block h-4 w-4 absolute top-2 left-5'
 					fill='none'
 					viewBox='0 0 24 24'
 					stroke='currentColor'
@@ -47,7 +47,7 @@ export default function SearchBar() {
 					/>
 				</svg>
 				<input
-					className='border  w-10/12 lg:w-full border-gray-primary outline-none ml-5 text-center'
+					className='  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 bg-gray-100 rounded border mt-1 w-10/12 lg:w-full border-gray-primary outline-none  text-center'
 					aria-label='userSearch'
 					type='text'
 					name='userSearch'

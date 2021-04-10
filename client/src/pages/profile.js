@@ -4,6 +4,7 @@ import * as ROUTES from '../constants/routes';
 import { getUserByUsername } from '../services/firebase';
 import Header from '../components/Header';
 import UserProfile from '../components/Profile';
+import FooterNav from '../components/FooterNav';
 
 export default function Profile() {
 	const { username } = useParams();
@@ -26,11 +27,12 @@ export default function Profile() {
 	console.log({ user });
 
 	return user?.username ? (
-		<main className='bg-gray mb-10'>
+		<main className='bg-gray w-full h-full mb-20 sm:mb-4'>
 			<Header></Header>
-			<section className='mx-auto max-w-screen-lg'>
+			<section className='mx-auto max-w-screen-lg  h-full'>
 				<UserProfile user={user} />
 			</section>
+			<FooterNav />
 		</main>
 	) : null;
 }

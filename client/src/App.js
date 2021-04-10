@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ProtectedRoute from './helpers/protected-route';
 // import IsUserLoggedIn from './helpers/is-user-logged-in';
-
+// import FooterNav from './components/FooterNav';
 import * as ROUTES from './constants/routes';
 import './index.css';
 import UserContext from './context/user';
@@ -21,6 +21,7 @@ const SignUp = lazy(() => import('./pages/signup'));
 const Profile = lazy(() => import('./pages/profile'));
 const NotFound = lazy(() => import('./pages/not-found'));
 const NewPost = lazy(() => import('./pages/newPost'));
+// const FooterNav = lazy(() => import('./components/FooterNav'));
 
 function App() {
 	const { user } = useAuthListener();
