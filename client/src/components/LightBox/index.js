@@ -31,6 +31,7 @@ export default function Lightbox() {
 						username={content.username}
 						caption={content.caption}
 						onDismiss={onDismiss}
+						profilePic={content.profilePic}
 					></Header>
 					<Body caption={content.caption} username={content.username}></Body>
 					<Actions handleFocus={handleFocus} />

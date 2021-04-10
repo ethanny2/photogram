@@ -1,4 +1,4 @@
-import React, { useState, useEffect,  } from 'react';
+import React, { useState, useEffect } from 'react';
 import sampleAvatar from '../../images/avatars/orwell.jpg';
 // import useUser from '../../hooks/useUser';
 import Skeleton from 'react-loading-skeleton';
@@ -16,7 +16,8 @@ export default function Header({
 		fullName,
 		following,
 		followers,
-		username: profileUsername = ''
+		username: profileUsername = '',
+		profilePic
 	},
 	user
 }) {
@@ -76,7 +77,7 @@ export default function Header({
 				{profileUsername ? (
 					<img
 						className='rounded-full h-20 w-15 lg:h-40 md:w-20 lg:w-40 flex'
-						src={sampleAvatar}
+						src={profilePic}
 						alt={`${profileUsername} profile`}
 					/>
 				) : (

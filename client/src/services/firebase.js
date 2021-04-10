@@ -203,7 +203,12 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 			//Returns an array
 			const user = await getUserByUserId(photo.userId);
 			const username = user[0].username;
-			return { username, ...photo, userLikedPhoto };
+			return {
+				username,
+				...photo,
+				userLikedPhoto,
+				profilePic: user[0].profilePic
+			};
 		})
 	);
 

@@ -35,7 +35,8 @@ export default function Profile({ user }) {
 				photosCollection: photos?.map((photo) => ({
 					...photo,
 					username: user.username,
-					userLiked: photo.likes.includes(loggedInUserFullProfile?.userId)
+					userLiked: photo.likes.includes(loggedInUserFullProfile?.userId),
+					profilePic: user.profilePic
 				})),
 				followerCount: user.followers.length
 			});

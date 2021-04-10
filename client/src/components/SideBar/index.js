@@ -6,12 +6,12 @@ import LoggedInUserContext from '../../context/logged-in-user';
 export default function Sidebar() {
 	/* Gets the user data from fireStore; different obj from useAuthListener user obj*/
 	const {
-		user: { docId = '', fullName, username, userId, following } = {}
+		user: { docId = '', fullName, username, userId, following, profilePic } = {}
 	} = useContext(LoggedInUserContext);
 	console.log({ userId });
 	return (
 		<section className='ml-3 p-4 hidden md:block'>
-			<User fullName={fullName} username={username} />
+			<User fullName={fullName} username={username} profilePic={profilePic} />
 			<Suggestions
 				userId={userId}
 				following={following}

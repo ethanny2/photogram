@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
-import samplePhoto from '../../images/avatars/raphael.jpg';
 import PropTypes from 'prop-types';
 
-export default function Header({ username }) {
+export default function Header({ username, profilePic }) {
 	return (
 		<header className='flex border-b h-4 p-4 py-8 '>
 			<div className='flex items-center'>
 				<Link to={`/p/${username}`} className='flex items-center'>
 					<img
 						className='rounded h-8 w-8 flex mr-3'
-						src={samplePhoto}
+						src={profilePic}
 						alt={`${username} profile`}
 					/>
 				</Link>
@@ -20,5 +19,6 @@ export default function Header({ username }) {
 }
 
 Header.propTypes = {
-	username: PropTypes.string.isRequired
+	username: PropTypes.string.isRequired,
+	profilePic: PropTypes.string.isRequired
 };

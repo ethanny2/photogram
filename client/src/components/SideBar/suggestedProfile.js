@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import sampleAvatar from '../../images/avatars/raphael.jpg';
 import { Link } from 'react-router-dom';
 import {
 	updateUserFollowing,
@@ -18,7 +17,8 @@ export default function SuggestedProfile({
 	username,
 	profileId,
 	userId,
-	loggedInUserDocId
+	loggedInUserDocId,
+	profilePic
 }) {
 	const [followed, setFollowed] = useState(false);
 	async function handleFollowUser() {
@@ -33,8 +33,8 @@ export default function SuggestedProfile({
 		<div className='flex flex-row items-center align-items justify-between'>
 			<div className='flex items-center justify-between'>
 				<img
-					className='rounded-full w-8 flex mr-3'
-					src={sampleAvatar}
+					className='rounded-full h-10 w-10 flex mr-3'
+					src={profilePic}
 					alt={`Follow ${username}`}
 				/>
 				<Link to={`/p/${username}`}>
@@ -60,5 +60,6 @@ SuggestedProfile.propTypes = {
 	username: PropTypes.string.isRequired,
 	profileId: PropTypes.string.isRequired,
 	userId: PropTypes.string.isRequired,
-	loggedInUserDocId: PropTypes.string.isRequired
+	loggedInUserDocId: PropTypes.string.isRequired,
+	profilePic: PropTypes.string.isRequired
 };

@@ -5,7 +5,8 @@ import { Link, useHistory } from 'react-router-dom';
 import { validateEmail, upperCaseFullName, isInputAlphaBet } from '../utils';
 import firebaseContext from '../context/firebase';
 import { doesUsernameExist } from '../services/firebase';
-
+const defaultProfilePicture =
+	'https://photogram-media.s3.amazonaws.com/default-user-profile.jpg';
 /*
   Setup state and error handling/ form validation.
   Store user name as lowerCase (even while typing)
@@ -41,7 +42,8 @@ export default function SignUp() {
 					.createUserWithEmailAndPassword(email, password);
 				/* This is different from the documents in firestore this is on the auth side*/
 				await createdUserResult.user.updateProfile({
-					displayName: username
+					displayName: username,
+					photoUrl: defaultProfilePicture
 				});
 				// Userid in firstore is the uuid of the auth service account;
 				// we can also use that auth service to change the profile picture
@@ -53,7 +55,8 @@ export default function SignUp() {
 					emailAddress: email.toLowerCase(),
 					following: [],
 					followers: [],
-					dateCreated: Date.now()
+					dateCreated: Date.now(),
+					profilePic: defaultProfilePicture
 				});
 				history.push(ROUTES.DASHBOARD);
 			} catch (error) {

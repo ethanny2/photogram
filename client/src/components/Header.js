@@ -5,7 +5,6 @@ import FirebaseContext from '../context/firebase';
 import UserContext from '../context/user';
 import logo from '../images/logo.png';
 import useUser from '../hooks/useUser';
-import daliAvatar from '../images/avatars/dali.jpg';
 import SearchBar from './SearchBar';
 
 export default function Header() {
@@ -13,6 +12,8 @@ export default function Header() {
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
+	console.log({ loggedInUser });
+	console.log({ user });
 	return (
 		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
@@ -136,7 +137,7 @@ export default function Header() {
 										<Link to={`/p/${user?.username}`}>
 											<img
 												className=' xs2:w-10 xs2:h-9 w-10 h-10 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
-												src={daliAvatar}
+												src={user.profilePic}
 												alt={`${user.username} profile`}
 											/>
 										</Link>

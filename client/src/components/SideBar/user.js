@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
-import daliAvatar from '../../images/avatars/dali.jpg';
 import { memo } from 'react';
+import PropTypes from 'prop-types';
 
-const User = ({ username, fullName }) => {
+const User = ({ username, fullName, profilePic }) => {
 	return (
 		<div className='p-4'>
 			{!username || !fullName ? (
@@ -16,18 +16,24 @@ const User = ({ username, fullName }) => {
 					<div className='flex items-center justify-center col-span-1'>
 						<img
 							className='rounded-full w-16 mr-3'
-							src={daliAvatar}
+							src={profilePic}
 							alt='my profile'
 						/>
 					</div>
 					<div className='col-span-3'>
-          <p className='font-bold text-sm'>{username}</p>
-          <p className='font-bold text-sm'>{fullName}</p>
+						<p className='font-bold text-sm'>{username}</p>
+						<p className='font-bold text-sm'>{fullName}</p>
 					</div>
 				</Link>
 			)}
 		</div>
 	);
+};
+
+User.propTypes = {
+	username: PropTypes.string.isRequired,
+	fullName: PropTypes.string.isRequired,
+	profilePic: PropTypes.string.isRequired
 };
 
 export default memo(User);

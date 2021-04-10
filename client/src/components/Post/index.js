@@ -28,6 +28,9 @@ export default function Post({ content: curPostContent }) {
 		curPostContent.userLikedPhoto,
 		curPostContent.comments
 	);
+
+	// Are the users profile pic in this data?
+	console.log({ curPostContent });
 	return (
 		<LightBoxContext.Provider
 			value={{
@@ -43,7 +46,10 @@ export default function Post({ content: curPostContent }) {
 		>
 			{visible ? <LightBox /> : null}
 			<article className='rounded col-span-4 border bg-white mb-16'>
-				<Header username={curPostContent?.username}></Header>
+				<Header
+					username={curPostContent?.username}
+					profilePic={curPostContent.profilePic}
+				></Header>
 				<Image
 					src={curPostContent?.imageSrc}
 					caption={curPostContent?.caption}
