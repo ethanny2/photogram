@@ -16,7 +16,7 @@ export default function DashBoard({ user: loggedInUser }) {
 
 	useEffect(() => {
 		document.title = 'Instagram';
-	});
+	}, []);
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>
 			<section className='bg-gray-background'>

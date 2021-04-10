@@ -1,18 +1,93 @@
 import { useState, useEffect } from 'react';
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import daliAvatar from '../images/avatars/dali.jpg';
 import useUser from '../hooks/useUser';
 import Skeleton from 'react-loading-skeleton';
+import { addPhoto } from '../services/firebase';
 
 // Make this protected/ only visible by logged in users
 // Prop comes from state passed by <Route></Route>
 export default function NewPost({ user: loggedInUser }) {
 	const { user } = useUser(loggedInUser?.uid);
+	const history = useHistory();
+	const [publicFileUrl, setPublicFileUrl] = useState(null);
+	const [imageLoading, setImageLoading] = useState(false);
+	const [caption, setCaption] = useState('');
+	const [error, setError] = useState(null);
+	// HTML5 validation already works for the textarea
+	useEffect(() => {
+		document.title = 'Instagram - New Post';
+	}, []);
+
+	useEffect(() => {
+		setError(null);
+	}, [publicFileUrl, caption]);
+
+	const getSignedRequest = async (file) => {
+		// Show skeleton for image preview
+		setImageLoading(true);
+		try {
+			const response = await fetch(
+				`http://localhost:3001/sign-s3?username=${user.username}&file-name=${file.name}&file-type=${file.type}`
+			);
+			const { signedRequest: signedRequestUrl, url } = await response.json();
+			// Send the PUT request with newly signed S3 url once it works
+			// the resource is publicy available if it succeeds.
+			console.log({ signedRequestUrl });
+			console.log({ url });
+			const putResponse = await fetch(signedRequestUrl, {
+				method: 'PUT',
+				body: file,
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				}
+			});
+
+			// const data = await putResponse.json();
+			if (putResponse.ok) {
+				console.log('file is accessible on ', url);
+				setPublicFileUrl(url);
+				setImageLoading(false);
+			}
+		} catch (error) {
+			//Set some error state on the form
+			setImageLoading(false);
+			setError(error.message);
+			console.error({ error });
+		}
+	};
+	const handleFileChange = async ({ target }) => {
+		const [file] = target.files;
+		console.log({ file });
+		if (!file) return;
+		getSignedRequest(file);
+	};
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		if (!publicFileUrl) {
+			setError('Please attach a photo to your post');
+			return;
+		}
+		if (!caption) {
+			setError('Please write a caption for your post');
+			return;
+		}
+		try {
+			await addPhoto(caption, user.userId, publicFileUrl);
+			console.log('Successfully added new photo/post to firestore!');
+			history.push(`/p/${user?.username}`);
+		} catch (error) {
+			setError(error.message);
+			console.error({ error });
+		}
+	};
+
 	return (
-		<section className='h-full'>
+		<section className='h-full '>
 			<Header />
-			<article className='mx-auto flex flex-col justify-between items-center max-w-sm h-full'>
+			<article className='py-3 mx-auto flex flex-col justify-between items-center max-w-sm h-full'>
 				{user?.username ? (
 					<>
 						<Link to={`/p/${user?.username}`}>
@@ -22,23 +97,45 @@ export default function NewPost({ user: loggedInUser }) {
 								alt={`${user.username} profile`}
 							/>
 						</Link>
+
 						<form
 							autoComplete='off'
 							method='post'
 							className='flex flex-col items-center justify-center'
+							onSubmit={handleSubmit}
 						>
 							<textarea
-								className='border border-gray-primary my-8 p-1 w-9/12 '
+								className='border border-gray-primary mt-5 mb-2 p-1 w-9/12 '
 								placeholder="What's happening?"
 								name='post-text'
 								id='post-text'
 								cols='50'
 								rows='10'
 								aria-label='post-caption'
+								value={caption}
+								onChange={({ target }) => setCaption(target.value)}
 							></textarea>
+							{error && (
+								<p data-testid='error' className='mt-4 text-xs text-red-500'>
+									{error}
+								</p>
+							)}
+							{publicFileUrl ? (
+								<div className='my-3 h-5/12 w-5/12 max-w-sm text-left'>
+									<span className='text-sm'>Preview: </span>
+									<img
+										className='max-w-full'
+										src={publicFileUrl}
+										alt={caption}
+									/>
+								</div>
+							) : imageLoading ? (
+								<Skeleton count={1} width={150} height={150} className='mb-5' />
+							) : null}
+
 							<div className='flex flex-row justify-between'>
 								<label
-									tabindex='0'
+									tabIndex='0'
 									role='button'
 									htmlFor='photo-upload'
 									className='flex flex-row justify-between items-center border flex border-gray-primary w-10/12 p-2 bg-blue-500 font-bold text-sm rounded text-white h-9'
@@ -70,15 +167,21 @@ export default function NewPost({ user: loggedInUser }) {
 									</svg>
 									{/* </button> */}
 								</label>
-								<input
-									aria-hidden='true'
-									accept='image/*'
-									type='file'
-									name='photo-upload'
-									id='photo-upload'
-									className='hidden'
-								/>
-								<button className='flex flex-row justify-between items-center border flex border-gray-primary w-10/12 p-2 bg-blue-500 font-bold text-sm rounded text-white h-9'>
+								<div className='text-center'>
+									<input
+										onChange={handleFileChange}
+										accept='image/*'
+										type='file'
+										name='photo-upload'
+										id='photo-upload'
+										className='hidden'
+									/>
+								</div>
+
+								<button
+									type='submit'
+									className='flex flex-row justify-between items-center border flex border-gray-primary w-10/12 p-2 bg-blue-500 font-bold text-sm rounded text-white h-9'
+								>
 									Post
 								</button>
 							</div>

@@ -4,4 +4,4 @@ export const SIGN_UP = '/signup';
 /* Will use route parameters or react-router-dom*/
 export const PROFILE = '/p/:username';
 export const NOT_FOUND = '/not-found';
-export const NEW_POST = '/new/post';
+export const NEW_POST = '/post/new';

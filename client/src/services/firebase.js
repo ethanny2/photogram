@@ -38,6 +38,23 @@ export async function toggleFollow(
 	);
 }
 
+/* Adds a new post to the users firestore collection */
+export async function addPhoto(caption, userId, imageSrc) {
+	try {
+		const photoData = {
+			caption,
+			userId,
+			imageSrc,
+			likes: [],
+			comments: [],
+			dateCreated: Date.now()
+		};
+		await firebase.firestore().collection('photos').add(photoData);
+	} catch (error) {
+		console.error({ error });
+	}
+}
+
 // Moved from actions.js now that a double tap can control this
 /* 
 	userId: the id of logged in user

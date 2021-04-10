@@ -26,7 +26,7 @@ export default function Profile() {
 	console.log({ user });
 
 	return user?.username ? (
-		<main className='bg-gray'>
+		<main className='bg-gray mb-10'>
 			<Header></Header>
 			<section className='mx-auto max-w-screen-lg'>
 				<UserProfile user={user} />

@@ -1,20 +1,30 @@
 require('dotenv').config();
 const express = require('express');
 const aws = require('aws-sdk');
+const cors = require('cors');
+
 aws.config.region = 'us-east-1';
-
 const app = express();
-app.listen(process.env.PORT || 3000);
+app.use(cors());
 
-const S3_BUCKET = process.env.S3_BUCKET;
+app.listen(process.env.PORT || 3001);
+
+const S3_BUCKET = process.env.S3_BUCKET_NAME;
 
 app.get('/sign-s3', (req, res) => {
-	const s3 = new aws.S3();
+	// Needed the signature version param to work
+	const s3 = new aws.S3({ region: 'us-east-1', signatureVersion: 'v4' });
 	const fileName = req.query['file-name'];
-	const fileType = req.query['file-type'];
+	const fileType = encodeURIComponent(req.query['file-type']);
+	const username = encodeURIComponent(req.query['username']);
+	// console.log(process.env.S3_BUCKET_NAME);
+	// console.log(fileName, fileType);
+
+	// return res.json({ msg: 'test' });
+	const constructedFileName = `${username}_${fileName}`;
 	const s3Params = {
 		Bucket: S3_BUCKET,
-		Key: fileName,
+		Key: constructedFileName,
 		Expires: 60,
 		ContentType: fileType,
 		ACL: 'public-read'
@@ -27,7 +37,9 @@ app.get('/sign-s3', (req, res) => {
 		}
 		const returnData = {
 			signedRequest: data,
-			url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+			// automatic url, should append docId or user to ensure nothing
+			// is overwritten
+			url: `https://${S3_BUCKET}.s3.amazonaws.com/${constructedFileName}`
 		};
 		res.write(JSON.stringify(returnData));
 		res.end();

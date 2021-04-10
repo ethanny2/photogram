@@ -43,6 +43,9 @@ export default function SignUp() {
 				await createdUserResult.user.updateProfile({
 					displayName: username
 				});
+				// Userid in firstore is the uuid of the auth service account;
+				// we can also use that auth service to change the profile picture
+				// and add it as a property in all users document.
 				await firebase.firestore().collection('users').add({
 					userId: createdUserResult.user.uid,
 					username: username.toLowerCase(),
