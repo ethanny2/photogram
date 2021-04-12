@@ -1,7 +1,6 @@
 import { debounce } from 'lodash';
 import { useState, useEffect, useCallback } from 'react';
 import { userSearch } from '../services/firebase';
-import samplePhoto from '../images/avatars/karl.jpg';
 import { Link } from 'react-router-dom';
 
 export default function SearchBar() {
@@ -31,7 +30,7 @@ export default function SearchBar() {
 
 	return (
 		<div>
-			<form action='POST' autoComplete='off' className="relative">
+			<form action='POST' autoComplete='off' className='relative'>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					className='hidden sm:block h-4 w-4 absolute top-2 left-5'
@@ -82,7 +81,7 @@ export default function SearchBar() {
 										<Link to={`/p/${user?.username}`}>
 											<img
 												className=' w-8 h-8 sm:w-8 sm:h-8 md:w-8 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
-												src={samplePhoto}
+												src={user.profilePic}
 												alt={`${user.username} profile`}
 											/>
 										</Link>

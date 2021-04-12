@@ -1,4 +1,4 @@
-import useFirestoreSnapshot from '../hooks/useFirebaseSnapshot';
+import useNotifications from '../hooks/useNotifications';
 import { useContext } from 'react';
 import UserContext from '../context/user';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,8 @@ export default function Notifications() {
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	console.log('user inside the notifications component', { user });
-	// useFirestoreSnapshot(user.userId);
+	const { notifications } = useNotifications();
+	console.log({ notifications });
 	return (
 		<div className='relative'>
 			<Link to={ROUTES.NOT_FOUND} arial-label='Notifications'>
