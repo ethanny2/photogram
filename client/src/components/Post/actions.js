@@ -1,23 +1,37 @@
-import UserContext from '../../context/user';
+import LoggedInUserContext from '../../context/logged-in-user';
 import { useContext } from 'react';
 import PropTypes from 'prop-types';
 import LightBoxContext from '../../context/lightbox';
 import { handleToggleLiked } from '../../services/firebase';
+import { createNotification } from '../../services/firebase';
+
 export default function Actions({ handleFocus }) {
 	const { content, dispatch, totalLikes, userLiked } = useContext(
 		LightBoxContext
 	);
 	const {
-		user: { uid: userId = '' }
-	} = useContext(UserContext);
-	const docId = content.docId;
+		user: { userId, username: loggedInUsername, profilePic: senderProfilePic }
+	} = useContext(LoggedInUserContext);
 
+	const { userId: receiverId, docId } = content;
 	const toggle = async () => {
 		/* Swtich the local state for toggle ASYNC DON'T ASSUME ITS DONE*/
 		try {
+			// Works with opposite old value
 			await handleToggleLiked(userId, docId, userLiked);
 			const newLikeAmount = userLiked ? totalLikes - 1 : totalLikes + 1;
 			const newUserLiked = !userLiked;
+			// Need a new notification here; only if liked not unliked
+			if (newUserLiked) {
+				const notifContent = `${loggedInUsername} liked your post.`;
+				await createNotification(
+					receiverId,
+					senderProfilePic,
+					notifContent,
+					loggedInUsername,
+					docId
+				);
+			}
 			dispatch({ totalLikes: newLikeAmount, userLiked: newUserLiked });
 		} catch (error) {
 			console.error({ error });

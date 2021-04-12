@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import {
 	updateUserFollowing,
-	updateFollowedUserFollowers
+	updateFollowedUserFollowers,
+	createNotification
 } from '../../services/firebase';
+import LoggedInUserContext from '../../context/logged-in-user';
 import PropTypes from 'prop-types';
 /* 
   userDocId- is the docID of the suggested user in this sidebar 
@@ -17,16 +19,29 @@ export default function SuggestedProfile({
 	username,
 	profileId,
 	userId,
+	// Should just take out of context
 	loggedInUserDocId,
 	profilePic
 }) {
+	const {
+		user: { username: loggedInUsername, profilePic: senderProfilePic } = {}
+	} = useContext(LoggedInUserContext);
 	const [followed, setFollowed] = useState(false);
 	async function handleFollowUser() {
 		setFollowed(true);
 		// Get logged in users docId
 		// const [{ docId }] = await getUserByUserId(userId);
+		// No notification for this; logged in users following count is updated
 		await updateUserFollowing(loggedInUserDocId, profileId, false);
 		await updateFollowedUserFollowers(profileDocId, userId, false);
+		// Need a notification to the person you just followed
+		const notifContent = `${loggedInUsername} followed you.`;
+		await createNotification(
+			profileId,
+			senderProfilePic,
+			notifContent,
+			loggedInUsername
+		);
 	}
 	console.log('followed in suggestedProfile', followed);
 	return !followed ? (

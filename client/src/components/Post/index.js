@@ -29,8 +29,6 @@ export default function Post({ content: curPostContent }) {
 		curPostContent.comments
 	);
 
-	// Are the users profile pic in this data?
-	console.log({ curPostContent });
 	return (
 		<LightBoxContext.Provider
 			value={{

@@ -12,8 +12,7 @@ export default function Header() {
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
-	console.log({ loggedInUser });
-	console.log({ user });
+
 	return (
 		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>

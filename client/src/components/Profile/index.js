@@ -3,8 +3,9 @@ import Header from './header';
 import Photos from './photos';
 import { getUserPhotosByUsername } from '../../services/firebase';
 import PropTypes from 'prop-types';
-import UserContext from '../../context/user';
-import useUser from '../../hooks/useUser';
+// import UserContext from '../../context/user';
+// import useUser from '../../hooks/useUser';
+import LoggedInUserContext from '../../context/logged-in-user';
 const reducer = (state, newState) => ({ ...state, ...newState });
 const initialState = {
 	profile: {},
@@ -18,13 +19,9 @@ export default function Profile({ user }) {
 		{ profile, photosCollection, followerCount },
 		profileDispatch
 	] = useReducer(reducer, initialState);
-	const { user: loggedInUser } = useContext(UserContext);
-	const { user: loggedInUserFullProfile } = useUser(loggedInUser?.uid);
-	console.log({ loggedInUserFullProfile });
+	const { user: loggedInUserFullProfile } = useContext(LoggedInUserContext);
 	console.log('THIS NEEDS TO MATCH', loggedInUserFullProfile?.userId);
 	useEffect(() => {
-		/* Think about caching here in localStorage so we can save a network call
-    if we already visited this profile before */
 		async function getProfileInfoAndPhotos() {
 			const photos = await getUserPhotosByUsername(user.username);
 			console.log({ photos });

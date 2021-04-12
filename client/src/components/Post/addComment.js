@@ -1,35 +1,46 @@
 import { useState, useContext } from 'react';
 import FirebaseContext from '../../context/firebase';
-import UserContext from '../../context/user';
+import LoggedInUserContext from '../../context/logged-in-user';
 import PropTypes from 'prop-types';
 import LightBoxContext from '../../context/lightbox';
+import { createNotification } from '../../services/firebase';
 
 export default function AddComment({ commentInput }) {
 	const { firebase, FieldValue } = useContext(FirebaseContext);
 	const {
-		user: { displayName }
-	} = useContext(UserContext);
+		user: { username: loggedInUsername, profilePic: senderProfilePic }
+	} = useContext(LoggedInUserContext);
 	const { content, comments, dispatch } = useContext(LightBoxContext);
-	const docId = content?.docId;
-	console.log(displayName);
+	const { userId: receiverId, docId } = content;
 	const [comment, setComment] = useState('');
 	const handleSumbit = async (event) => {
 		event.preventDefault();
 		//Add new comment and set state in comment.js component
-		console.log('comments before setComments', comments);
 		// setComments([...comments, { displayName, comment }]);
-		dispatch({ comments: [...comments, { displayName, comment }] });
+		dispatch({
+			comments: [...comments, { displayName: loggedInUsername, comment }]
+		});
 
-		console.log('comments after setComments', comments);
-		//Clear local state for writing in input
-		setComment('');
-		return firebase
+		// Send out notification
+		// console.log("photos docId", { docId });
+		const notifContent = `${loggedInUsername} commented: ${comment}`;
+		await createNotification(
+			receiverId,
+			senderProfilePic,
+			notifContent,
+			loggedInUsername,
+			docId
+		);
+		await firebase
 			.firestore()
 			.collection('photos')
 			.doc(docId)
 			.update({
-				comments: FieldValue.arrayUnion({ displayName, comment })
+				comments: FieldValue.arrayUnion({ loggedInUsername, comment })
 			});
+		//Clear local state for writing in input
+		setComment('');
+		return;
 	};
 	return (
 		<div className='border-t border-gray flex-shrink-0 flex-grow'>

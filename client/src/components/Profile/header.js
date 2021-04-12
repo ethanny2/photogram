@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import sampleAvatar from '../../images/avatars/orwell.jpg';
 // import useUser from '../../hooks/useUser';
 import Skeleton from 'react-loading-skeleton';
-import { toggleFollow, isUserFollowingProfile } from '../../services/firebase';
+import {
+	toggleFollow,
+	isUserFollowingProfile,
+	createNotification
+} from '../../services/firebase';
 // import UserContext from '../../context/user';
 import PropTypes from 'prop-types';
 
@@ -53,6 +56,7 @@ export default function Header({
 	// Maybe cache in localstorage
 	//Debounce so they cant mash it
 	const handleToggleFollow = async () => {
+		const newFollowingState = !isFollowingProfile;
 		setIsFollowingProfile((prevState) => !prevState);
 		/* 
       Do opposite b/c async set state not changed the variable yet
@@ -69,6 +73,16 @@ export default function Header({
 			profileUserId,
 			user.userId
 		);
+		// Create notification only if you followed someone not unfollowed
+		if (newFollowingState) {
+			const notifContent = `${user.username} followed you.`;
+			await createNotification(
+				profileUserId,
+				user.profilePic,
+				notifContent,
+				user.username
+			);
+		}
 	};
 	console.log('following in profile header is', following);
 	return (

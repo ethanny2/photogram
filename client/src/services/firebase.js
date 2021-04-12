@@ -1,6 +1,106 @@
 import { firebase, FieldValue } from '../lib/firebase';
 
 /*
+		receiverID - Id of user who will get the notification
+		senderProfilePic - Url to profile pic of logged in user who triggered notification
+		content - Message describing what happened
+		username - The logged user who triggered notification
+		photoDocId - The post that was liked/commented on to trigger notification
+		empty if it was a follow 
+		Construct link from p/username/ ... for follows
+		and 
+		Construct link from p/username/  and also store photoDocId
+
+		if it was  a follow notification photoDocId field is empty
+		if it was a comment or like on a photo photoDocId field is filled
+
+*/
+export async function createNotification(
+	receiverId,
+	senderProfilePic,
+	content,
+	senderUsername,
+	photoDocId = ''
+) {
+	const contentLink = `/p/${senderUsername}`;
+	await firebase.firestore().collection('notifications').add({
+		dateCreated: Date.now(),
+		receiverId,
+		senderProfilePic,
+		content,
+		senderUsername,
+		photoDocId,
+		contentLink
+	});
+}
+
+// export async function listenToUserNotifications(
+// 	userId,
+// ) {
+// 	const pendingUserOperation = await firebase
+// 		.firestore()
+// 		.collection('users')
+// 		.orderBy('dateCreated', 'desc')
+// 		.where('userId', '==', userId);
+
+// 	// Get the docs starting state
+// 	const userData = await pendingUserOperation.get();
+// 	const [defaultUserDoc] = userData.docs.map((item) => ({
+// 		...item.data(),
+// 		docId: item.id
+// 	}));
+
+// 	// Set up the snapshot listener
+// 	const unsubUserListener = await pendingUserOperation.onSnapshot(
+// 		(snapshot) => {
+// 			snapshot.docChanges().forEach((change) => {
+// 				if (change.type === 'modified') {
+// 					console.log('USER DOCUMENT MODIFIED');
+// 					onUpdateUser(change.doc, userState);
+// 				}
+// 			});
+// 		}
+// 	);
+
+// 	const pendingPhotoOperation = await firebase
+// 		.firestore()
+// 		.collection('photos')
+// 		.where('userId', '==', userId);
+
+// 	// Get the docs starting state
+// 	const photoData = await pendingPhotoOperation.get();
+// 	const defaultUserPhotosDoc = photoData.docs.map((item) => ({
+// 		...item.data(),
+// 		docId: item.id
+// 	}));
+
+// 	// Listen for likes and comments; a user cannot
+// 	// add a new photo on our behalf (and there is no tagging)
+// 	// so we just need to listen for the "modified" event
+// 	const unsubPhotoListener = await pendingPhotoOperation.onSnapshot(
+// 		(snapshot) => {
+// 			const alteredPhotos = [];
+// 			snapshot.docChanges().forEach((change) => {
+// 				if (change.type === 'modified') {
+// 					console.log('USER PHOTO MODIFIED');
+// 					alteredPhotos.push({ ...change.doc.data(), docId: change.doc.id });
+// 				}
+// 			});
+// 			console.log('All modified photos for this snapshot', alteredPhotos);
+// 			// Sending over only the altered photo docs only if there is something
+// 			// in the array
+// 			if (alteredPhotos.length > 0) onUpdatePhotos(alteredPhotos, photoState);
+// 		}
+// 	);
+// 	return {
+// 		unsubUserListener,
+// 		unsubPhotoListener,
+// 		defaultUserDoc,
+// 		defaultUserPhotosDoc
+// 	};
+// }
+
+/*
 	activeUsername - is the currently logged in users profileId
 	profileUserId - is the current persons profile page we visited
 */
