@@ -54,7 +54,9 @@ export default function SuggestedProfile({
 					alt={`Follow ${username}`}
 				/>
 				<Link to={`/p/${username}`}>
-					<p className='font-bold'>{username}</p>
+					<p className='font-bold w-24 lg:w-36 whitespace-nowrap overflow-hidden		 overflow-ellipsis	'>
+						{username}
+					</p>
 				</Link>
 			</div>
 			<div className='flex'>

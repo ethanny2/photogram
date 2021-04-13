@@ -58,7 +58,7 @@ export default function SearchBar() {
 			</form>
 			{results && (
 				<ul
-					className={`m1-3 xs2:ml-1 md:-ml-3 absolute bg-white w-2/12 xs2:w-6/12 lg:w-8/12 py-2  max-w-sm shadow-md rounded border border-gray-100
+					className={`m1-3 xs2:ml-1 md:-ml-3 fixed bg-white w-2/12 xs2:w-6/12 lg:w-8/12 py-2  max-w-sm shadow-md rounded border border-gray-100
 					flex flex-col`}
 					style={{ maxWidth: '17rem', minWidth: '10rem' }}
 				>

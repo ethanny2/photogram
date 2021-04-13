@@ -14,7 +14,7 @@ export default function FooterNav() {
 	return (
 		<>
 			{user ? (
-				<footer className=' sm:hidden z-20  border-t border-gray-primary bg-white flex flex-row justify-around items-center fixed bottom-0 w-full h-12 min-w-full'>
+				<footer className=' sm:hidden z-20  border-t border-gray-primary bg-white flex flex-row justify-around items-center fixed bottom-0 left-0 w-full h-12 min-w-full'>
 					<button
 						type='button'
 						title='Sign Out'
@@ -43,7 +43,38 @@ export default function FooterNav() {
 							/>
 						</svg>
 					</button>
-
+					<Link to={ROUTES.DASHBOARD} arial-label='Home'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							fill='none'
+							viewBox='0 0 24 24'
+							stroke='currentColor'
+							className='w-8 text-black-light cursor-pointer'
+						>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth={2}
+								d='M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
+							/>
+						</svg>
+					</Link>
+					<Link to={ROUTES.NEW_POST} arial-label='Upload'>
+						<svg
+							xmlns='http://www.w3.org/2000/svg'
+							className='w-8 text-black-light cursor-pointer'
+							fill='none'
+							viewBox='0 0 24 24'
+							stroke='currentColor'
+						>
+							<path
+								strokeLinecap='round'
+								strokeLinejoin='round'
+								strokeWidth={2}
+								d='M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
+							/>
+						</svg>
+					</Link>
 					<Link to={ROUTES.NOT_FOUND} arial-label='Settings'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -66,23 +97,8 @@ export default function FooterNav() {
 							/>
 						</svg>
 					</Link>
-					<Link to={ROUTES.DASHBOARD} arial-label='Home'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-							className='w-8 text-black-light cursor-pointer'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
-							/>
-						</svg>
-					</Link>
-					<Notifications />
+
+					{/* <Notifications /> */}
 					{/* <Link to={ROUTES.NOT_FOUND} arial-label='Notifications'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
@@ -99,22 +115,6 @@ export default function FooterNav() {
 							/>
 						</svg>
 					</Link> */}
-					<Link to={ROUTES.NEW_POST} arial-label='Upload'>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							className='w-8 text-black-light cursor-pointer'
-							fill='none'
-							viewBox='0 0 24 24'
-							stroke='currentColor'
-						>
-							<path
-								strokeLinecap='round'
-								strokeLinejoin='round'
-								strokeWidth={2}
-								d='M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-							/>
-						</svg>
-					</Link>
 				</footer>
 			) : null}
 		</>

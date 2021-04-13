@@ -117,7 +117,7 @@ export default function Header({
 				</div>
 				<div className='container flex mt-4 flex-col lg:flex-row'>
 					{followers === undefined || following === undefined ? (
-						<Skeleton width={677} height={24} count={1} />
+						<Skeleton height={24} count={1} />
 					) : (
 						<>
 							<p className='mr-10'>

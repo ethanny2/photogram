@@ -45,7 +45,7 @@ export default function Media({ src = '', caption }) {
 			{src ? (
 				<img className='w-full h-full object-fill' src={src} alt={caption} />
 			) : (
-				<Skeleton count={1} width={640} height={500} className='mb-5' />
+				<Skeleton count={1} height={500} className='mb-5' />
 			)}
 		</figure>
 	);

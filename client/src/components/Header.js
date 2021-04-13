@@ -6,15 +6,16 @@ import UserContext from '../context/user';
 import logo from '../images/logo.png';
 import useUser from '../hooks/useUser';
 import SearchBar from './SearchBar';
+import Notifications from '../components/Notifications';
 
 export default function Header() {
 	const { firebase } = useContext(FirebaseContext);
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
-
+	// const user = {}
 	return (
-		<header className='h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
+		<header className='z-40 sticky top-0 left-0  w-full h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
 				<ul className='flex justify-evenly items-center h-full'>
 					<li
@@ -27,9 +28,12 @@ export default function Header() {
 							</Link>
 						</h1>
 					</li>
-					<li className='text-gray-700 text-center flex items-center items-center'>
-						<SearchBar />
-					</li>
+					{user?.username ? (
+						<li className='text-gray-700 text-center flex items-center items-center'>
+							<SearchBar />
+						</li>
+					) : null}
+
 					<li className='text-gray-700 text-center flex items-center items-center justify-self-end cursor-pointer p-2'>
 						{user?.username ? (
 							<>
@@ -65,10 +69,11 @@ export default function Header() {
 										/>
 									</svg>
 								</Link>
-								<Link to={ROUTES.NOT_FOUND} arial-label='Notifications'>
+								<Notifications />
+								{/* <Link to={ROUTES.NOT_FOUND} arial-label='Notifications'>
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
-										className='w-8 hidden sm:block mr-2 text-black-light cursor-pointer'
+										className='w-8 sm:block mr-2 text-black-light cursor-pointer'
 										fill='none'
 										viewBox='0 0 24 24'
 										stroke='currentColor'
@@ -80,7 +85,7 @@ export default function Header() {
 											d='M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9'
 										/>
 									</svg>
-								</Link>
+								</Link> */}
 
 								<Link to={ROUTES.NOT_FOUND} arial-label='Settings'>
 									<svg
@@ -135,7 +140,7 @@ export default function Header() {
 									{user?.username ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
-												className=' xs2:w-10 xs2:h-9 w-10 h-10 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
+												className='ml-2 xs2:w-10 xs2:h-9 w-10 h-7 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
 												src={user.profilePic}
 												alt={`${user.username} profile`}
 											/>

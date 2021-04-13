@@ -17,7 +17,7 @@ export default function Timeline() {
 			) : photos?.length <= 0 ? (
 				<p>No posts from followers yet!</p>
 			) : (
-				<Skeleton count={4} width={640} height={500} className='mb-5' />
+				<Skeleton count={4} height={500} className='mb-5' />
 			)}
 		</section>
 	);
