@@ -14,7 +14,7 @@ export default function Media({ src = '', caption }) {
 	const {
 		user: { userId, username: loggedInUsername, profilePic: senderProfilePic }
 	} = useContext(LoggedInUserContext);
-	const { userId: receiverId, docId } = content;
+	const { userId: receiverId, docId, username: receiverUsername } = content;
 	const onDoubleTap = async () => {
 		console.log('DOUBLE TAP OCCURRED');
 		// Need to update the likes so I need to bring the context in here
@@ -27,6 +27,7 @@ export default function Media({ src = '', caption }) {
 			const notifContent = `${loggedInUsername} liked your post.`;
 			await createNotification(
 				receiverId,
+				receiverUsername,
 				senderProfilePic,
 				notifContent,
 				loggedInUsername,

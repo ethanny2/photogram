@@ -13,7 +13,7 @@ export default function Actions({ handleFocus }) {
 		user: { userId, username: loggedInUsername, profilePic: senderProfilePic }
 	} = useContext(LoggedInUserContext);
 
-	const { userId: receiverId, docId } = content;
+	const { userId: receiverId, docId, username: receiverUsername } = content;
 	const toggle = async () => {
 		/* Swtich the local state for toggle ASYNC DON'T ASSUME ITS DONE*/
 		try {
@@ -26,6 +26,7 @@ export default function Actions({ handleFocus }) {
 				const notifContent = `${loggedInUsername} liked your post.`;
 				await createNotification(
 					receiverId,
+					receiverUsername,
 					senderProfilePic,
 					notifContent,
 					loggedInUsername,

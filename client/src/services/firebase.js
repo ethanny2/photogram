@@ -17,12 +17,18 @@ import { firebase, FieldValue } from '../lib/firebase';
 */
 export async function createNotification(
 	receiverId,
+	receiverUsername, // to construct link to content
 	senderProfilePic,
 	content,
 	senderUsername,
 	photoDocId = ''
 ) {
-	const contentLink = `/p/${senderUsername}`;
+	// If it was a follow link to the following users profile (logged in person)
+	// If it was a like/ commment link to the specific post on the senders Page.
+
+	const contentLink = photoDocId
+		? `/p/${receiverUsername}`
+		: `/p/${senderUsername}`;
 	await firebase.firestore().collection('notifications').add({
 		dateCreated: Date.now(),
 		receiverId,

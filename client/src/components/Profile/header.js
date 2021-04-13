@@ -78,6 +78,7 @@ export default function Header({
 			const notifContent = `${user.username} followed you.`;
 			await createNotification(
 				profileUserId,
+				profileUsername,
 				user.profilePic,
 				notifContent,
 				user.username

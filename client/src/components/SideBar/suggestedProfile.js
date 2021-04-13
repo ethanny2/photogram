@@ -38,6 +38,7 @@ export default function SuggestedProfile({
 		const notifContent = `${loggedInUsername} followed you.`;
 		await createNotification(
 			profileId,
+			username,
 			senderProfilePic,
 			notifContent,
 			loggedInUsername

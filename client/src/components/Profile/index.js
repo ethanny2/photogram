@@ -13,7 +13,7 @@ const initialState = {
 	followerCount: 0
 };
 
-export default function Profile({ user }) {
+export default function Profile({ user, linkedPostData }) {
 	/* First thing destructured is our state obj, 2nd is the dispatch function*/
 	const [
 		{ profile, photosCollection, followerCount },
@@ -51,7 +51,7 @@ export default function Profile({ user }) {
 				setFollowerCount={profileDispatch}
 				user={loggedInUserFullProfile}
 			/>
-			<Photos photos={photosCollection} />
+			<Photos photos={photosCollection} linkedPostData={linkedPostData} />
 		</>
 	);
 }

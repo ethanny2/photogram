@@ -2,7 +2,7 @@ import Skeleton from 'react-loading-skeleton';
 import PropTypes from 'prop-types';
 import SinglePhoto from './single-photo';
 
-export default function Photos({ photos = null }) {
+export default function Photos({ photos = null, linkedPostData = null }) {
 	return (
 		<div className='border-t border-gray mt-12 px-4 lg:px-0'>
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 mb-12 lg'>
@@ -13,7 +13,13 @@ export default function Photos({ photos = null }) {
 					: photos && photos.length > 0
 					? photos.map((photo) => {
 							// console.log('Current photo comments', photo.comments);
-							return <SinglePhoto key={photo.docId} photo={photo} />;
+							return (
+								<SinglePhoto
+								linkedPostData={linkedPostData}
+									key={photo.docId}
+									photo={photo}
+								/>
+							);
 					  })
 					: null}
 			</div>

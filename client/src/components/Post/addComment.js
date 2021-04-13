@@ -11,7 +11,7 @@ export default function AddComment({ commentInput }) {
 		user: { username: loggedInUsername, profilePic: senderProfilePic }
 	} = useContext(LoggedInUserContext);
 	const { content, comments, dispatch } = useContext(LightBoxContext);
-	const { userId: receiverId, docId } = content;
+	const { userId: receiverId, docId, username: receiverUsername } = content;
 	const [comment, setComment] = useState('');
 	const handleSumbit = async (event) => {
 		event.preventDefault();
@@ -26,6 +26,7 @@ export default function AddComment({ commentInput }) {
 		const notifContent = `${loggedInUsername} commented: ${comment}`;
 		await createNotification(
 			receiverId,
+			receiverUsername,
 			senderProfilePic,
 			notifContent,
 			loggedInUsername,
@@ -36,7 +37,10 @@ export default function AddComment({ commentInput }) {
 			.collection('photos')
 			.doc(docId)
 			.update({
-				comments: FieldValue.arrayUnion({ loggedInUsername, comment })
+				comments: FieldValue.arrayUnion({
+					displayName: loggedInUsername,
+					comment
+				})
 			});
 		//Clear local state for writing in input
 		setComment('');

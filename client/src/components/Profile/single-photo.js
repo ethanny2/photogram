@@ -4,7 +4,7 @@ import useLightbox from '../../hooks/useLightbox';
 import LightBox from '../LightBox';
 import { useEffect } from 'react';
 
-export default function SinglePhoto({ photo }) {
+export default function SinglePhoto({ photo, linkedPostData }) {
 	const {
 		visible,
 		comments,
@@ -22,6 +22,7 @@ export default function SinglePhoto({ photo }) {
 		dispatch({ totalLikes: photo.likes.length, userLiked: photo.userLiked });
 	}, [photo, dispatch]);
 
+	console.log('In single photo', { linkedPostData });
 	return (
 		<LightBoxContext.Provider
 			value={{
@@ -37,7 +38,13 @@ export default function SinglePhoto({ photo }) {
 		>
 			{visible ? <LightBox /> : null}
 			<figure
+				ref={
+					photo.docId === linkedPostData.linkedPhotoId
+						? linkedPostData.setRef
+						: null
+				}
 				key={photo.docId}
+				id={photo.docId}
 				className='relative group col-span-1'
 				onClick={() =>
 					dispatch({
