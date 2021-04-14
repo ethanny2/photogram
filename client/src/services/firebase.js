@@ -1,18 +1,72 @@
 import { firebase, FieldValue } from '../lib/firebase';
+import app from 'firebase/app';
+/* Function to reauth/login user to ensure their old password matches */
+
+export async function confirmCurrentPassword(currentPassword) {
+	const user = firebase.auth().currentUser;
+	if (!user) return;
+	const credential = app.auth.EmailAuthProvider.credential(
+		user.email,
+		currentPassword
+	);
+
+	await user.reauthenticateWithCredential(credential);
+}
+
+export async function changePassword(currentPassword, newPassword) {
+	try {
+		await confirmCurrentPassword(currentPassword);
+		const user = firebase.auth().currentUser;
+		// Not the collection updating the auth account
+		await user.updatePassword(newPassword);
+	} catch (error) {
+		throw Error(error);
+	}
+}
 
 /* 
 	Used on the profile-edit page of the settings to
 	update some information on a users profile
+	profilePic - string (url to the new image on S3 Bucket)
 	fullName - string
 	username - string
 	bio  - string
 	docId - The docId of the logged in user. (Not user Id)
 */
 
-export async function updateProfileByDocId(fullName, username, bio, docId) {
+export async function updateProfileByDocId(
+	profilePic,
+	fullName,
+	newUsername,
+	oldUsername,
+	bio,
+	docId
+) {
+	// try {
+	// 	const updateCommentsSnapShot = await firebase
+	// 		.firestore()
+	// 		.collection('photos')
+	// 		.where('comments', '', receiverId)
+	// 		.get();
+
+	// 	// Queue up all the delete operations
+	// 	const batch = firebase.firestore().batch();
+	// 	deleteAllSnapshot.forEach((doc) => batch.delete(doc.ref));
+	// 	// Execute the batch
+	// 	await batch.commit();
+	// } catch (error) {
+	// 	console.error(error.message);
+	// }
+	console.log({ docId });
+	// Before I need to update every comment with the old username
+	// also update every notification sent by this user to the new
+	// username, change the content link (if it there is not photoId)
+	// change the sender profile pic .
+
 	await firebase.firestore().collection('users').doc(docId).update({
+		profilePic,
 		fullName,
-		username,
+		username: newUsername,
 		bio
 	});
 }

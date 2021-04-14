@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
 // import LoggedInUserContext from '../../context/logged-in-user';
 import { useEffect, useContext, useState } from 'react';
-import { Link, Route, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import LoggedInUserContext from '../../context/logged-in-user';
 import Skeleton from 'react-loading-skeleton';
 import {
@@ -11,18 +10,23 @@ import {
 
 export default function ProfileEdit() {
 	let { path, url } = useRouteMatch();
-	console.log({ path });
-	console.log({ url });
 	const { user } = useContext(LoggedInUserContext);
 	const [name, setName] = useState('');
 	const [username, setUsername] = useState('');
 	const [bio, setBio] = useState('');
 	const [publicFileUrl, setPublicFileUrl] = useState(null);
-	const [imageLoading, setImageLoading] = useState(false);
+	const [message, setMessage] = useState('');
+	// If they didn't change
+	// const [usernameInputDirty, setUsernameInputDirty] = useState(false);
+	const handleFileChange = async ({ target }) => {
+		const [file] = target.files;
+		console.log({ file });
+		if (!file) return;
+		getSignedRequest(file);
+	};
 
 	const getSignedRequest = async (file) => {
 		// Show skeleton for image preview
-		setImageLoading(true);
 		try {
 			const response = await fetch(
 				`http://localhost:3001/sign-s3?username=${user.username}&file-name=${file.name}&file-type=${file.type}`
@@ -44,14 +48,15 @@ export default function ProfileEdit() {
 			if (putResponse.ok) {
 				console.log('file is accessible on ', url);
 				setPublicFileUrl(url);
-				setImageLoading(false);
 			}
 		} catch (error) {
 			//Set some error state on the form
-			setImageLoading(false);
 			console.error({ error });
 		}
 	};
+	useEffect(() => {
+		setMessage('');
+	}, [bio, name, publicFileUrl, username]);
 
 	useEffect(() => {
 		if (user?.username) {
@@ -61,13 +66,40 @@ export default function ProfileEdit() {
 		}
 	}, [user]);
 
-	async function handleSubmit() {
+	async function handleSubmit(e) {
+		e.preventDefault();
 		// Take all the data and from inputs and submit it to
 		// update the user document in the collection expect email.
-		const usernameTaken = await doesUsernameExist(username);
-		if (!usernameTaken.length) {
-			await updateProfileByDocId(name, username, bio);
+		let usernameTaken;
+		// Only check if username exists if they changed it
+		if (user.username !== username) {
+			usernameTaken = await doesUsernameExist(username);
+			if (usernameTaken.length) {
+				setMessage('That username is taken please try again.');
+				return;
+			}
 		}
+
+		// Need to check if they changed profile pic
+		publicFileUrl
+			? await updateProfileByDocId(
+					publicFileUrl,
+					name,
+					username,
+					user.username,
+					bio,
+					user.docId
+			  )
+			: await updateProfileByDocId(
+					user.profilePic,
+					name,
+					username,
+					user.username,
+					bio,
+					user.docId
+			  );
+
+		setMessage('Successfully changed profile; refresh to see changes');
 	}
 
 	// Will be inside this div
@@ -77,17 +109,18 @@ export default function ProfileEdit() {
 		<>
 			{user?.username ? (
 				<form
+					onSubmit={handleSubmit}
 					autoComplete='off'
 					method='post'
 					className=' h-full w-10/12 py-2 flex flex-col justify-between items-center h-20'
 				>
 					<div className='mb-5 w-full flex flex-row justify-start items-center'>
-            {imageLoading ? <Skeleton height={100} className="rounded-full mx-5" />}
 						<img
 							className='mx-5 xs2:w-10 xs2:h-9 w-10 h-10 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
-							src={user.profilePic}
+							src={publicFileUrl ? publicFileUrl : user.profilePic}
 							alt={`${user.username} profile`}
 						/>
+
 						<div className='flex flex-col  text-left'>
 							<p className='text-md font-bold'> {user.username}</p>
 							<label
@@ -109,7 +142,7 @@ export default function ProfileEdit() {
 							</label>
 							<div className='text-center'>
 								<input
-									// onChange={handleFileChange}
+									onChange={handleFileChange}
 									accept='image/*'
 									type='file'
 									name='photo-upload'
@@ -207,6 +240,9 @@ export default function ProfileEdit() {
 					>
 						Submit
 					</button>
+					{message ? (
+						<p className='mt-5 text-xs text-gray-500 w-full'>{message}</p>
+					) : null}
 				</form>
 			) : (
 				<Skeleton height={300} count={1} />

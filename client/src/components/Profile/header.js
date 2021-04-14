@@ -20,7 +20,8 @@ export default function Header({
 		following,
 		followers,
 		username: profileUsername = '',
-		profilePic
+		profilePic,
+		bio
 	},
 	user
 }) {
@@ -88,10 +89,10 @@ export default function Header({
 	console.log('following in profile header is', following);
 	return (
 		<header className='grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg'>
-			<div className='container flex justify-center items-center'>
+			<div className='col-span-1 container flex justify-center items-center'>
 				{profileUsername ? (
 					<img
-						className='rounded-full h-20 w-15 lg:h-40 md:w-20 lg:w-40 flex'
+						className='rounded-full h-20 w-20 lg:h-40 md:w-20 lg:w-40 flex'
 						src={profilePic}
 						alt={`${profileUsername} profile`}
 					/>
@@ -99,9 +100,9 @@ export default function Header({
 					<p> Loading...</p>
 				)}
 			</div>
-			<div className='flex items-center justify-center flex-col col-span-2'>
-				<div className='container flex items-center'>
-					<p className='text-2xl mr-4'>{profileUsername}</p>
+			<div className=' text-left w-full flex items-center justify-center flex-col col-span-2'>
+				<div className='container flex items-center justify-start'>
+					<p className='text-2xl text-left mr-4'>{profileUsername}</p>
 					{activeBtnFollow && (
 						<button
 							className='bg-blue-500 font-bold text-sm rounded text-white w-20 h-7'
@@ -139,6 +140,15 @@ export default function Header({
 					{fullName ? (
 						<p className='mr-10'>
 							<span className='font-medium'>{fullName} </span>
+						</p>
+					) : (
+						<Skeleton width={677} height={24} count={1} />
+					)}
+				</div>
+				<div className='container flex mt-4'>
+					{bio ? (
+						<p className='mr-10'>
+							<span className='font-medium'>{bio} </span>
 						</p>
 					) : (
 						<Skeleton width={677} height={24} count={1} />

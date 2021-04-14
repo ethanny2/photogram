@@ -3,6 +3,7 @@ import { useContext, useState, useRef } from 'react';
 import UserContext from '../context/user';
 import { Link } from 'react-router-dom';
 import useUser from '../hooks/useUser';
+import { formatDistance } from 'date-fns';
 import useOutsideClick from '../hooks/useOutsideClick';
 import {
 	clearNotificationByDocId,
@@ -93,6 +94,14 @@ export default function Notifications() {
 											{notification.senderUsername}
 										</p>
 										<p className='text-sm'>{notification.content}</p>
+										<p className='text-gray-500 text-xs mt-2'>
+											{notification &&
+												formatDistance(
+													notification.dateCreated,
+													new Date()
+												)}{' '}
+											ago
+										</p>
 									</div>
 								</li>
 							</Link>
