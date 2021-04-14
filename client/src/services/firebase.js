@@ -1,5 +1,22 @@
 import { firebase, FieldValue } from '../lib/firebase';
 
+/* 
+	Used on the profile-edit page of the settings to
+	update some information on a users profile
+	fullName - string
+	username - string
+	bio  - string
+	docId - The docId of the logged in user. (Not user Id)
+*/
+
+export async function updateProfileByDocId(fullName, username, bio, docId) {
+	await firebase.firestore().collection('users').doc(docId).update({
+		fullName,
+		username,
+		bio
+	});
+}
+
 /*
 	Clear a single notification by its document ID.
 	notificationDocId - The docId in question; this is called

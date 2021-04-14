@@ -21,8 +21,7 @@ const SignUp = lazy(() => import('./pages/signup'));
 const Profile = lazy(() => import('./pages/profile'));
 const NotFound = lazy(() => import('./pages/not-found'));
 const NewPost = lazy(() => import('./pages/newPost'));
-// const FooterNav = lazy(() => import('./components/FooterNav'));
-
+const Settings = lazy(() => import('./pages/settings'));
 function App() {
 	const { user } = useAuthListener();
 	//helloworld11
@@ -58,6 +57,15 @@ function App() {
 						</ProtectedRoute>
 						<ProtectedRoute user={user} path={ROUTES.NEW_POST} exact>
 							<NewPost />
+						</ProtectedRoute>
+						<ProtectedRoute user={user} path={ROUTES.PROFILE_SETTINGS} exact>
+							<Settings />
+						</ProtectedRoute>
+						<ProtectedRoute user={user} path={ROUTES.PASSWORD_SETTINGS} exact>
+							<Settings />
+						</ProtectedRoute>
+						<ProtectedRoute user={user} path={ROUTES.PRIVACY_SETTINGS} exact>
+							<Settings />
 						</ProtectedRoute>
 						{/* Last route is always served if nothing is found with no path prop*/}
 						<Route component={NotFound} />

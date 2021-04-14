@@ -87,7 +87,7 @@ export default function Header() {
 									</svg>
 								</Link> */}
 
-								<Link to={ROUTES.NOT_FOUND} arial-label='Settings'>
+								<Link to={ROUTES.PROFILE_SETTINGS} arial-label='Settings'>
 									<svg
 										xmlns='http://www.w3.org/2000/svg'
 										className='w-8 hidden sm:block mr-2 text-black-light cursor-pointer'
