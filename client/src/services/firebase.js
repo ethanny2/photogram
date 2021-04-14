@@ -2,6 +2,37 @@ import { firebase, FieldValue } from '../lib/firebase';
 import app from 'firebase/app';
 /* Function to reauth/login user to ensure their old password matches */
 
+// Also should delete their photos? Yeah so it doesn't show up on
+// the explore page
+export async function deleteAccount(currentPassword, userId) {
+	try {
+		await confirmCurrentPassword(currentPassword);
+		const deleteAllSnapshot = await firebase
+			.firestore()
+			.collection('photos')
+			.where('userId', '==', userId)
+			.get();
+
+		const userDeleteSnapshot = await firebase
+			.firestore()
+			.collection('users')
+			.where('userId', '==', userId)
+			.get();
+
+		// Queue up all the delete operations
+		const batch = firebase.firestore().batch();
+		deleteAllSnapshot.forEach((doc) => batch.delete(doc.ref));
+		userDeleteSnapshot.forEach((doc) => batch.delete(doc.ref));
+
+		// Execute the batch
+		await batch.commit();
+		const user = firebase.auth().currentUser;
+		await user.delete();
+	} catch (error) {
+		throw Error(error);
+	}
+}
+
 export async function confirmCurrentPassword(currentPassword) {
 	const user = firebase.auth().currentUser;
 	if (!user) return;

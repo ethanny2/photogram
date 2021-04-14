@@ -145,15 +145,13 @@ export default function Header({
 						<Skeleton width={677} height={24} count={1} />
 					)}
 				</div>
-				<div className='container flex mt-4'>
-					{bio ? (
+				{bio ? (
+					<div className='container flex mt-4'>
 						<p className='mr-10'>
 							<span className='font-medium'>{bio} </span>
 						</p>
-					) : (
-						<Skeleton width={677} height={24} count={1} />
-					)}
-				</div>
+					</div>
+				) : null}
 			</div>
 		</header>
 	);

@@ -1,11 +1,10 @@
 // import LoggedInUserContext from '../../context/logged-in-user';
-import { useEffect, useContext, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import LoggedInUserContext from '../../context/logged-in-user';
 import Skeleton from 'react-loading-skeleton';
 import { changePassword } from '../../services/firebase';
+
 export default function PasswordEdit() {
-	let { path, url } = useRouteMatch();
 	const { user } = useContext(LoggedInUserContext);
 	const [oldPass, setOldPass] = useState('');
 	const [newPass, setNewPass] = useState('');

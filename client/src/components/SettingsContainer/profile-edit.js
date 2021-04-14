@@ -1,6 +1,5 @@
 // import LoggedInUserContext from '../../context/logged-in-user';
 import { useEffect, useContext, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
 import LoggedInUserContext from '../../context/logged-in-user';
 import Skeleton from 'react-loading-skeleton';
 import {
@@ -9,7 +8,6 @@ import {
 } from '../../services/firebase';
 
 export default function ProfileEdit() {
-	let { path, url } = useRouteMatch();
 	const { user } = useContext(LoggedInUserContext);
 	const [name, setName] = useState('');
 	const [username, setUsername] = useState('');
