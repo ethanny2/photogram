@@ -14,7 +14,7 @@ export default function NotFound() {
 
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>
-			<section className='bg-gray-background'>
+			<section className='bg-gray-50 pb-2 h-screen'>
 				<Header></Header>
 				<div className='mx-auto max-w-screen-lg'>
 					<p className='text-2xl text-center font-bold mb-5'>

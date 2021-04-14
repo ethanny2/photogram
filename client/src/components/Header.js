@@ -140,7 +140,7 @@ export default function Header() {
 									{user?.username ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
-												className='ml-2 xs2:w-10 xs2:h-9 w-11 h-10 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
+												className='ml-2 xs2:w-10 xs2:h-10 w-12 h-9 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
 												src={user.profilePic}
 												alt={`${user.username} profile`}
 											/>

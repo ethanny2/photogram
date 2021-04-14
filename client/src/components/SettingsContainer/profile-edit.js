@@ -110,17 +110,17 @@ export default function ProfileEdit() {
 					onSubmit={handleSubmit}
 					autoComplete='off'
 					method='post'
-					className=' h-full w-10/12 py-2 flex flex-col justify-between items-center h-20'
+					className=' h-full w-10/12 py-3 flex flex-col justify-evenly items-center h-20'
 				>
-					<div className='mb-5 w-full flex flex-row justify-start items-center'>
+					<div className='mb-5 w-full flex flex-row justify-start xs2:justify-center items-center'>
 						<img
-							className='mx-5 xs2:w-10 xs2:h-9 w-10 h-10 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
+							className='mx-5 xs2:w-10 xs2:h-9 w-10 h-10 md:w-20  md:h-20  rounded-full flex'
 							src={publicFileUrl ? publicFileUrl : user.profilePic}
 							alt={`${user.username} profile`}
 						/>
 
 						<div className='flex flex-col  text-left'>
-							<p className='text-md font-bold'> {user.username}</p>
+							<p className='text-md font-bold sm:text-xl'> {user.username}</p>
 							<label
 								tabIndex='0'
 								role='button'
@@ -225,7 +225,7 @@ export default function ProfileEdit() {
 						</label>
 						<input
 							disabled
-							className='cursor-not-allowed	rounded w-full focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50  border-gray-primary border '
+							className=' bg-gray-300 cursor-not-allowed	rounded w-full focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50  border-gray-primary border '
 							type='text'
 							name='email'
 							id='email'

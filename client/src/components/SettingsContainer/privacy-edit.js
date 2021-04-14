@@ -13,8 +13,8 @@ export default function PrivacyEdit() {
 	const history = useHistory();
 	async function handleSubmit(e) {
 		e.preventDefault();
-		if (!password) {
-			setMessage('Please enter your password');
+		if (password.length < 6) {
+			setMessage('Please enter your password.');
 			return;
 		}
 		try {
@@ -32,7 +32,7 @@ export default function PrivacyEdit() {
 					onSubmit={handleSubmit}
 					autoComplete='off'
 					method='post'
-					className=' h-full w-10/12 py-2 flex flex-col justify-between items-center h-20'
+					className=' h-full w-10/12 py-2 flex flex-col justify-evenly items-center h-20'
 				>
 					<div className='mb-5 w-full flex flex-col justify-start items-center'>
 						<p className='text-xl font-bold w-full mb-5'>Account Security</p>

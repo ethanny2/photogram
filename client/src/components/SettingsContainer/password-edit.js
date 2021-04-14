@@ -17,6 +17,11 @@ export default function PasswordEdit() {
 			setMessage('Please ensure password fields match');
 			return;
 		}
+		// Min length for passwords is 6
+		if (newPass.length < 6) {
+			setMessage('Please fill in password fields.');
+			return;
+		}
 		try {
 			await changePassword(oldPass, newPass);
 			setMessage('Successfully changed password');
@@ -32,16 +37,16 @@ export default function PasswordEdit() {
 					onSubmit={handleSubmit}
 					autoComplete='off'
 					method='post'
-					className=' h-full w-10/12 py-2 flex flex-col justify-between items-center h-20'
+					className=' h-full w-10/12 py-2 flex flex-col justify-evenly items-center h-20'
 				>
-					<div className='mb-5 w-full flex flex-row justify-start items-center'>
+					<div className='mb-5 w-full flex flex-row justify-start items-center xs2:justify-center'>
 						<img
-							className='mx-5 xs2:w-10 xs2:h-9 w-10 h-10 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
+							className='mx-5 xs2:w-10 xs2:h-9 w-10 h-10 md:w-20  md:h-20  rounded-full flex'
 							src={user.profilePic}
 							alt={`${user.username} profile`}
 						/>
 						<div className='flex flex-col  text-left'>
-							<p className='text-md font-bold'> {user.username}</p>
+							<p className='text-md font-bold sm:text-xl'> {user.username}</p>
 						</div>
 					</div>
 					<div className=' mb-5 w-full flex flex-col justify-start items-center '>

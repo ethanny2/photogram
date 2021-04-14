@@ -19,7 +19,7 @@ export default function DashBoard({ user: loggedInUser }) {
 	}, []);
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>
-			<section className='bg-gray-background'>
+			<section className='bg-gray-50'>
 				<Header />
 				<div className='grid grid-cols-3 gap-4 justify-between mx-auto max-w-screen-lg px-4 lg:px-0'>
 					<Timeline />

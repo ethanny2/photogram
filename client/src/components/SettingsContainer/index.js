@@ -1,9 +1,6 @@
-import Header from '../Header';
-import PropTypes from 'prop-types';
 import LoggedInUserContext from '../../context/logged-in-user';
-import FooterNav from '../FooterNav';
-import { useEffect, useContext, lazy } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { useContext, lazy } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import Sidebar from './sidebar';
 import * as ROUTES from '../../constants/routes';
 const ProfileEdit = lazy(() => import('./profile-edit'));
@@ -34,7 +31,7 @@ export default function SettingsContainer() {
 	}
 
 	return (
-		<div className='  mb-20 w-11/12 max-w-screen-md rounded grid grid-cols-5 gap-0 mx-4 container mx-auto h-full bg-white border border-gray-primary'>
+		<div className=' min-h-screen	 sm:mb-5 mb-16 w-11/12 max-w-screen-md rounded grid grid-cols-5 gap-0 mx-4 container mx-auto h-full bg-white border border-gray-primary'>
 			<Sidebar />
 			<div className='col-span-4 flex flex-col justify-start items-center'>
 				{selectedComponent}

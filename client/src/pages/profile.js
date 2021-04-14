@@ -51,10 +51,11 @@ export default function Profile({ location: state = null }) {
 	}, [username, history]);
 
 	console.log({ user });
+	// background-color: rgba(var(,250,250,250),1);
 
 	return user?.username ? (
 		<LoggedInUserContext.Provider value={{ user: loggedInUserFullProfile }}>
-			<main className='bg-gray w-full h-full mb-20 sm:mb-4'>
+			<main className='bg-gray-50 pb-2 w-full h-full sm:mb-4'>
 				<Header></Header>
 				<section className='mx-auto max-w-screen-lg  h-full'>
 					<UserProfile user={user} linkedPostData={linkedPostData} />

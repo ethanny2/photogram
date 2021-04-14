@@ -88,14 +88,14 @@ export default function NewPost({ user: loggedInUser }) {
 
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>
-			<section className='h-full mb-12 sm:mb-3'>
+			<section className='h-full pb-2 mb-10 sm:mb-0 bg-gray-50'>
 				<Header />
-				<article className='py-3 mx-auto flex flex-col justify-between items-center max-w-sm h-full'>
+				<article className='py-1 mx-auto flex flex-col justify-between items-center max-w-sm h-full'>
 					{user?.username ? (
 						<>
 							<Link to={`/p/${user?.username}`}>
 								<img
-									className='w-18 h-14  lg:w-20 rounded-full lg:h-20 flex'
+									className='w-24 h-24  lg:w-20 rounded-full lg:h-20 flex'
 									src={user.profilePic}
 									alt={`${user.username} profile`}
 								/>
@@ -108,7 +108,7 @@ export default function NewPost({ user: loggedInUser }) {
 								onSubmit={handleSubmit}
 							>
 								<textarea
-									className='border border-gray-primary mt-5 mb-2 p-1 w-9/12 '
+									className='border border-gray-primary mt-5 mb-4 sm:mb-10 p-1 w-9/12 '
 									placeholder="What's happening?"
 									name='post-text'
 									id='post-text'
@@ -188,7 +188,9 @@ export default function NewPost({ user: loggedInUser }) {
 
 									<button
 										type='submit'
-										className='flex flex-row justify-between items-center border flex border-gray-primary w-10/12 p-2 bg-blue-500 font-bold text-sm rounded text-white h-9'
+										disabled={imageLoading}
+										className={`flex flex-row justify-between items-center border flex border-gray-primary w-10/12 p-2 bg-blue-500 font-bold text-sm rounded text-white h-9 
+										${imageLoading ? 'opacity-6 cursor-not-allowed' : ''}`}
 									>
 										Post
 									</button>
