@@ -22,6 +22,8 @@ const Profile = lazy(() => import('./pages/profile'));
 const NotFound = lazy(() => import('./pages/not-found'));
 const NewPost = lazy(() => import('./pages/newPost'));
 const Settings = lazy(() => import('./pages/settings'));
+const Explore = lazy(() => import('./pages/explore'));
+
 function App() {
 	const { user } = useAuthListener();
 	//helloworld11
@@ -66,6 +68,9 @@ function App() {
 						</ProtectedRoute>
 						<ProtectedRoute user={user} path={ROUTES.PRIVACY_SETTINGS} exact>
 							<Settings />
+						</ProtectedRoute>
+						<ProtectedRoute user={user} path={ROUTES.EXPLORE} exact>
+							<Explore />
 						</ProtectedRoute>
 						{/* Last route is always served if nothing is found with no path prop*/}
 						<Route component={NotFound} />

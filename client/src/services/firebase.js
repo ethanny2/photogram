@@ -400,6 +400,70 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 	return photosWithUserDetails;
 }
 
+/* 
+	For the explore page; not really random just gets the X
+	most recent photos and then  will jumble the order
+	of the returned array. Need local state on the explore page
+	holding all the docId of the photos already rendered, I can then
+	pass that array in here to ensure there are no repeating photos
+	when this function is called again with infinite scroll.
+
+	photoDocIdArr - Array of all current explore photos so none repeat
+	limit  - How many photos are brought in on each pull
+	userId - The currently logged in users Id
+
+*/
+export async function getRecentRandomPhotos(
+	photoDocIdArr = [], //Doesn't run if array is empty
+	limit = 20,
+	userId
+) {
+	let response;
+	if (photoDocIdArr.length > 0) {
+		response = await firebase
+			.firestore()
+			.collection('photos')
+			// .orderBy('userId')
+			// .orderBy('dateCreated', 'desc')
+			.limit(limit)
+			.where(app.firestore.FieldPath.documentId(), 'not-in', photoDocIdArr)
+			.get();
+	} else {
+		// Initial no values in array
+		response = await firebase
+			.firestore()
+			.collection('photos')
+			.orderBy('dateCreated', 'desc')
+			.limit(limit)
+			.get();
+	}
+	const { docs } = response;
+	const photos = docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
+	const photosWithUserDetails = await Promise.all(
+		photos.map(async (photo) => {
+			//Check if the photo was liked by the currently logged in user
+			let userLikedPhoto = photo.likes.includes(userId);
+			//Returns an array
+			const user = await getUserByUserId(photo.userId);
+			const username = user[0].username;
+			return {
+				username,
+				...photo,
+				userLikedPhoto,
+				profilePic: user[0].profilePic
+			};
+		})
+	);
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+	shuffleArray(photosWithUserDetails);
+	return photosWithUserDetails;
+}
+
 export async function getSuggestedProfiles(userId, following) {
 	const result = await firebase.firestore().collection('users').limit(10).get();
 	// const [{ following }] = await getUserByUserId(userId);

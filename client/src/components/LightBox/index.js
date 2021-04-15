@@ -20,7 +20,7 @@ export default function Lightbox() {
 	return createPortal(
 		<OutsideModalWrapper onDismiss={onDismiss}>
 			<article
-				className={`block center-fixed w-11/12 lg:w-6/12 z-10
+				className={`block center-fixed w-11/12 lg:w-8/12 z-20
       md:px-0 shadow-md overflow-hidden
       fixed inset-0 top-2/4 left-2/4 flex-col flex 	rounded md:flex-row  border bg-white 
 			mb-16 lg:h-5/6 h-5/6 `}

@@ -27,9 +27,9 @@ const config = {
 var firebase = firebaseApp.initializeApp(config);
 // Helps us do array operations on our documents easier
 //https://firebase.google.com/docs/reference/js/firebase.firestore.FieldValue
-const { FieldValue } = firebaseApp.firestore;
+const { FieldValue, FieldPath } = firebaseApp.firestore;
 
 
 // seedDatabase(firebase);
 
-export { firebase, FieldValue };
+export { firebase, FieldValue, FieldPath };

@@ -39,8 +39,8 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 			{visible ? <LightBox /> : null}
 			<figure
 				ref={
-					photo.docId === linkedPostData.linkedPhotoId
-						? linkedPostData.setRef
+					photo.docId === linkedPostData?.linkedPhotoId
+						? linkedPostData?.setRef
 						: null
 				}
 				key={photo.docId}
@@ -54,7 +54,7 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 			>
 				<img src={photo?.imageSrc} alt={photo?.caption} />
 				{/* This is leaking out on smaller devices widths */}
-				<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-gray-200 bg-black-faded group-hover:flex'>
+				<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full  bg-black bg-opacity-50 group-hover:flex'>
 					<p className='flex items-center text-white font-bold'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'

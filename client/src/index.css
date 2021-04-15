@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 @layer utilities {
-  .center-fixed{
-    transform:translate(-50%, -50%);
-  }
-  .lightbox-open{
-      /* overflow-y: hidden; */
-      filter:blur(2px);
-      position: fixed;
-      width:100vw;
-      /* overflow:hidden; */
-  }
-  .comment-grow{
-    flex-grow:5;
-  }
+	.center-fixed {
+		transform: translate(-50%, -50%);
+	}
+	.lightbox-open {
+		/* overflow-y: hidden; */
+		filter: blur(2px);
+		position: fixed;
+		width: 100vw;
+		/* overflow:hidden; */
+		pointer-events: none;
+	}
+	.comment-grow {
+		flex-grow: 5;
+	}
 }
