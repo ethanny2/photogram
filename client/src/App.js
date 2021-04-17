@@ -7,6 +7,7 @@ import * as ROUTES from './constants/routes';
 import './index.css';
 import UserContext from './context/user';
 import useAuthListener from './hooks/useAuthListener';
+import Header from './components/Header';
 /* Returns component of dynamically imported file. Loads only when
 it is needed/ rendered to the screen. It will not load
 it that component is a different page (e.g. not being rendered)
@@ -31,7 +32,7 @@ function App() {
 	return (
 		<UserContext.Provider value={{ user }}>
 			<Router>
-				<Suspense fallback={<p>Loading....</p>}>
+				<Suspense fallback={<Header />}>
 					<Switch>
 						{/* <IsUserLoggedIn
 							user={user}

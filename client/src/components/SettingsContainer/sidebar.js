@@ -5,8 +5,8 @@ export default function Sidebar() {
 	let { path, url } = useRouteMatch();
 	console.log(url === ROUTES.PASSWORD_SETTINGS);
 	return (
-		<nav className='h-full border-r-2 border-gray-primary col-span-1 flex'>
-			<ul className=' w-full h-full flex flex-col justify-around items-center'>
+		<nav className='h-full min-h-screen border-r-2 border-gray-primary col-span-1 flex'>
+			<ul className=' w-full h-full min-h-screen flex flex-col justify-around items-center'>
 				<li>
 					<Link className='w-full' to={ROUTES.PROFILE_SETTINGS}>
 						<p

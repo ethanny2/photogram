@@ -14,8 +14,11 @@ export default function Comments({ commentInput }) {
 				{comments?.length >= 3 && (
 					// On click show lightbox
 					<p
-						onClick={() => {
+						onClick={(e) => {
+							// Or else the click will count as a click outside the
+							// lightbox and instantly close it.
 							console.log('Clicked view all comments');
+							e.stopPropagation();
 							// Have to pass local state for comments in here + setter
 							// in order to have the change reflected on the lightbox itself
 							// and on the actual post
@@ -43,9 +46,7 @@ export default function Comments({ commentInput }) {
 					{posted && formatDistance(posted, new Date())} ago
 				</p>
 			</div>
-			<AddComment
-				commentInput={commentInput}
-			></AddComment>
+			<AddComment commentInput={commentInput}></AddComment>
 		</>
 	);
 }

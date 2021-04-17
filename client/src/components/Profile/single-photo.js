@@ -5,6 +5,7 @@ import LightBox from '../LightBox';
 import { useEffect } from 'react';
 
 export default function SinglePhoto({ photo, linkedPostData }) {
+	// Is having multiple listeners for this too much??
 	const {
 		visible,
 		comments,
@@ -22,7 +23,7 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 		dispatch({ totalLikes: photo.likes.length, userLiked: photo.userLiked });
 	}, [photo, dispatch]);
 
-	console.log('In single photo', { linkedPostData });
+	// console.log('In single photo', { linkedPostData });
 	return (
 		<LightBoxContext.Provider
 			value={{
@@ -46,11 +47,15 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 				key={photo.docId}
 				id={photo.docId}
 				className='relative group col-span-1'
-				onClick={() =>
+				onClick={(e) => {
+					// Or else the click will count as a click outside the
+					// lightbox and instantly close it.
+					e.stopPropagation();
+					console.log('Calling on click for a single photo');
 					dispatch({
 						visible: true
-					})
-				}
+					});
+				}}
 			>
 				<img src={photo?.imageSrc} alt={photo?.caption} />
 				{/* This is leaking out on smaller devices widths */}

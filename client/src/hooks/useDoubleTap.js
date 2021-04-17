@@ -1,30 +1,57 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
-export default function useDoubleTap(elementRef, onDoubleClick) {
+export default function useDoubleTap(callback) {
+	/* Callback ref pattern; give to consumer of hook so they can set the
+	ref  */
+	const [elem, setElem] = useState(null);
+	const callbackRef = useCallback((node) => {
+		setElem(node);
+		callbackRef.current = node;
+	}, []);
+	const countRef = useRef(0);
+	const timerRef = useRef(null);
+	const inputCallbackRef = useRef(null);
 	useEffect(() => {
-		function detectDoubleTapClosure() {
-			let lastTap = 0;
-			let timeout;
-			return function detectDoubleTap(event) {
-				const curTime = new Date().getTime();
-				const tapLen = curTime - lastTap;
-				if (tapLen < 500 && tapLen > 0) {
-					console.log('Double tapped!');
-					onDoubleClick();
-					event.preventDefault();
-				} else {
-					timeout = setTimeout(() => {
-						clearTimeout(timeout);
-					}, 500);
-				}
-				lastTap = curTime;
-			};
-		}
-		// To be able to clean up without losing reference
-		const ref = elementRef.current;
-		ref.addEventListener('click', detectDoubleTapClosure());
-		return () => ref.removeEventListener('click', detectDoubleTapClosure());
-	}, [elementRef, onDoubleClick]);
+		inputCallbackRef.current = callback;
+	});
 
-	// return [];
+	useEffect(() => {
+		function handler() {
+			const isDoubleClick = countRef.current + 1 === 2;
+			const timerIsPresent = timerRef.current;
+			if (timerIsPresent && isDoubleClick) {
+				// Double tap happened reset timer and click count
+				clearTimeout(timerRef.current);
+				timerRef.current = null;
+				countRef.current = 0;
+				if (inputCallbackRef.current) {
+					console.log('Double tap occured calling passed in callback');
+					inputCallbackRef.current();
+				}
+			}
+			if (!timerIsPresent) {
+				// Just starting a new cycle of detecting double tap
+				countRef.current = countRef.current + 1;
+				// If another click is not detected in 350ms it will
+				// reset the timer and click count.
+				const timer = setTimeout(() => {
+					clearTimeout(timerRef.current);
+					timerRef.current = null;
+					countRef.current = 0;
+				}, 350);
+				timerRef.current = timer;
+			}
+		}
+
+		if (elem) {
+			elem.addEventListener('click', handler);
+		}
+		return () => {
+			if (elem) {
+				elem.removeEventListener('click', handler);
+			}
+		};
+	}, [elem]);
+
+	return [callbackRef, elem];
 }

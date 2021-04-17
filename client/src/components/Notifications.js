@@ -14,12 +14,12 @@ export default function Notifications() {
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const [visible, setVisible] = useState(false);
-	console.log('user inside the notifications component', { user });
+	// console.log('user inside the notifications component', { user });
 	const { notifications } = useNotifications();
 	const notificationRef = useRef(null);
 	const dismissFunction = () => setVisible(false);
 	useOutsideClick(notificationRef, dismissFunction);
-	console.log({ notifications });
+	// console.log({ notifications });
 	// Deleting from the collection should actually
 	// delete the local component state as well because the most recent
 	// value is given through our hook / firebase snapshot

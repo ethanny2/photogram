@@ -415,7 +415,7 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 */
 export async function getRecentRandomPhotos(
 	photoDocIdArr = [], //Doesn't run if array is empty
-	limit = 20,
+	limit = 2,
 	userId
 ) {
 	let response;

@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import SinglePhoto from './single-photo';
 
 export default function Photos({ photos = null, linkedPostData = null }) {
-	console.log('Photos in profile page', { photos });
+	// console.log('Photos in profile page', { photos });
 	return (
-		<div className='border-t border-gray mt-12 px-4 lg:px-0'>
-			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 mb-12 lg'>
+		<div
+			className='border-t border-gray mt-12 px-4 lg:px-0'
+		>
+			<div
+				className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 mb-12 lg'
+			>
 				{!photos ? (
 					[...new Array(9)].map((_, index) => (
 						<Skeleton key={index} count={1} height={400} />

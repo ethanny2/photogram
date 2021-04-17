@@ -118,7 +118,7 @@ export default function Header({
 				</div>
 				<div className='container flex mt-4 flex-col lg:flex-row'>
 					{followers === undefined || following === undefined ? (
-						<Skeleton height={24} count={1} />
+						<Skeleton height={100} width={200} count={1} />
 					) : (
 						<>
 							<p className='mr-10'>
@@ -142,7 +142,7 @@ export default function Header({
 							<span className='font-medium'>{fullName} </span>
 						</p>
 					) : (
-						<Skeleton width={677} height={24} count={1} />
+						<Skeleton height={24} count={1} />
 					)}
 				</div>
 				{bio ? (

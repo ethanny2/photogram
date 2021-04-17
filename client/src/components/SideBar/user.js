@@ -3,7 +3,7 @@ import Skeleton from 'react-loading-skeleton';
 import { memo } from 'react';
 import PropTypes from 'prop-types';
 
-const User = ({ username, fullName, profilePic }) => {
+const User = ({ username = null, fullName = null, profilePic = null }) => {
 	return (
 		<div className='p-4'>
 			{!username || !fullName ? (

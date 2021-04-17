@@ -6,7 +6,14 @@ import LoggedInUserContext from '../../context/logged-in-user';
 export default function Sidebar() {
 	/* Gets the user data from fireStore; different obj from useAuthListener user obj*/
 	const {
-		user: { docId = '', fullName, username, userId, following, profilePic } = {}
+		user: {
+			docId = '',
+			fullName = '',
+			username = '',
+			userId,
+			following,
+			profilePic = ''
+		}
 	} = useContext(LoggedInUserContext);
 	console.log({ userId });
 	return (

@@ -13,7 +13,7 @@ export default function Header() {
 	const { user: loggedInUser } = useContext(UserContext);
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
-	// const user = {}
+
 	return (
 		<header className='z-40 sticky top-0 left-0  w-full h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
@@ -28,14 +28,14 @@ export default function Header() {
 							</Link>
 						</h1>
 					</li>
-					{user?.username ? (
+					{loggedInUser?.email ? (
 						<li className='text-gray-700 text-center flex items-center items-center'>
 							<SearchBar />
 						</li>
 					) : null}
 
 					<li className='text-gray-700 text-center flex items-center items-center justify-self-end cursor-pointer p-2'>
-						{user?.username ? (
+						{loggedInUser?.email ? (
 							<>
 								<Link to={ROUTES.DASHBOARD} arial-label='Home'>
 									<svg
@@ -137,7 +137,7 @@ export default function Header() {
 									</svg>
 								</button>
 								<div className='flex items-center cursor-pointer lg:mx-2'>
-									{user?.username ? (
+									{user?.profilePic ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
 												className='ml-2 xs2:w-10 xs2:h-10 w-12 h-9 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
@@ -145,7 +145,8 @@ export default function Header() {
 												alt={`${user.username} profile`}
 											/>
 										</Link>
-									) : null}
+									) : <p>Loading...</p>}
+
 								</div>
 							</>
 						) : (
