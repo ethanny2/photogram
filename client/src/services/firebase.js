@@ -69,7 +69,6 @@ export async function updateProfileByDocId(
 	profilePic,
 	fullName,
 	newUsername,
-	oldUsername,
 	bio,
 	docId
 ) {
@@ -93,6 +92,13 @@ export async function updateProfileByDocId(
 	// also update every notification sent by this user to the new
 	// username, change the content link (if it there is not photoId)
 	// change the sender profile pic .
+
+	// Also update the photo on the Auth account
+
+	await firebase.auth().currentUser.updateProfile({
+		photoURL: profilePic,
+		displayName: newUsername
+	});
 
 	await firebase.firestore().collection('users').doc(docId).update({
 		profilePic,

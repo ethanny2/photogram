@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import { useState, useEffect, useCallback } from 'react';
 import { userSearch } from '../services/firebase';
 import { Link } from 'react-router-dom';
-// Make entire thing clickable 
+// Make entire thing clickable
 
 export default function SearchBar() {
 	const [searchText, setSearchText] = useState('');
@@ -72,28 +72,28 @@ export default function SearchBar() {
 					) : (
 						results.map((user, idx) => {
 							return (
-								<li
-									key={user.userId}
-									className={`ml-3 flex flex-row justify-start items-center ${
-										results.length === idx + 1 ? '' : 'mb-5'
-									}`}
-								>
-									<div className='mr-3 ' style={{ minWidth: '2rem' }}>
-										<Link to={`/p/${user?.username}`}>
+								<Link to={`/p/${user?.username}`}>
+									<li
+										key={user.userId}
+										className={`ml-3 flex flex-row justify-start items-center ${
+											results.length === idx + 1 ? '' : 'mb-5'
+										}`}
+									>
+										<div className='mr-3 ' style={{ minWidth: '2rem' }}>
 											<img
 												className=' w-8 h-8 sm:w-8 sm:h-8 md:w-8 lg:w-12 rounded-full md:h-8 lg:h-12 flex'
 												src={user.profilePic}
 												alt={`${user.username} profile`}
 											/>
-										</Link>
-									</div>
-									<div className='flex flex-col text-left'>
-										<p className='text-lg font-semibold'>{user.username}</p>
-										<span className='text-sm text-gray-300'>
-											{user.fullName}
-										</span>
-									</div>
-								</li>
+										</div>
+										<div className='flex flex-col text-left'>
+											<p className='text-lg font-semibold'>{user.username}</p>
+											<span className='text-sm text-gray-300'>
+												{user.fullName}
+											</span>
+										</div>
+									</li>
+								</Link>
 							);
 						})
 					)}

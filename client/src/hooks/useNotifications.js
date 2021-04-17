@@ -24,24 +24,24 @@ const useNotifications = () => {
 		let isUnmounted = false;
 
 		if (user?.userId) {
-			if (!isUnmounted) {
-				unsubscribe = firebase
-					.firestore()
-					.collection('notifications')
-					.where('receiverId', '==', user.userId)
-					.orderBy('dateCreated', 'desc')
-					.limit(20)
-					.onSnapshot((snapshotQuery) => {
-						let notifsArr = [];
-						snapshotQuery.docs.forEach((item) => {
-							notifsArr.push({
-								...item.data(),
-								docId: item.id
-							});
+			console.log('SETTING UP FIREBASE NOTIFICATION SNAPSHOT LISTENER');
+			unsubscribe = firebase
+				.firestore()
+				.collection('notifications')
+				.where('receiverId', '==', user.userId)
+				.orderBy('dateCreated', 'desc')
+				.limit(20)
+				.onSnapshot((snapshotQuery) => {
+					let notifsArr = [];
+					snapshotQuery.docs.forEach((item) => {
+						notifsArr.push({
+							...item.data(),
+							docId: item.id
 						});
-						setNotifications(notifsArr);
 					});
-			}
+					console.log({ isUnmounted });
+					if (!isUnmounted) setNotifications(notifsArr);
+				});
 		}
 		return () => {
 			isUnmounted = true;

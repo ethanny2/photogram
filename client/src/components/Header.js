@@ -10,10 +10,8 @@ import Notifications from '../components/Notifications';
 
 export default function Header() {
 	const { firebase } = useContext(FirebaseContext);
-	const { user: loggedInUser } = useContext(UserContext);
-	const { user } = useUser(loggedInUser?.uid);
+	const { user } = useContext(UserContext);
 	const history = useHistory();
-
 	return (
 		<header className='z-40 sticky top-0 left-0  w-full h-16 bg-white border-b border-gray-primary mb-8 px-2 lg:px-0'>
 			<nav className='container mx-auto max-width-lg h-full' role='navigation'>
@@ -28,14 +26,15 @@ export default function Header() {
 							</Link>
 						</h1>
 					</li>
-					{loggedInUser?.email ? (
+					<li className='text-gray-700 text-center flex items-center items-center'></li>
+					{user?.email ? (
 						<li className='text-gray-700 text-center flex items-center items-center'>
 							<SearchBar />
 						</li>
 					) : null}
 
 					<li className='text-gray-700 text-center flex items-center items-center justify-self-end cursor-pointer p-2'>
-						{loggedInUser?.email ? (
+						{user?.email ? (
 							<>
 								<Link to={ROUTES.DASHBOARD} arial-label='Home'>
 									<svg
@@ -137,16 +136,17 @@ export default function Header() {
 									</svg>
 								</button>
 								<div className='flex items-center cursor-pointer lg:mx-2'>
-									{user?.profilePic ? (
+									{user?.photoURL ? (
 										<Link to={`/p/${user?.username}`}>
 											<img
 												className='ml-2 xs2:w-10 xs2:h-10 w-12 h-9 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
-												src={user.profilePic}
-												alt={`${user.username} profile`}
+												src={user.photoURL}
+												alt={`${user.displayName} profile`}
 											/>
 										</Link>
-									) : <p>Loading...</p>}
-
+									) : (
+										<p>Loading...</p>
+									)}
 								</div>
 							</>
 						) : (

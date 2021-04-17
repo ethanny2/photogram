@@ -8,7 +8,6 @@ import LightBoxContext from '../../context/lightbox';
 export default function Comments({ commentInput }) {
 	const { content, comments, dispatch } = useContext(LightBoxContext);
 	const posted = content.dateCreated;
-	console.log('In post on timeline', { comments });
 	return (
 		<>
 			<div className='p-4 pt-1 pb-4'>

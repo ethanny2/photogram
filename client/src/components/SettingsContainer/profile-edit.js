@@ -84,7 +84,6 @@ export default function ProfileEdit() {
 					publicFileUrl,
 					name,
 					username,
-					user.username,
 					bio,
 					user.docId
 			  )
@@ -92,7 +91,6 @@ export default function ProfileEdit() {
 					user.profilePic,
 					name,
 					username,
-					user.username,
 					bio,
 					user.docId
 			  );

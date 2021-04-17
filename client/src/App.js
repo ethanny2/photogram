@@ -32,28 +32,12 @@ function App() {
 	return (
 		<UserContext.Provider value={{ user }}>
 			<Router>
+				{/* Pass a prop to header to indicate to Notifications Component to
+				not trigger the useNotifitions hook and prevent memory leak? */}
 				<Suspense fallback={<Header />}>
 					<Switch>
-						{/* <IsUserLoggedIn
-							user={user}
-							loggedInPath={ROUTES.DASHBOARD}
-							path={ROUTES.LOGIN}
-						>
-							<Login />
-
-						</IsUserLoggedIn> */}
 						<Route path={ROUTES.LOGIN} component={Login} />
 						<Route path={ROUTES.SIGN_UP} component={SignUp} />
-
-						{/* <IsUserLoggedIn
-							user={user}
-							loggedInPath={ROUTES.DASHBOARD}
-							path={ROUTES.SIGN_UP}
-						>
-							<SignUp />
-
-						</IsUserLoggedIn> */}
-
 						<Route path={ROUTES.PROFILE} component={Profile} />
 						<ProtectedRoute user={user} path={ROUTES.DASHBOARD} exact>
 							<Dashboard />
