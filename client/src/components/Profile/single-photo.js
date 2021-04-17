@@ -46,7 +46,7 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 				}
 				key={photo.docId}
 				id={photo.docId}
-				className='relative group col-span-1'
+				className='relative group col-span-1 h-80'
 				onClick={(e) => {
 					// Or else the click will count as a click outside the
 					// lightbox and instantly close it.
@@ -57,7 +57,11 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 					});
 				}}
 			>
-				<img src={photo?.imageSrc} alt={photo?.caption} />
+				<img
+					className='object-fill w-full block max-w-full	max-h-full h-full'
+					src={photo?.imageSrc}
+					alt={photo?.caption}
+				/>
 				{/* This is leaking out on smaller devices widths */}
 				<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full  bg-black bg-opacity-50 group-hover:flex'>
 					<p className='flex items-center text-white font-bold'>

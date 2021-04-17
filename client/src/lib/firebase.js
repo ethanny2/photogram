@@ -29,7 +29,6 @@ var firebase = firebaseApp.initializeApp(config);
 //https://firebase.google.com/docs/reference/js/firebase.firestore.FieldValue
 const { FieldValue, FieldPath } = firebaseApp.firestore;
 
-
 // seedDatabase(firebase);
 
 export { firebase, FieldValue, FieldPath };

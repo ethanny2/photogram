@@ -8,6 +8,7 @@ import LightBoxContext from '../../context/lightbox';
 export default function Comments({ commentInput }) {
 	const { content, comments, dispatch } = useContext(LightBoxContext);
 	const posted = content.dateCreated;
+	console.log('In post on timeline', { comments });
 	return (
 		<>
 			<div className='p-4 pt-1 pb-4'>
@@ -32,7 +33,7 @@ export default function Comments({ commentInput }) {
 					</p>
 				)}
 				{/* Get LAST 3 comments or 1 to get recent comments  */}
-				{comments?.slice(Math.max(comments.length - 3, 1)).map((item) => {
+				{comments?.slice(0, 3).map((item) => {
 					return (
 						<p key={`${item.comment}-${item.displayName}`} className='mb-1'>
 							<Link to={`/p/${item.displayName}`}>

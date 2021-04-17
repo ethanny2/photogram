@@ -2,6 +2,7 @@ import { debounce } from 'lodash';
 import { useState, useEffect, useCallback } from 'react';
 import { userSearch } from '../services/firebase';
 import { Link } from 'react-router-dom';
+// Make entire thing clickable 
 
 export default function SearchBar() {
 	const [searchText, setSearchText] = useState('');

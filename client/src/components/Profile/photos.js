@@ -6,10 +6,10 @@ export default function Photos({ photos = null, linkedPostData = null }) {
 	// console.log('Photos in profile page', { photos });
 	return (
 		<div
-			className='border-t border-gray mt-12 px-4 lg:px-0'
+			className='border-t border-gray mt-12 px-4 '
 		>
 			<div
-				className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 mb-12 lg'
+				className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 mb-12'
 			>
 				{!photos ? (
 					[...new Array(9)].map((_, index) => (

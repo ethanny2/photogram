@@ -18,26 +18,36 @@ const useNotifications = () => {
 	// console.log({ user });
 	useEffect(() => {
 		let unsubscribe;
+		// To prevent memory leaks trying to update state when this is unmounted
+		// MEMORY LEAK STILL HERE
+		// https://stackoverflow.com/questions/56442582/react-hooks-cant-perform-a-react-state-update-on-an-unmounted-component
+		let isUnmounted = false;
+
 		if (user?.userId) {
-			unsubscribe = firebase
-				.firestore()
-				.collection('notifications')
-				.where('receiverId', '==', user.userId)
-				.orderBy('dateCreated', 'desc')
-				.limit(20)
-				.onSnapshot((snapshotQuery) => {
-					let notifsArr = [];
-					snapshotQuery.docs.forEach((item) => {
-						notifsArr.push({
-							...item.data(),
-							docId: item.id
+			if (!isUnmounted) {
+				unsubscribe = firebase
+					.firestore()
+					.collection('notifications')
+					.where('receiverId', '==', user.userId)
+					.orderBy('dateCreated', 'desc')
+					.limit(20)
+					.onSnapshot((snapshotQuery) => {
+						let notifsArr = [];
+						snapshotQuery.docs.forEach((item) => {
+							notifsArr.push({
+								...item.data(),
+								docId: item.id
+							});
 						});
+						setNotifications(notifsArr);
 					});
-					setNotifications(notifsArr);
-				});
+			}
 		}
-		return () => unsubscribe && unsubscribe();
-	}, [user]);
+		return () => {
+			isUnmounted = true;
+			unsubscribe && unsubscribe();
+		};
+	}, [user, firebase]);
 	return { notifications };
 };
 
