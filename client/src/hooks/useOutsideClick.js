@@ -17,6 +17,7 @@ export default function useOutsideClick(ref, dismissFunction) {
 		// Bind the event listener
 		document.addEventListener('click', handleClickOutside);
 		return () => {
+			console.log('UNBINING EVENT ON OUTSIDE CLICK');
 			// Unbind the event listener on clean up
 			document.removeEventListener('click', handleClickOutside);
 		};

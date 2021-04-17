@@ -2,7 +2,6 @@ import useNotifications from '../hooks/useNotifications';
 import { useContext, useState, useRef } from 'react';
 import UserContext from '../context/user';
 import { Link } from 'react-router-dom';
-import useUser from '../hooks/useUser';
 import { formatDistance } from 'date-fns';
 import useOutsideClick from '../hooks/useOutsideClick';
 import {
@@ -11,15 +10,15 @@ import {
 } from '../services/firebase';
 
 export default function Notifications() {
-	const { user: loggedInUser } = useContext(UserContext);
-	const { user } = useUser(loggedInUser?.uid);
+	const { user } = useContext(UserContext);
+	// uid from auth account is the same value as the user documents userId
+	const userId = user?.uid;
 	const [visible, setVisible] = useState(false);
-	// console.log('user inside the notifications component', { user });
 	const { notifications } = useNotifications();
 	const notificationRef = useRef(null);
 	const dismissFunction = () => setVisible(false);
 	useOutsideClick(notificationRef, dismissFunction);
-	// console.log({ notifications });
+
 	// Deleting from the collection should actually
 	// delete the local component state as well because the most recent
 	// value is given through our hook / firebase snapshot
@@ -36,7 +35,6 @@ export default function Notifications() {
 			className='relative'
 			onClick={() => setVisible((prevState) => !prevState)}
 		>
-			{/* Only show blue dot if you have notifications */}
 			{notifications?.length ? (
 				<div className='fixed rounded-full w-3 h-3 bg-blue-500'></div>
 			) : null}
@@ -63,7 +61,7 @@ export default function Notifications() {
 				>
 					<li
 						className={`py-1 flex flex-row justify-center text-center items-center mb-3 border-b border-gray-primary`}
-						onClick={() => clearAllNotifications(user.userId)}
+						onClick={() => clearAllNotifications(userId)}
 					>
 						<p className='w-full'> Clear all notifications</p>
 					</li>

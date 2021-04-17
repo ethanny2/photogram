@@ -4,7 +4,6 @@ import * as ROUTES from '../constants/routes';
 import FirebaseContext from '../context/firebase';
 import UserContext from '../context/user';
 import logo from '../images/logo.png';
-import useUser from '../hooks/useUser';
 import SearchBar from './SearchBar';
 import Notifications from '../components/Notifications';
 
