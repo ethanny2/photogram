@@ -420,30 +420,61 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 
 */
 export async function getRecentRandomPhotos(
-	photoDocIdArr = [], //Doesn't run if array is empty
+	lastVisiblePhotoDoc = null,
 	limit = 2,
 	userId
 ) {
-	let response;
-	if (photoDocIdArr.length > 0) {
-		response = await firebase
-			.firestore()
-			.collection('photos')
-			// .orderBy('userId')
-			// .orderBy('dateCreated', 'desc')
-			.limit(limit)
-			.where(app.firestore.FieldPath.documentId(), 'not-in', photoDocIdArr)
-			.get();
-	} else {
-		// Initial no values in array
-		response = await firebase
+	// Need to just use pagination and pass in length of previous array
+	// to move the cursor down the list of photo documents
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+	let photosCursorRef;
+	let newLastVisiblePhotoDoc;
+	// First iteration
+	if (!lastVisiblePhotoDoc) {
+		photosCursorRef = await firebase
 			.firestore()
 			.collection('photos')
 			.orderBy('dateCreated', 'desc')
 			.limit(limit)
 			.get();
+	} else {
+		photosCursorRef = await firebase
+			.firestore()
+			.collection('photos')
+			.orderBy('dateCreated', 'desc')
+			.startAfter(lastVisiblePhotoDoc)
+			.limit(limit)
+			.get();
 	}
-	const { docs } = response;
+
+	let { docs } = photosCursorRef;
+	newLastVisiblePhotoDoc = docs[docs.length - 1];
+	console.log({ docs });
+
+	// if (photoDocIdArr.length > 0) {
+	// 	response = await firebase
+	// 		.firestore()
+	// 		.collection('photos')
+	// 		.limit(limit)
+	// 		.where(app.firestore.FieldPath.documentId(), 'not-in', photoDocIdArr)
+	// 		.get();
+	// 	allDocs.push(...response.docs);
+	// } else {
+	// 	// Initial no values in array
+	// 	response = await firebase
+	// 		.firestore()
+	// 		.collection('photos')
+	// 		.orderBy('dateCreated', 'desc')
+	// 		.limit(limit)
+	// 		.get();
+	// 	allDocs.push(...response.docs);
+	// }
+
 	const photos = docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
 	const photosWithUserDetails = await Promise.all(
 		photos.map(async (photo) => {
@@ -460,14 +491,9 @@ export async function getRecentRandomPhotos(
 			};
 		})
 	);
-	function shuffleArray(array) {
-		for (let i = array.length - 1; i > 0; i--) {
-			const j = Math.floor(Math.random() * (i + 1));
-			[array[i], array[j]] = [array[j], array[i]];
-		}
-	}
+
 	shuffleArray(photosWithUserDetails);
-	return photosWithUserDetails;
+	return { photosWithUserDetails, newLastVisiblePhotoDoc };
 }
 
 export async function getSuggestedProfiles(userId, following) {

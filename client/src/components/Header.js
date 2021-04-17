@@ -136,7 +136,7 @@ export default function Header() {
 								</button>
 								<div className='flex items-center cursor-pointer lg:mx-2'>
 									{user?.photoURL ? (
-										<Link to={`/p/${user?.username}`}>
+										<Link to={`/p/${user?.displayName}`}>
 											<img
 												className='ml-2 xs2:w-10 xs2:h-10 w-12 h-9 md:w-10 lg:w-12 rounded-full md:h-10 lg:h-12 flex'
 												src={user.photoURL}

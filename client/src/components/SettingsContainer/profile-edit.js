@@ -68,16 +68,14 @@ export default function ProfileEdit() {
 		e.preventDefault();
 		// Take all the data and from inputs and submit it to
 		// update the user document in the collection expect email.
-		let usernameTaken;
 		// Only check if username exists if they changed it
 		if (user.username !== username) {
-			usernameTaken = await doesUsernameExist(username);
+			let usernameTaken = await doesUsernameExist(username);
 			if (usernameTaken.length) {
 				setMessage('That username is taken please try again.');
 				return;
 			}
 		}
-
 		// Need to check if they changed profile pic
 		publicFileUrl
 			? await updateProfileByDocId(

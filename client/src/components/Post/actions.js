@@ -90,8 +90,8 @@ export default function Actions({ handleFocus }) {
 					</svg>
 				</div>
 			</div>
-			<div className='p-4 py-2'>
-				<p className='font-bold'>
+			<div className='p-4 py-2 select-none'>
+				<p className='font-bold select-none'>
 					{totalLikes === 1 ? `${totalLikes} like` : `${totalLikes} likes`}
 				</p>
 			</div>

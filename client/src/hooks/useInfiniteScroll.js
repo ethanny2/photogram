@@ -1,20 +1,27 @@
 import { throttle } from 'lodash';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { getRecentRandomPhotos } from '../services/firebase';
 
 function useInfiniteScroll(userId) {
-	const [explorePhotos, setExplorePhotos] = useState([]);
+	const [explorePhotos, setExplorePhotos] = useState(null);
 	const [endOfExplore, setEndOfExplore] = useState(false);
 	const [pageBottom, setPageBottom] = useState(false);
-
-	console.log({ endOfExplore });
-	console.log({ explorePhotos });
+	// An object representing the raw doucument object from firebase
+	// to remember where the cursor was.
+	const [lastPhotoDocRef, setLastPhotoDocRef] = useState(null);
 
 	useEffect(() => {
 		getMorePhotos();
 	}, []);
 
 	function checkBottomReached() {
+		// 	If lightbox is open don't even check b/c the user
+		// cannot scroll
+		const isLightBoxOpen = document
+			.getElementById('root')
+			.classList.contains('lightbox-open');
+		console.log({ isLightBoxOpen });
+		if (isLightBoxOpen) return;
 		const scrollTop =
 			(document.documentElement && document.documentElement.scrollTop) ||
 			document.body.scrollTop;
@@ -29,14 +36,25 @@ function useInfiniteScroll(userId) {
 	async function getMorePhotos() {
 		//Should also scroll the user down to the position they were at
 		if (endOfExplore) return;
-		const ids = explorePhotos.map((photo) => photo.docId);
-		const response = await getRecentRandomPhotos(ids, 2, userId);
-		console.log({ response });
+		const {
+			photosWithUserDetails,
+			newLastVisiblePhotoDoc
+		} = await getRecentRandomPhotos(lastPhotoDocRef, 10, userId);
+		console.log({ photosWithUserDetails });
 		setPageBottom(false);
-		if (response.length <= 0) {
+		if (photosWithUserDetails.length <= 0) {
 			setEndOfExplore(true);
 		} else {
-			setExplorePhotos((prevState) => [...prevState, ...response]);
+			// For first iteration / pull
+			if (!explorePhotos) {
+				setExplorePhotos(photosWithUserDetails);
+			} else {
+				setExplorePhotos((prevState) => [
+					...prevState,
+					...photosWithUserDetails
+				]);
+			}
+			setLastPhotoDocRef(newLastVisiblePhotoDoc);
 		}
 	}
 
@@ -53,10 +71,8 @@ function useInfiniteScroll(userId) {
 		console.log({ scrollY });
 		let number = scrollY.slice(0, scrollY.length - 2);
 		console.log({ number });
-		window.scrollTo(0, parseInt(number || '0'));
+		window.scrollTo(0, parseInt(number - 50 || '0'));
 	}, [explorePhotos]);
-
-	// When the user first gets on the page
 
 	useEffect(() => {
 		const throttleScrollEvent = throttle(checkBottomReached, 600);
@@ -72,48 +88,7 @@ function useInfiniteScroll(userId) {
 		} //Add more photos
 	}, [pageBottom]);
 
-	// const fetchNewPhotos = useCallback(async function (photoIds, userId) {
-	// 	console.log('Inside useCallback version of fetchNewPhotos', {
-	// 		photoIds
-	// 	});
-	// 	const response = await getRecentRandomPhotos(photoIds, 2, userId);
-	// 	console.log({ response });
-	// 	if (response.length <= 0) {
-	// 		setEndOfExplore(true);
-	// 	} else {
-	// 		setExplorePhotos((prevState) => [...prevState, ...response]);
-	// 	}
-	// }, []);
-
-	// useEffect(() => {
-	// 	if (userId)
-	// 		fetchNewPhotos(
-	// 			explorePhotos.map((photo) => photo.docId),
-	// 			userId
-	// 		);
-	// }, [userId, fetchNewPhotos]);
-
-	// useEffect(() => {
-	// 	async function checkBottomReached() {
-	// 		console.log('Scolled!!!');
-	// 		if (
-	// 			window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-	// 			endOfExplore === false
-	// 		) {
-	// 			console.log("you're at the bottom of the page");
-	// 			const pagePhotoIds = explorePhotos.map((photo) => photo.docId);
-	// 			console.log({ pagePhotoIds });
-	// 			fetchNewPhotos(pagePhotoIds, userId);
-	// 		}
-	// 	}
-	// 	const throttleScrollEvent = throttle(checkBottomReached, 600);
-	// 	if (userId) {
-	// 		window.addEventListener('scroll', throttleScrollEvent);
-	// 	}
-	// 	return () => window.removeEventListener('scroll', throttleScrollEvent);
-	// }, [userId, fetchNewPhotos]);
-	return { explorePhotos };
-	//Return some local state
+	return { explorePhotos, pageBottom, endOfExplore };
 }
 
 export default useInfiniteScroll;

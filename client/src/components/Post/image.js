@@ -67,7 +67,7 @@ export default function Image({ src, caption }) {
 					/>
 				</svg>
 			</div>
-			<img className='w-full z-10' src={src} alt={caption} />
+			<img className='w-full z-10 select-none' src={src} alt={caption} />
 		</figure>
 	);
 }

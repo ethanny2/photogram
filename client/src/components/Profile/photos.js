@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SinglePhoto from './single-photo';
 
 export default function Photos({ photos = null, linkedPostData = null }) {
-	// console.log('Photos in profile page', { photos });
+	console.log('Photos in on explore page', { photos });
 	return (
 		<div
 			className='border-t border-gray mt-12 px-4 '

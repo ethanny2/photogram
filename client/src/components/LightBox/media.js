@@ -66,7 +66,7 @@ export default function Media({ src = '', caption }) {
 							/>
 						</svg>
 					</div>
-					<img className='w-full h-full object-fill' src={src} alt={caption} />
+					<img  className='w-full h-full object-fill select-none' src={src} alt={caption} />
 				</>
 			) : (
 				<Skeleton count={1} height={500} className='mb-5' />

@@ -7,7 +7,7 @@ export default function Header({ username, onDismiss, profilePic }) {
 			<div className='h-full'>
 				<Link to={`/p/${username}`}>
 					<img
-						className=' w-7 lg:w-12 rounded h-6 lg:h-12 flex'
+						className='select-none w-7 lg:w-12 rounded h-6 lg:h-12 flex'
 						src={profilePic}
 						alt={username}
 					/>

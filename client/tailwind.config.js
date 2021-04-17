@@ -29,7 +29,17 @@ module.exports = {
 			'2xl': '1536px'
 			// => @media (min-width: 1536px) { ... }
 		},
-		extend: {}
+		extend: {
+			keyframes: {
+				loader: {
+					'0%': { transform: 'rotate(0deg)', borderTopColor: '#3498db' },
+					'100%': { transform: 'rotate(360deg)', borderTopColor: '#3498db' }
+				}
+			},
+			animation: {
+				loader: 'loader 1.5s linear infinite'
+			}
+		}
 	},
 	variants: {
 		extend: {

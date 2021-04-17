@@ -54,10 +54,11 @@ export default function Notifications() {
 			</svg>
 			{visible && notifications?.length > 0 ? (
 				<ul
-					className={`z-20 right-0 overflow-y-scroll top-15 ml-3 xs2:ml-1 md:-ml-3 fixed bg-white 
+					className={`z-20 right-0 overflow-y-scroll top-16 ml-3 xs2:ml-1 md:-ml-3 fixed bg-white 
 					w-80 h-32 xs2:w-80 lg:w-8/12 py-2 shadow-md rounded
 					border border-gray-100
 						flex flex-col`}
+						style={{maxWidth: '25rem'}}
 				>
 					<li
 						className={`py-1 flex flex-row justify-center text-center items-center mb-3 border-b border-gray-primary`}
@@ -109,10 +110,11 @@ export default function Notifications() {
 			) : (
 				visible && (
 					<ul
-						className={`z-20 right-0 overflow-y-scroll top-15 ml-3 xs2:ml-1 md:-ml-3 fixed bg-white 
+						className={`z-20 right-0 overflow-y-scroll top-16 ml-3 xs2:ml-1 md:-ml-3 fixed bg-white 
 					w-80 h-15 xs2:w-80 lg:w-8/12 py-2 shadow-md rounded
 					border border-gray-100
 						flex flex-col`}
+						style={{maxWidth: '25rem'}}
 					>
 						<li
 							className={`py-1 flex flex-row justify-start text-center items-center`}
