@@ -1,5 +1,4 @@
-import LoggedInUserContext from '../../context/logged-in-user';
-import { useContext, lazy } from 'react';
+import { lazy } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import Sidebar from './sidebar';
 import * as ROUTES from '../../constants/routes';
@@ -12,10 +11,8 @@ const PrivacyEdit = lazy(() => import('./privacy-edit'));
 // depending on a passed in prop
 
 export default function SettingsContainer() {
-	const { user } = useContext(LoggedInUserContext);
-	let { path, url } = useRouteMatch();
+	let { url } = useRouteMatch();
 	let selectedComponent;
-	console.log({ url }, { path });
 	switch (url) {
 		case ROUTES.PROFILE_SETTINGS:
 			selectedComponent = <ProfileEdit />;

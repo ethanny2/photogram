@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
 import FirebaseContext from '../context/firebase';
 import UserContext from '../context/user';
-import logo from '../images/logo.png';
+import logo from '../images/photogram.png';
 import SearchBar from './SearchBar';
 import Notifications from '../components/Notifications';
 

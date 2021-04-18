@@ -7,7 +7,6 @@ const useNotifications = () => {
 	const { user } = useContext(UserContext);
 	const { firebase } = useContext(FirebaseContext);
 	useEffect(() => {
-		console.log('SETTING UP FIREBASE NOTIFICATION SNAPSHOT LISTENER');
 		let unsubscribe = firebase
 			.firestore()
 			.collection('notifications')

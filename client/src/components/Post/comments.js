@@ -17,7 +17,6 @@ export default function Comments({ commentInput }) {
 						onClick={(e) => {
 							// Or else the click will count as a click outside the
 							// lightbox and instantly close it.
-							console.log('Clicked view all comments');
 							e.stopPropagation();
 							// Have to pass local state for comments in here + setter
 							// in order to have the change reflected on the lightbox itself

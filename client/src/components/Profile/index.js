@@ -20,11 +20,9 @@ export default function Profile({ user, linkedPostData }) {
 		profileDispatch
 	] = useReducer(reducer, initialState);
 	const { user: loggedInUserFullProfile } = useContext(LoggedInUserContext);
-	console.log('THIS NEEDS TO MATCH', loggedInUserFullProfile?.userId);
 	useEffect(() => {
 		async function getProfileInfoAndPhotos() {
 			const photos = await getUserPhotosByUsername(user.username);
-			console.log({ photos });
 			profileDispatch({
 				profile: user,
 				// Include some extra fields on the photo which we can do without

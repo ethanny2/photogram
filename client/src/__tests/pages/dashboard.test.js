@@ -127,7 +127,6 @@ describe('<Dashboard />', () => {
 					)
 				).toBe(false);
 				fireEvent.click(getByTestId('focus-input-494LKmaF03bUcYZ4xhNu'));
-				// console.log(getByTestId('focus-input-494LKmaF03bUcYZ4xhNu'));
 				const commentBox = getByTestId('add-comment-494LKmaF03bUcYZ4xhNu');
 				var isFocused = document.activeElement === commentBox;
 				// // Test if the input DOM node has focus on it

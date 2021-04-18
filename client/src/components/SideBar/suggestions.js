@@ -11,7 +11,6 @@ import PropTypes from 'prop-types';
 */
 const Suggestions = ({ userId, following, loggedInUserDocId }) => {
 	const [profiles, setProfiles] = useState(null);
-	console.log({ profiles });
 	useEffect(() => {
 		async function suggestedProfiles() {
 			const response = await getSuggestedProfiles(userId, following);

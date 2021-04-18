@@ -14,9 +14,8 @@ export default function Lightbox() {
 		/*Storing a dom ref to an input tag to focus it */
 		commentInput.current.focus();
 	};
-	const { content, comments, onDismiss } = useContext(LightboxContext);
+	const { content, onDismiss } = useContext(LightboxContext);
 
-	console.log('comments in lightbox', comments);
 	return createPortal(
 		<OutsideModalWrapper onDismiss={onDismiss}>
 			<article

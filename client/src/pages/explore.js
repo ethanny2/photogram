@@ -2,10 +2,8 @@ import LoggedInUserContext from '../context/logged-in-user';
 import { useEffect } from 'react';
 import Header from '../components/Header';
 import useUser from '../hooks/useUser';
-import Skeleton from 'react-loading-skeleton';
 import FooterNav from '../components/FooterNav';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
-// Think I can reuse the photo component from the profile page?
 import Photos from '../components/Profile/photos';
 
 export default function Explore({ user: loggedInUser }) {
@@ -31,7 +29,6 @@ export default function Explore({ user: loggedInUser }) {
 						<div className='animate-loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4'></div>
 					</div>
 				) : null}
-
 				<FooterNav />
 			</main>
 		</LoggedInUserContext.Provider>

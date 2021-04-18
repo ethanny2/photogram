@@ -17,10 +17,7 @@ app.get('/sign-s3', (req, res) => {
 	const fileName = req.query['file-name'];
 	const fileType = encodeURIComponent(req.query['file-type']);
 	const username = encodeURIComponent(req.query['username']);
-	// console.log(process.env.S3_BUCKET_NAME);
-	// console.log(fileName, fileType);
 
-	// return res.json({ msg: 'test' });
 	const constructedFileName = `${username}_${fileName}`;
 	const s3Params = {
 		Bucket: S3_BUCKET,
@@ -32,7 +29,7 @@ app.get('/sign-s3', (req, res) => {
 
 	s3.getSignedUrl('putObject', s3Params, (err, data) => {
 		if (err) {
-			console.log(err);
+			console.error(err);
 			return res.end();
 		}
 		const returnData = {

@@ -15,34 +15,39 @@ export default function useLightbox(initTotalLikes, initUserLiked, initComments)
 		dispatch
 	] = useReducer(reducer, lightboxInitialState);
 	const onDismiss = () => dispatch({ visible: false });
-	useEffect(() => {
-		const handleUserScroll = () => {
-			document.documentElement.style.setProperty(
-				'--scroll-y',
-				`${window.scrollY}px`
-			);
-		};
-		window.addEventListener('scroll', handleUserScroll);
-		return () => window.removeEventListener('scroll', handleUserScroll);
-	}, []);
-	useEffect(() => {
-		if (visible) {
-			/*Remember the position the user scrolled to so they don't get thrown
-			back to the top of the page */
-			const scrollY = document.documentElement.style.getPropertyValue(
-				'--scroll-y'
-			);
-			const root = document.getElementById('root');
-			root.style.top = `-${scrollY}`;
-			document.getElementById('root').classList.add('lightbox-open');
-		} else {
-			const root = document.getElementById('root');
-			const scrollY = root.style.top;
-			root.style.top = '';
-			document.getElementById('root').classList.remove('lightbox-open');
-			window.scrollTo(0, parseInt(scrollY || '0') * -1);
-		}
-	}, [visible]);
+
+	// This hook is used on each light box; so for each post on the explore/timeline
+	// This is a huge performance hit might just make it so the user can still scroll 
+	// FIXME!
+
+	// useEffect(() => {
+	// 	const handleUserScroll = () => {
+	// 		document.documentElement.style.setProperty(
+	// 			'--scroll-y',
+	// 			`${window.scrollY}px`
+	// 		);
+	// 	};
+	// 	window.addEventListener('scroll', handleUserScroll);
+	// 	return () => window.removeEventListener('scroll', handleUserScroll);
+	// }, []);
+	// useEffect(() => {
+	// 	if (visible) {
+	// 		/*Remember the position the user scrolled to so they don't get thrown
+	// 		back to the top of the page */
+	// 		const scrollY = document.documentElement.style.getPropertyValue(
+	// 			'--scroll-y'
+	// 		);
+	// 		const root = document.getElementById('root');
+	// 		root.style.top = `-${scrollY}`;
+	// 		document.getElementById('root').classList.add('lightbox-open');
+	// 	} else {
+	// 		const root = document.getElementById('root');
+	// 		const scrollY = root.style.top;
+	// 		root.style.top = '';
+	// 		document.getElementById('root').classList.remove('lightbox-open');
+	// 		window.scrollTo(0, parseInt(scrollY || '0') * -1);
+	// 	}
+	// }, [visible]);
 	return {
 		visible,
 		content,

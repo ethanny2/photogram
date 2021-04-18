@@ -7,10 +7,7 @@ import { addPhoto } from '../services/firebase';
 import FooterNav from '../components/FooterNav';
 import LoggedInUserContext from '../context/logged-in-user';
 
-// Make this protected/ only visible by logged in users
-// Prop comes from state passed by <Route></Route>
 export default function NewPost({ user: loggedInUser }) {
-	console.log({ loggedInUser });
 	const { user } = useUser(loggedInUser?.uid);
 	const history = useHistory();
 	const [publicFileUrl, setPublicFileUrl] = useState(null);
@@ -36,8 +33,6 @@ export default function NewPost({ user: loggedInUser }) {
 			const { signedRequest: signedRequestUrl, url } = await response.json();
 			// Send the PUT request with newly signed S3 url once it works
 			// the resource is publicy available if it succeeds.
-			console.log({ signedRequestUrl });
-			console.log({ url });
 			const putResponse = await fetch(signedRequestUrl, {
 				method: 'PUT',
 				body: file,
@@ -48,7 +43,6 @@ export default function NewPost({ user: loggedInUser }) {
 
 			// const data = await putResponse.json();
 			if (putResponse.ok) {
-				console.log('file is accessible on ', url);
 				setPublicFileUrl(url);
 				setImageLoading(false);
 			}
@@ -56,12 +50,10 @@ export default function NewPost({ user: loggedInUser }) {
 			//Set some error state on the form
 			setImageLoading(false);
 			setError(error.message);
-			console.error({ error });
 		}
 	};
 	const handleFileChange = async ({ target }) => {
 		const [file] = target.files;
-		console.log({ file });
 		if (!file) return;
 		getSignedRequest(file);
 	};
@@ -78,11 +70,9 @@ export default function NewPost({ user: loggedInUser }) {
 		}
 		try {
 			await addPhoto(caption, user.userId, publicFileUrl);
-			console.log('Successfully added new photo/post to firestore!');
 			history.push(`/p/${user?.username}`);
 		} catch (error) {
 			setError(error.message);
-			console.error({ error });
 		}
 	};
 

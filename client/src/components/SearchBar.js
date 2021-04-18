@@ -7,16 +7,12 @@ import { Link } from 'react-router-dom';
 export default function SearchBar() {
 	const [searchText, setSearchText] = useState('');
 	const [results, setResults] = useState(null);
-	let debouncedUserSearch = useCallback(
-		debounce(userSearch, 800, { leading: true }),
-		[]
-	); // eslint-disable-line react-hooks/exhaustive-deps
+	const funcToMemoize = debounce(userSearch, 800, { leading: true });
+	let debouncedUserSearch = useCallback(funcToMemoize, [funcToMemoize]);
 
 	useEffect(() => {
 		async function getUserNames() {
-			console.log('Getting username for search with term: ' + searchText);
 			const response = await debouncedUserSearch(searchText);
-			console.log(response);
 			if (response) {
 				setResults(response);
 			} else {
@@ -72,9 +68,8 @@ export default function SearchBar() {
 					) : (
 						results.map((user, idx) => {
 							return (
-								<Link to={`/p/${user?.username}`}>
+								<Link key={user.userId} to={`/p/${user?.username}`}>
 									<li
-										key={user.userId}
 										className={`ml-3 flex flex-row justify-start items-center ${
 											results.length === idx + 1 ? '' : 'mb-5'
 										}`}

@@ -13,7 +13,6 @@ export default function IsUserLoggedIn({
 			render={({ location }) => {
 				// Only show login and signup page to users who aren't logged in
 				if (!user) {
-          console.log("No user loggedin okay to go on login/signup");
 					return children;
 				}
 				if (user) {

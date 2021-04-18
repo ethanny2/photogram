@@ -19,7 +19,6 @@ export default function SuggestedProfile({
 	username,
 	profileId,
 	userId,
-	// Should just take out of context
 	loggedInUserDocId,
 	profilePic
 }) {
@@ -29,8 +28,6 @@ export default function SuggestedProfile({
 	const [followed, setFollowed] = useState(false);
 	async function handleFollowUser() {
 		setFollowed(true);
-		// Get logged in users docId
-		// const [{ docId }] = await getUserByUserId(userId);
 		// No notification for this; logged in users following count is updated
 		await updateUserFollowing(loggedInUserDocId, profileId, false);
 		await updateFollowedUserFollowers(profileDocId, userId, false);
@@ -44,7 +41,6 @@ export default function SuggestedProfile({
 			loggedInUsername
 		);
 	}
-	console.log('followed in suggestedProfile', followed);
 	return !followed ? (
 		<div className='flex flex-row items-center align-items justify-between'>
 			<div className='flex items-center justify-between'>

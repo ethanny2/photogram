@@ -5,7 +5,6 @@ import LightBox from '../LightBox';
 import { useEffect } from 'react';
 
 export default function SinglePhoto({ photo, linkedPostData }) {
-	// Is having multiple listeners for this too much??
 	const {
 		visible,
 		comments,
@@ -23,7 +22,10 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 		dispatch({ totalLikes: photo.likes.length, userLiked: photo.userLiked });
 	}, [photo, dispatch]);
 
-	// console.log('In single photo', { linkedPostData });
+	// To prevent jsx-a11y/img-redundant-alt because it detected
+	// the variable name photo
+	const caption = photo?.caption;
+
 	return (
 		<LightBoxContext.Provider
 			value={{
@@ -46,12 +48,11 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 				}
 				key={photo.docId}
 				id={photo.docId}
-				className='relative group col-span-1 h-80'
+				className='relative group col-span-1 h-80 cursor-pointer'
 				onClick={(e) => {
 					// Or else the click will count as a click outside the
 					// lightbox and instantly close it.
 					e.stopPropagation();
-					console.log('Calling on click for a single photo');
 					dispatch({
 						visible: true
 					});
@@ -60,9 +61,8 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 				<img
 					className='object-fill w-full block max-w-full	max-h-full h-full'
 					src={photo?.imageSrc}
-					alt={photo?.caption}
+					alt={caption}
 				/>
-				{/* This is leaking out on smaller devices widths */}
 				<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full  bg-black bg-opacity-50 group-hover:flex'>
 					<p className='flex items-center text-white font-bold'>
 						<svg

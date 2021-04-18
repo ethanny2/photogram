@@ -1,21 +1,12 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ProtectedRoute from './helpers/protected-route';
-// import IsUserLoggedIn from './helpers/is-user-logged-in';
-// import FooterNav from './components/FooterNav';
 import * as ROUTES from './constants/routes';
 import './index.css';
 import UserContext from './context/user';
 import useAuthListener from './hooks/useAuthListener';
 import Header from './components/Header';
-/* Returns component of dynamically imported file. Loads only when
-it is needed/ rendered to the screen. It will not load
-it that component is a different page (e.g. not being rendered)
-We wrap these lazy components in suspense to show something else
-while the content is loading*/
 
-/* Okay... I haven't rendered them yet but my App says the file is not found...
-Maybe this is a new react 17 change; its okay since I will define these components later*/
 const Dashboard = lazy(() => import('./pages/dashboard'));
 const Login = lazy(() => import('./pages/login'));
 const SignUp = lazy(() => import('./pages/signup'));
@@ -27,13 +18,9 @@ const Explore = lazy(() => import('./pages/explore'));
 
 function App() {
 	const { user } = useAuthListener();
-	//helloworld11
-	console.log({ user });
 	return (
 		<UserContext.Provider value={{ user }}>
 			<Router>
-				{/* Pass a prop to header to indicate to Notifications Component to
-				not trigger the useNotifitions hook and prevent memory leak? */}
 				<Suspense fallback={<Header />}>
 					<Switch>
 						<Route path={ROUTES.LOGIN} component={Login} />
@@ -57,7 +44,6 @@ function App() {
 						<ProtectedRoute user={user} path={ROUTES.EXPLORE} exact>
 							<Explore />
 						</ProtectedRoute>
-						{/* Last route is always served if nothing is found with no path prop*/}
 						<Route component={NotFound} />
 					</Switch>
 				</Suspense>

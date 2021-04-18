@@ -22,8 +22,6 @@ export default function Image({ src, caption }) {
 		await handleToggleLiked(userId, docId, userLiked);
 		const newLikeAmount = userLiked ? totalLikes - 1 : totalLikes + 1;
 		const newUserLiked = !userLiked;
-		console.log({ newUserLiked });
-		console.log({ newLikeAmount });
 		// Need a new notification here; only if liked not unliked
 		if (newUserLiked) {
 			const notifContent = `${loggedInUsername} liked your post.`;

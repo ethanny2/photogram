@@ -22,7 +22,6 @@ export default function Profile({ location: state = null }) {
 	// instead just use a useCallback passed in as the ref={} prop instead.
 	const setRef = useCallback((node) => {
 		if (node) {
-			console.log('CALLING CLICKED ON THE LINKED PHOTO REF');
 			node.click();
 		}
 	}, []);
@@ -39,8 +38,6 @@ export default function Profile({ location: state = null }) {
 	useEffect(() => {
 		async function checkUserExistsToLoadProfile() {
 			const [user] = await getUserByUsername(username);
-			console.log({ user });
-			console.log(user?.userId);
 			if (user?.userId) {
 				setUser(user);
 			} else {
@@ -50,8 +47,6 @@ export default function Profile({ location: state = null }) {
 		checkUserExistsToLoadProfile();
 	}, [username, history]);
 
-	console.log({ user });
-	// background-color: rgba(var(,250,250,250),1);
 
 	return user?.username ? (
 		<LoggedInUserContext.Provider value={{ user: loggedInUserFullProfile }}>

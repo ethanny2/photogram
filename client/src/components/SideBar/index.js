@@ -15,7 +15,6 @@ export default function Sidebar() {
 			profilePic = ''
 		}
 	} = useContext(LoggedInUserContext);
-	console.log({ userId });
 	return (
 		<section className='ml-3 p-4 hidden md:block'>
 			<User fullName={fullName} username={username} profilePic={profilePic} />

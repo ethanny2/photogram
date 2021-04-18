@@ -104,7 +104,6 @@ export default function SignUp() {
 							placeholder='Full name'
 							value={fullName}
 							onChange={({ target }) => {
-								console.log(isInputAlphaBet(target.value));
 								if (isInputAlphaBet(target.value)) {
 									setfullName(upperCaseFullName(target.value));
 								}

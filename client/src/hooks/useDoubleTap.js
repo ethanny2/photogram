@@ -25,7 +25,6 @@ export default function useDoubleTap(callback) {
 				timerRef.current = null;
 				countRef.current = 0;
 				if (inputCallbackRef.current) {
-					console.log('Double tap occured calling passed in callback');
 					inputCallbackRef.current();
 				}
 			}

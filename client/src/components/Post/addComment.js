@@ -22,7 +22,6 @@ export default function AddComment({ commentInput }) {
 		});
 
 		// Send out notification
-		// console.log("photos docId", { docId });
 		const notifContent = `${loggedInUsername} commented: ${comment}`;
 		await createNotification(
 			receiverId,

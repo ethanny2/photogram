@@ -14,11 +14,8 @@ export default function ProfileEdit() {
 	const [bio, setBio] = useState('');
 	const [publicFileUrl, setPublicFileUrl] = useState(null);
 	const [message, setMessage] = useState('');
-	// If they didn't change
-	// const [usernameInputDirty, setUsernameInputDirty] = useState(false);
 	const handleFileChange = async ({ target }) => {
 		const [file] = target.files;
-		console.log({ file });
 		if (!file) return;
 		getSignedRequest(file);
 	};
@@ -32,8 +29,6 @@ export default function ProfileEdit() {
 			const { signedRequest: signedRequestUrl, url } = await response.json();
 			// Send the PUT request with newly signed S3 url once it works
 			// the resource is publicy available if it succeeds.
-			console.log({ signedRequestUrl });
-			console.log({ url });
 			const putResponse = await fetch(signedRequestUrl, {
 				method: 'PUT',
 				body: file,
@@ -44,7 +39,6 @@ export default function ProfileEdit() {
 
 			// const data = await putResponse.json();
 			if (putResponse.ok) {
-				console.log('file is accessible on ', url);
 				setPublicFileUrl(url);
 			}
 		} catch (error) {
@@ -96,9 +90,6 @@ export default function ProfileEdit() {
 		setMessage('Successfully changed profile; refresh to see changes');
 	}
 
-	// Will be inside this div
-	//<div className='col-span-4 flex flex-col justify-start items-center'>
-	//</div>
 	return (
 		<>
 			{user?.username ? (

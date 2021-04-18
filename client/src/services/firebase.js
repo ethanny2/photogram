@@ -1,9 +1,11 @@
 import { firebase, FieldValue } from '../lib/firebase';
 import app from 'firebase/app';
-/* Function to reauth/login user to ensure their old password matches */
 
-// Also should delete their photos? Yeah so it doesn't show up on
-// the explore page
+/* 
+	Reconfirms the users auth and then deletes their auth account, user document and
+	all the photos associated with them. Comments the account made on other photos stay
+	and the links lead to 404 pages
+*/
 export async function deleteAccount(currentPassword, userId) {
 	try {
 		await confirmCurrentPassword(currentPassword);
@@ -33,6 +35,7 @@ export async function deleteAccount(currentPassword, userId) {
 	}
 }
 
+/* Function to reauth/login user to ensure their old password matches */
 export async function confirmCurrentPassword(currentPassword) {
 	const user = firebase.auth().currentUser;
 	if (!user) return;
@@ -63,6 +66,10 @@ export async function changePassword(currentPassword, newPassword) {
 	username - string
 	bio  - string
 	docId - The docId of the logged in user. (Not user Id)
+	
+	NOTE: Updating username doesn't update all the comments links/references.
+	Clicking the old username link leads to a not found route. 
+	May remove the feature to change username. To prevent this
 */
 
 export async function updateProfileByDocId(
@@ -72,27 +79,6 @@ export async function updateProfileByDocId(
 	bio,
 	docId
 ) {
-	// try {
-	// 	const updateCommentsSnapShot = await firebase
-	// 		.firestore()
-	// 		.collection('photos')
-	// 		.where('comments', '', receiverId)
-	// 		.get();
-
-	// 	// Queue up all the delete operations
-	// 	const batch = firebase.firestore().batch();
-	// 	deleteAllSnapshot.forEach((doc) => batch.delete(doc.ref));
-	// 	// Execute the batch
-	// 	await batch.commit();
-	// } catch (error) {
-	// 	console.error(error.message);
-	// }
-	console.log({ docId });
-	// Before I need to update every comment with the old username
-	// also update every notification sent by this user to the new
-	// username, change the content link (if it there is not photoId)
-	// change the sender profile pic .
-
 	// Also update the photo on the Auth account
 
 	await firebase.auth().currentUser.updateProfile({
@@ -132,8 +118,7 @@ export async function clearNotificationByDocId(notificationDocId) {
 */
 export async function clearAllNotificationsByUserId(receiverId) {
 	try {
-		// Cannot use where clause and delete(), either
-		// use Promise.all or loop over the query snapshot documents.
+		// Cannot use where clause and delete(), instead use
 		// Batching to improve performance
 		const deleteAllSnapshot = await firebase
 			.firestore()
@@ -156,15 +141,13 @@ export async function clearAllNotificationsByUserId(receiverId) {
 		senderProfilePic - Url to profile pic of logged in user who triggered notification
 		content - Message describing what happened
 		username - The logged user who triggered notification
-		photoDocId - The post that was liked/commented on to trigger notification
-		empty if it was a follow 
+		photoDocId - The post that was liked/commented on to trigger notification;
+		empty if the notification is a follow
 		Construct link from p/username/ ... for follows
 		and 
 		Construct link from p/username/  and also store photoDocId
-
 		if it was  a follow notification photoDocId field is empty
 		if it was a comment or like on a photo photoDocId field is filled
-
 */
 export async function createNotification(
 	receiverId,
@@ -176,7 +159,6 @@ export async function createNotification(
 ) {
 	// If it was a follow link to the following users profile (logged in person)
 	// If it was a like/ commment link to the specific post on the senders Page.
-
 	const contentLink = photoDocId
 		? `/p/${receiverUsername}`
 		: `/p/${senderUsername}`;
@@ -253,7 +235,6 @@ export async function addPhoto(caption, userId, imageSrc) {
 	userLiked: A boolean indicating if the logged in user liked the photo or not
 */
 export const handleToggleLiked = async (userId, docId, userLiked) => {
-	/* Swtich the local state for toggle ASYNC DON'T ASSUME ITS DONE*/
 	try {
 		await firebase
 			.firestore()
@@ -281,9 +262,6 @@ export async function updateUserFollowing(
 		.firestore()
 		.collection('users')
 		.doc(docId)
-		// We never use that last boolean arg so this is always false
-		// If we were already following the user the getSuggestedProfiles(
-		// function that returned still data would already filter them out.
 		.update({
 			following: isFollowingProfile
 				? FieldValue.arrayRemove(profileId)
@@ -315,9 +293,6 @@ export async function doesUsernameExist(username) {
 		.where('username', '==', username)
 		.get();
 
-	/* Returns an array of documents in collection even if only one matched
-    I don't get this... if it fails we return [] but that's still truthy. 
-		Ok we just use the length of the array*/
 	return result.docs.map((user) => user.data().length > 0);
 }
 
@@ -359,21 +334,11 @@ export async function userSearch(keyword, limit = 8) {
 /*
  userID need to check if they liked the photo!
  THIS IS PHOTOS FROM PPL YOU FOLLOW
-
  Notes:
  Limit to 5-10 photos per user? 
  No I think its fine its still sorted by date so the order 
  of posts should look random. And we only get 10 people so it realistically
  cannot be that many photos.
-
- Need random people you follow for timeline
- Need to randomize array of photos ? No already sorted by date
-
- I don't think this will scale? If you reach the bottom of the page we should re-run
- this function for more posts but what guarentees it won't just pull in the same users?
- I need to gather the userIds or docid of all the users who have timeline photos (var userFollowedPhotos)
- aren't repeated. And I need to have infinite scroll + throttle. Also need debounce for the search function.
-
  */
 export async function getUserFollowedPhotos(userId, followingUserIds) {
 	const result = await firebase
@@ -409,15 +374,12 @@ export async function getUserFollowedPhotos(userId, followingUserIds) {
 /* 
 	For the explore page; not really random just gets the X
 	most recent photos and then  will jumble the order
-	of the returned array. Need local state on the explore page
-	holding all the docId of the photos already rendered, I can then
-	pass that array in here to ensure there are no repeating photos
-	when this function is called again with infinite scroll.
-
-	photoDocIdArr - Array of all current explore photos so none repeat
+	of the returned array. Sorts the photos by date and sets up
+	a cursor to paginate through
+	lastVisiblePhotoDoc - Document object directly out of firestore that is the last visible
+	photo in the array.
 	limit  - How many photos are brought in on each pull
 	userId - The currently logged in users Id
-
 */
 export async function getRecentRandomPhotos(
 	lastVisiblePhotoDoc = null,
@@ -451,30 +413,8 @@ export async function getRecentRandomPhotos(
 			.limit(limit)
 			.get();
 	}
-
 	let { docs } = photosCursorRef;
 	newLastVisiblePhotoDoc = docs[docs.length - 1];
-	console.log({ docs });
-
-	// if (photoDocIdArr.length > 0) {
-	// 	response = await firebase
-	// 		.firestore()
-	// 		.collection('photos')
-	// 		.limit(limit)
-	// 		.where(app.firestore.FieldPath.documentId(), 'not-in', photoDocIdArr)
-	// 		.get();
-	// 	allDocs.push(...response.docs);
-	// } else {
-	// 	// Initial no values in array
-	// 	response = await firebase
-	// 		.firestore()
-	// 		.collection('photos')
-	// 		.orderBy('dateCreated', 'desc')
-	// 		.limit(limit)
-	// 		.get();
-	// 	allDocs.push(...response.docs);
-	// }
-
 	const photos = docs.map((doc) => ({ ...doc.data(), docId: doc.id }));
 	const photosWithUserDetails = await Promise.all(
 		photos.map(async (photo) => {
@@ -491,7 +431,6 @@ export async function getRecentRandomPhotos(
 			};
 		})
 	);
-
 	shuffleArray(photosWithUserDetails);
 	return { photosWithUserDetails, newLastVisiblePhotoDoc };
 }
@@ -513,7 +452,6 @@ export async function getSuggestedProfiles(userId, following) {
 }
 
 export async function getUserByUsername(username) {
-	console.log({ username });
 	const response = await firebase
 		.firestore()
 		.collection('users')
@@ -551,7 +489,6 @@ export async function getUserPhotosByUsername(username) {
 		.where('userId', '==', userId)
 		.get();
 
-	console.log({ userId });
 	const photos = result.docs.map((item) => ({
 		...item.data(),
 		docId: item.id
