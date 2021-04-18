@@ -7,11 +7,6 @@ import firebaseContext from '../context/firebase';
 import { doesUsernameExist } from '../services/firebase';
 const defaultProfilePicture =
 	'https://photogram-media.s3.amazonaws.com/default-user-profile.jpg';
-/*
-  Setup state and error handling/ form validation.
-  Store user name as lowerCase (even while typing)
-  Uppercase the First char of Full name and last name
-*/
 
 export default function SignUp() {
 	const [username, setUsername] = useState('');
