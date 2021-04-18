@@ -21,17 +21,18 @@ export default function useLightbox(
 	const onDismiss = () => dispatch({ visible: false });
 
 	useEffect(() => {
+		const [htmlElm] = document.getElementsByTagName('html');
+		const rootElm = document.getElementById('root');
 		if (visible) {
-			document.getElementById('root').classList.add('lightbox-open');
-			document.getElementsByTagName('html')[0].style.overflowY = 'hidden';
+			rootElm.classList.add('lightbox-open');
+			htmlElm.style.overflowY = 'hidden';
 		} else {
-			document.getElementById('root').classList.remove('lightbox-open');
-			document.getElementsByTagName('html')[0].style.overflowY = 'initial';
+			rootElm.classList.remove('lightbox-open');
+			htmlElm.style.overflowY = '';
 		}
-
 		return () => {
-			document.getElementById('root').classList.remove('lightbox-open');
-			document.getElementsByTagName('html')[0].style.overflowY = 'initial';
+			rootElm.classList.remove('lightbox-open');
+			htmlElm.style.overflowY = '';
 		};
 	}, [visible]);
 	return {

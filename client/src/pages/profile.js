@@ -47,10 +47,9 @@ export default function Profile({ location: state = null }) {
 		checkUserExistsToLoadProfile();
 	}, [username, history]);
 
-
 	return user?.username ? (
 		<LoggedInUserContext.Provider value={{ user: loggedInUserFullProfile }}>
-			<section className='bg-gray-50 pb-2 w-full h-full sm:mb-4'>
+			<section className='bg-gray-50 pb-2 w-full h-full mb-4 sm:mb-0'>
 				<Header></Header>
 				<div className='mx-auto max-w-screen-lg  h-full'>
 					<UserProfile user={user} linkedPostData={linkedPostData} />

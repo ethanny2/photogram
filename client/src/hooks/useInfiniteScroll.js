@@ -11,9 +11,9 @@ function useInfiniteScroll(userId) {
 	const [lastPhotoDocRef, setLastPhotoDocRef] = useState(null);
 
 	useEffect(() => {
-		getMorePhotos();
+		if (userId) getMorePhotos();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [userId]);
 
 	function checkBottomReached() {
 		// If lightbox is open don't check if the bottom is reachable

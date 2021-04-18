@@ -419,14 +419,17 @@ export async function getRecentRandomPhotos(
 	const photosWithUserDetails = await Promise.all(
 		photos.map(async (photo) => {
 			//Check if the photo was liked by the currently logged in user
-			let userLikedPhoto = photo.likes.includes(userId);
+			let userLiked = photo.likes.includes(userId);
 			//Returns an array
+			console.log('Current photo', { photo });
+			console.log('Current userLiked', { userLiked });
+			console.log('Current userId', { userId });
 			const user = await getUserByUserId(photo.userId);
 			const username = user[0].username;
 			return {
 				username,
 				...photo,
-				userLikedPhoto,
+				userLiked,
 				profilePic: user[0].profilePic
 			};
 		})
