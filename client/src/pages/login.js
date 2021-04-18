@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import phoneImg from '../images/iphone-with-profile.jpg';
-import logo from '../images/logo.png';
+import logo from '../images/photogram-logo.png';
 import * as ROUTES from '../constants/routes';
 import { Link, useHistory } from 'react-router-dom';
 import { validateEmail } from '../utils';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import logo from '../images/logo.png';
+import logo from '../images/photogram-logo.png';
 import * as ROUTES from '../constants/routes';
 import { Link, useHistory } from 'react-router-dom';
 import { validateEmail, upperCaseFullName, isInputAlphaBet } from '../utils';
