@@ -2,32 +2,45 @@ import { debounce } from 'lodash';
 import { useState, useEffect, useCallback } from 'react';
 import { userSearch } from '../services/firebase';
 import { Link } from 'react-router-dom';
-// Make entire thing clickable
 
 export default function SearchBar() {
 	const [searchText, setSearchText] = useState('');
 	const [results, setResults] = useState(null);
-	const funcToMemoize = debounce(userSearch, 800, { leading: true });
+	const funcToMemoize = debounce(userSearch, 800, {
+		leading: true
+	});
 	let debouncedUserSearch = useCallback(funcToMemoize, [funcToMemoize]);
 
 	useEffect(() => {
+		// Guard against possible mem leaks for setting state
+		// on unmounted searchbar
+		let isStillMounted = true;
 		async function getUserNames() {
 			const response = await debouncedUserSearch(searchText);
-			if (response) {
+			if (response && isStillMounted) {
 				setResults(response);
 			} else {
 				setResults([]);
 			}
 		}
-		if (searchText.length > 3) {
+		if (searchText.length > 3 && isStillMounted) {
 			getUserNames();
 		}
 		if (searchText.length === 0) setResults(null);
-	}, [searchText, debouncedUserSearch]);
+		return () => {
+			isStillMounted = false;
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [searchText, setSearchText, setResults]);
 
 	return (
 		<div>
-			<form action='POST' autoComplete='off' className='relative'>
+			<form
+				action='POST'
+				autoComplete='off'
+				className='relative'
+				onSubmit={(e) => e.preventDefault()}
+			>
 				<svg
 					xmlns='http://www.w3.org/2000/svg'
 					className='hidden sm:block h-4 w-4 absolute top-2 left-5'
@@ -68,7 +81,16 @@ export default function SearchBar() {
 					) : (
 						results.map((user, idx) => {
 							return (
-								<Link key={user.userId} to={`/p/${user?.username}`}>
+								<Link
+									key={user.userId}
+									to={`/p/${user?.username}`}
+									onClick={() => {
+										// When result is clicked clear the
+										// search bar
+										setResults(null);
+										setSearchText('');
+									}}
+								>
 									<li
 										className={`ml-3 flex flex-row justify-start items-center ${
 											results.length === idx + 1 ? '' : 'mb-5'
