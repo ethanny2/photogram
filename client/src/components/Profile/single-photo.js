@@ -3,7 +3,7 @@ import LightBoxContext from '../../context/lightbox';
 import useLightbox from '../../hooks/useLightbox';
 import LightBox from '../LightBox';
 import { useEffect, useContext } from 'react';
-import userContext from '../../context/logged-in-user';
+import userContext from '../../context/user';
 
 export default function SinglePhoto({ photo, linkedPostData }) {
 	const {
@@ -27,7 +27,6 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 	// To prevent jsx-a11y/img-redundant-alt because it detected
 	// the variable name photo
 	const caption = photo?.caption;
-	console.log({ user });
 	return (
 		<LightBoxContext.Provider
 			value={{

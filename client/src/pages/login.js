@@ -13,10 +13,14 @@ export default function Login() {
 	const { firebase } = useContext(firebaseContext);
 	const history = useHistory();
 	const isInvalid =
-		password === '' || email === '' || validateEmail(email) === false;
+		password === '' || email === '';
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
+		if(validateEmail(email) === false) {
+			setError('Please enter a real email address');
+			return;
+		}
 		try {
 			await firebase.auth().signInWithEmailAndPassword(email, password);
 			history.push(ROUTES.DASHBOARD);
@@ -32,18 +36,18 @@ export default function Login() {
 		document.title = 'Login • Photogram';
 	}, []);
 	return (
-		<section className='container flex flex-col lg:flex-row mx-auto max-w-screen-md items-center h-screen px-4 lg:px-0'>
-			<div className='hidden lg:flex w-5/5 lg:w-3/5 '>
+		<section className=' bg-gray-50 flex flex-col lg:flex-row justify-center w-screen  items-center h-screen px-4 lg:px-0'>
+			<div className='hidden lg:flex w-5/5 lg:w-2/5 justify-end lg:h-full '>
 				<img
 					src={phoneImg}
 					alt='iPhone with Instagram app'
-					className='object-scale-down'
+					className='object-scale-down w-full'
 				/>
 			</div>
 			{/* Div to align right side modals */}
-			<div className='flex flex-col w-full lg:w-2/5 justify-center h-full max-w-sm  m-auto'>
+			<div className=' flex flex-col w-full  justify-center items-start h-screen max-w-sm  lg:mx-2  '>
 				{/* Div to group form and logo */}
-				<div className='flex flex-col items-center bg-white p-4 border mb-4'>
+				<div className='flex flex-col items-center bg-white p-4 border mb-4 lg:w-4/5'>
 					<h1 className='flex justify-center w-4/5 lg:w-full'>
 						<img src={logo} alt='Instagram' className='mt-2 w-6/12 mb-4' />
 					</h1>
@@ -81,9 +85,9 @@ export default function Login() {
 					</form>
 				</div>
 				{/* Div for the sign up portion separated */}
-				<div className='flex justify-center items-center flex-col w-full bg-white p-4 border'>
+				<div className='flex justify-center items-center flex-col w-full bg-white p-4 border lg:w-4/5'>
 					<p className='text-sm'>
-						Don't have an account?
+						Don't have an account?{' '}
 						<Link
 							to={ROUTES.SIGN_UP}
 							className='font-bold text-blue-500'

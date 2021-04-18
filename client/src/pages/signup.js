@@ -19,11 +19,8 @@ export default function SignUp() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState('');
-	const isInvalid =
-		password === '' ||
-		email === '' ||
-		fullName === '' ||
-		validateEmail(email) === false;
+	const isInvalid = password === '' || email === '' || fullName === '';
+
 	const { firebase } = useContext(firebaseContext);
 	const history = useHistory();
 
@@ -33,6 +30,10 @@ export default function SignUp() {
 
 	const handleSignUp = async (e) => {
 		e.preventDefault();
+		if (validateEmail(email) === false) {
+			setError('Please enter a real email address');
+			return;
+		}
 		const usernameExists = await doesUsernameExist(username);
 		//If length is 0 that is falsey, if not length is 1 and user name exists
 		if (!usernameExists.length) {
@@ -43,7 +44,7 @@ export default function SignUp() {
 				/* This is different from the documents in firestore this is on the auth side*/
 				await createdUserResult.user.updateProfile({
 					displayName: username,
-					photoUrl: defaultProfilePicture
+					photoURL: defaultProfilePicture
 				});
 				// Userid in firstore is the uuid of the auth service account;
 				// we can also use that auth service to change the profile picture
@@ -97,9 +98,9 @@ export default function SignUp() {
 							value={username}
 							onChange={({ target }) => setUsername(target.value.toLowerCase())}
 							required
-							maxLength="10"
-							minLength="5"
-							autoComplete="off"
+							maxLength='10'
+							minLength='5'
+							autoComplete='off'
 						/>
 						<input
 							aria-label='Enter full name'
@@ -132,7 +133,7 @@ export default function SignUp() {
 							value={password}
 							onChange={({ target }) => setPassword(target.value)}
 							required
-							minLength="6"
+							minLength='6'
 						/>
 
 						<button
