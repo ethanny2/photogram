@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import LightBoxContext from '../../context/lightbox';
 import useLightbox from '../../hooks/useLightbox';
 import LightBox from '../LightBox';
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
+import userContext from '../../context/logged-in-user';
 
 export default function SinglePhoto({ photo, linkedPostData }) {
 	const {
@@ -15,6 +16,7 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 		onDismiss
 	} = useLightbox(photo.likes.length, photo.userLiked, photo.comments);
 
+	const { user = null } = useContext(userContext);
 	// Needs to render twice before this value is actually in here. The
 	// value passed into useLightbox may still be the value from the
 	// first render (false)
@@ -25,7 +27,7 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 	// To prevent jsx-a11y/img-redundant-alt because it detected
 	// the variable name photo
 	const caption = photo?.caption;
-
+	console.log({ user });
 	return (
 		<LightBoxContext.Provider
 			value={{
@@ -50,6 +52,8 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 				id={photo.docId}
 				className='relative group col-span-1 h-80 cursor-pointer'
 				onClick={(e) => {
+					// Non - authenticated users cannot like or comment
+					if (!user?.uid) return;
 					// Or else the click will count as a click outside the
 					// lightbox and instantly close it.
 					e.stopPropagation();
@@ -59,11 +63,11 @@ export default function SinglePhoto({ photo, linkedPostData }) {
 				}}
 			>
 				<img
-					className='object-fill w-full block max-w-full	max-h-full h-full'
+					className='object-fill w-full block max-w-full	max-h-full h-full select-none'
 					src={photo?.imageSrc}
 					alt={caption}
 				/>
-				<div className='hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full  bg-black bg-opacity-50 group-hover:flex'>
+				<div className='  select-none hidden absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full  bg-black bg-opacity-50 group-hover:flex'>
 					<p className='flex items-center text-white font-bold'>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'

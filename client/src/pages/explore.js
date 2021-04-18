@@ -14,7 +14,7 @@ export default function Explore({ user: loggedInUser }) {
 		endOfExplore = false
 	} = useInfiniteScroll(user?.userId);
 	useEffect(() => {
-		document.title = 'Instagram - Explore';
+		document.title = 'Photogram • Explore';
 	}, []);
 
 	return (

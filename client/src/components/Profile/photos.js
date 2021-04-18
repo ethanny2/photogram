@@ -21,7 +21,7 @@ export default function Photos({ photos = null, linkedPostData = null }) {
 						);
 					})
 				) : (
-					<p className='text-center text-2xl'>No Posts Yet</p>
+					<p className='col-span-2 lg:col-span-3 text-center text-2xl h-screen'>No Posts Yet</p>
 				)}
 			</div>
 		</div>
@@ -29,5 +29,5 @@ export default function Photos({ photos = null, linkedPostData = null }) {
 }
 
 Photos.propTypes = {
-	photos: PropTypes.array.isRequired
+	photos: PropTypes.array
 };

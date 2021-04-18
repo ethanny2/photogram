@@ -1,5 +1,4 @@
-// import LoggedInUserContext from '../../context/logged-in-user';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import LoggedInUserContext from '../../context/logged-in-user';
 import Skeleton from 'react-loading-skeleton';
 import { changePassword } from '../../services/firebase';
@@ -10,6 +9,10 @@ export default function PasswordEdit() {
 	const [newPass, setNewPass] = useState('');
 	const [confirmPass, setConfirmPass] = useState('');
 	const [message, setMessage] = useState('');
+
+	useEffect(() => {
+		document.title = 'Change Password • Photogram';
+	}, []);
 
 	async function handleSubmit(e) {
 		e.preventDefault();

@@ -1,4 +1,3 @@
-// import LoggedInUserContext from '../../context/logged-in-user';
 import { useEffect, useContext, useState } from 'react';
 import LoggedInUserContext from '../../context/logged-in-user';
 import Skeleton from 'react-loading-skeleton';
@@ -19,6 +18,10 @@ export default function ProfileEdit() {
 		if (!file) return;
 		getSignedRequest(file);
 	};
+	
+	useEffect(() => {
+		document.title = 'Edit Profile • Photogram';
+	}, []);
 
 	const getSignedRequest = async (file) => {
 		// Show skeleton for image preview
@@ -37,7 +40,6 @@ export default function ProfileEdit() {
 				}
 			});
 
-			// const data = await putResponse.json();
 			if (putResponse.ok) {
 				setPublicFileUrl(url);
 			}

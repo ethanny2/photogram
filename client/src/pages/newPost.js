@@ -16,7 +16,7 @@ export default function NewPost({ user: loggedInUser }) {
 	const [error, setError] = useState(null);
 	// HTML5 validation already works for the textarea
 	useEffect(() => {
-		document.title = 'Instagram - New Post';
+		document.title = 'Photogram • New Post';
 	}, []);
 
 	useEffect(() => {

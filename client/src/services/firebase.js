@@ -421,9 +421,6 @@ export async function getRecentRandomPhotos(
 			//Check if the photo was liked by the currently logged in user
 			let userLiked = photo.likes.includes(userId);
 			//Returns an array
-			console.log('Current photo', { photo });
-			console.log('Current userLiked', { userLiked });
-			console.log('Current userId', { userId });
 			const user = await getUserByUserId(photo.userId);
 			const username = user[0].username;
 			return {

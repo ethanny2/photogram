@@ -36,6 +36,10 @@ export default function Profile({ location: state = null }) {
 	}, [state, user]);
 
 	useEffect(() => {
+		if(user?.username) document.title = `${user.fullName} (@${user.username}) • Photogram Profile`;
+	}, [user])
+
+	useEffect(() => {
 		async function checkUserExistsToLoadProfile() {
 			const [user] = await getUserByUsername(username);
 			if (user?.userId) {

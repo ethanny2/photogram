@@ -1,16 +1,21 @@
-// import LoggedInUserContext from '../../context/logged-in-user';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import LoggedInUserContext from '../../context/logged-in-user';
 import Skeleton from 'react-loading-skeleton';
 import { deleteAccount } from '../../services/firebase';
 import { useHistory } from 'react-router-dom';
 import * as ROUTES from '../../constants/routes';
+
 export default function PrivacyEdit() {
 	const { user } = useContext(LoggedInUserContext);
 	const [password, setPassword] = useState('');
 	const [message, setMessage] = useState('');
 	const [confirmVisible, setConfirmVisible] = useState(false);
 	const history = useHistory();
+	
+	useEffect(() => {
+		document.title = 'Privacy and security • Photogram';
+	}, []);
+
 	async function handleSubmit(e) {
 		e.preventDefault();
 		if (password.length < 6) {

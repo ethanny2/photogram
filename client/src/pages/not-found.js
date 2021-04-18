@@ -9,7 +9,7 @@ export default function NotFound() {
 	const { user } = useUser(loggedInUser?.uid);
 
 	useEffect(() => {
-		document.title = 'Page Not Found - Instagram';
+		document.title = 'Page Not Found • Photogram';
 	}, []);
 
 	return (
@@ -23,7 +23,7 @@ export default function NotFound() {
 					</p>
 					<p className='text-sm text-center'>
 						The link you followed may be broken, or the page may have been
-						removed. Go back to Instagram.
+						removed. Go back to Photogram.
 					</p>
 				</div>
 				<FooterNav/>

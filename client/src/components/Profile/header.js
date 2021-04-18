@@ -152,6 +152,6 @@ Header.propTypes = {
 		userId: PropTypes.string,
 		fullName: PropTypes.string,
 		following: PropTypes.array,
-		username: PropTypes.string.isRequired
+		username: PropTypes.string
 	}).isRequired
 };

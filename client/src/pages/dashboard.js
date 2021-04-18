@@ -14,7 +14,7 @@ export default function DashBoard({ user: loggedInUser }) {
 	const { user } = useUser(loggedInUser.uid);
 
 	useEffect(() => {
-		document.title = 'Instagram';
+		document.title = 'Photogram';
 	}, []);
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>

@@ -29,7 +29,7 @@ export default function Login() {
 
 	useEffect(() => {
 		//Set document title for better SEO on each page
-		document.title = 'Login - Instagram';
+		document.title = 'Login • Photogram';
 	}, []);
 	return (
 		<section className='container flex flex-col lg:flex-row mx-auto max-w-screen-md items-center h-screen px-4 lg:px-0'>

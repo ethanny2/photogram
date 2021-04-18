@@ -28,7 +28,7 @@ export default function SignUp() {
 	const history = useHistory();
 
 	useEffect(() => {
-		document.title = 'Sign Up - Instagram';
+		document.title = 'Sign Up • Photogram';
 	}, []);
 
 	const handleSignUp = async (e) => {
@@ -96,6 +96,10 @@ export default function SignUp() {
 							placeholder='Username'
 							value={username}
 							onChange={({ target }) => setUsername(target.value.toLowerCase())}
+							required
+							maxLength="10"
+							minLength="5"
+							autoComplete="off"
 						/>
 						<input
 							aria-label='Enter full name'
@@ -108,6 +112,7 @@ export default function SignUp() {
 									setfullName(upperCaseFullName(target.value));
 								}
 							}}
+							required
 						/>
 
 						<input
@@ -117,6 +122,7 @@ export default function SignUp() {
 							placeholder='Email address'
 							value={email}
 							onChange={({ target }) => setEmail(target.value.toLowerCase())}
+							required
 						/>
 						<input
 							aria-label='Enter your password'
@@ -125,6 +131,8 @@ export default function SignUp() {
 							placeholder='Password'
 							value={password}
 							onChange={({ target }) => setPassword(target.value)}
+							required
+							minLength="6"
 						/>
 
 						<button
