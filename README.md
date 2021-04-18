@@ -36,10 +36,8 @@ photogram
         app.js
 ```
 
-
 ## Background
-The concept for this project was to go beyond the usual React demo applications that  recreate the web app of some popular service such as Netlifx, AirBnb , Instagram etc... but without having any real functionality. Photogram aims to replicate most features found in the official Instagram web application while supplementing it with features/improvements that could be incorporated into the offical Instagram web application.
-
+The concept for this project was to go beyond the usual React demo applications that recreate the web app of some popular service such as Netflix, Airbnb, and Instagram etc... But without having any real functionality. Photogram aims to replicate most features found in the official Instagram web application while supplementing it with features/improvements that could be incorporated into the offical Instagram web application.
 
 ## Features
 - Sign Up / Login with persistence through Firebase Auth
@@ -51,11 +49,11 @@ The concept for this project was to go beyond the usual React demo applications 
 - State synchronization through Context between Lightbox and timeline/profile photo
 - Suggestion sidebar on devices with larger widths to find new accounta to follow
 - Search bar with lodash debounce to search for users
-- Ability to create a new post  with image preview through Amazon S3 Buckets
+- Ability to create a new post with image preview through Amazon S3 Buckets
 - Notifications that are updated in real time through Firestore snapshot listeners
 - Explore page with custom infinite scroll hook and Tailwind loader animation to browse random photos
 - Profile pages for individual users which can be visited by unauthenticated users (no commenting and liking) and authenticated users
-- Settings to change username, profilePicture, bio and password
+- Settings to change username, profile picture, bio and password
 - Settings to delete account
 - Integration testing through React Testing Library 
 
@@ -63,3 +61,4 @@ The concept for this project was to go beyond the usual React demo applications 
 
 - [Instagram](https://www.instagram.com/) for the design and functionality
 - [Karl Hadwen](https://github.com/karlhadwen) for his video tutorial (most features in Photogram are not found in the tutorial).
+
