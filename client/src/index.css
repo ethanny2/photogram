@@ -6,12 +6,10 @@
 		transform: translate(-50%, -50%);
 	}
 	.lightbox-open {
-		/* overflow-y: hidden; */
-		filter: blur(2px);
-		position: fixed;
+		filter: blur(2px) brightness(50%);
 		width: 100vw;
-		/* overflow:hidden; */
 		pointer-events: none;
+		overflow: hidden;
 	}
 	.comment-grow {
 		flex-grow: 5;

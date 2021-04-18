@@ -16,8 +16,7 @@ function useInfiniteScroll(userId) {
 	}, []);
 
 	function checkBottomReached() {
-		// 	If lightbox is open don't even check b/c the user
-		// cannot scroll
+		// If lightbox is open don't check if the bottom is reachable
 		const isLightBoxOpen = document
 			.getElementById('root')
 			.classList.contains('lightbox-open');
@@ -54,23 +53,6 @@ function useInfiniteScroll(userId) {
 			setLastPhotoDocRef(newLastVisiblePhotoDoc);
 		}
 	}
-
-	// On pages with light boxes the #root has a CSS custom property
-	// to keep track of where the user scrolled to we can use that value
-	// to restore the users position; again only works on pages that render
-	// a lightbox
-
-	// This hook is used on each light box; so for each post on the explore/timeline
-	// This is a huge performance hit might just make it so the user can still scroll
-	// FIXME!
-
-	// useEffect(() => {
-	// 	const scrollY = document.documentElement.style.getPropertyValue(
-	// 		'--scroll-y'
-	// 	);
-	// 	let number = scrollY.slice(0, scrollY.length - 2);
-	// 	window.scrollTo(0, parseInt(number - 50 || '0'));
-	// }, [explorePhotos]);
 
 	useEffect(() => {
 		const throttleScrollEvent = throttle(checkBottomReached, 600);
