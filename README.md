@@ -4,7 +4,7 @@
 <br>
 
 <p align="center">
-  <img width="500" height="300" src="https://media1.giphy.com/media/bqb3SVL4FnL2x5ojl6/giphy.gif" alt="Photogram Demo gif">
+  <img width="550" height="300" src="https://media1.giphy.com/media/bqb3SVL4FnL2x5ojl6/giphy.gif" alt="Photogram Demo gif">
 </p>
 
 <br>
