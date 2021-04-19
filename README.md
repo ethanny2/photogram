@@ -1,4 +1,9 @@
+[![GitHub issues](https://img.shields.io/github/issues/ethanny2/photogram)](https://github.com/ethanny2/photogram/issues)[![GitHub forks](https://img.shields.io/github/forks/ethanny2/photogram)](https://github.com/ethanny2/photogram/network)[![GitHub stars](https://img.shields.io/github/stars/ethanny2/photogram)](https://github.com/ethanny2/photogram/stargazers)[![GitHub license](https://img.shields.io/github/license/ethanny2/photogram)](https://github.com/ethanny2/photogram/blob/main/LICENSE.md)[![Twitter Badge](https://img.shields.io/badge/chat-twitter-blue.svg)](https://twitter.com/ArrayLikeObj)
 # Photogram
+
+### Live site
+[photogram.vercel.app](photogram.vercel.app)
+
 
 ### Instagram clone made with React, Tailwind CSS, Firebase/Firestore, Amazon S3 Bucket and tested with React Testing Library + Jest and Cypress.
 <br>
