@@ -11,6 +11,7 @@ app.listen(process.env.PORT || 3001);
 
 const S3_BUCKET = process.env.S3_BUCKET_NAME;
 
+
 app.get('/sign-s3', (req, res) => {
 	// Needed the signature version param to work
 	const s3 = new aws.S3({ region: 'us-east-1', signatureVersion: 'v4' });
