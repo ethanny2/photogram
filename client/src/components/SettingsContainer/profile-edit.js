@@ -27,7 +27,7 @@ export default function ProfileEdit() {
 		// Show skeleton for image preview
 		try {
 			const response = await fetch(
-				`http://localhost:3001/sign-s3?username=${user.username}&file-name=${file.name}&file-type=${file.type}`
+				`https://fierce-crag-73041.herokuapp.com/sign-s3?username=${user.username}&file-name=${file.name}&file-type=${file.type}`
 			);
 			const { signedRequest: signedRequestUrl, url } = await response.json();
 			// Send the PUT request with newly signed S3 url once it works
