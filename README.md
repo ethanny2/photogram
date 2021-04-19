@@ -2,7 +2,7 @@
 # Photogram
 
 ### Live site
-[photogram.vercel.app](photogram.vercel.app)
+[https://photogram.vercel.app/](https://photogram.vercel.app/)
 
 
 ### Instagram clone made with React, Tailwind CSS, Firebase/Firestore, Amazon S3 Bucket and tested with React Testing Library + Jest and Cypress.
