@@ -78,7 +78,7 @@ export default function NewPost({ user: loggedInUser }) {
 
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>
-			<main className='h-full pb-2 mb-10 sm:mb-0 bg-gray-50'>
+			<main className='h-full min-h-screen pb-2 mb-10 sm:mb-0 bg-gray-50'>
 				<Header />
 				<article className='py-1 mx-auto flex flex-col justify-between items-center max-w-sm h-full'>
 					{user?.username ? (
