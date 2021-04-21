@@ -63,7 +63,7 @@ export default function Login() {
 							type='text'
 							placeholder='Email address'
 							value={email}
-							onChange={({ target }) => setEmail(target.value)}
+							onChange={({ target }) => setEmail(target.value.toLowerCase())}
 						/>
 						<input
 							aria-label='Enter your password'

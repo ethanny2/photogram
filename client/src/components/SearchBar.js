@@ -63,7 +63,7 @@ export default function SearchBar() {
 					id='userSearch'
 					placeholder='Search'
 					value={searchText}
-					onChange={({ target }) => setSearchText(target.value)}
+					onChange={({ target }) => setSearchText(target.value.toLowerCase())}
 				/>
 			</form>
 			{results && (
