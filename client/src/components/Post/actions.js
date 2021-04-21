@@ -51,7 +51,7 @@ export default function Actions({ handleFocus }) {
 								toggle();
 							}
 						}}
-						className={`w-8 mr-4 select-none cursor-pointer 
+						className={`w-8 mr-4 h-8 select-none cursor-pointer 
 						 ${userLiked ? 'fill-current text-red-500' : 'text-black'}`}
 						xmlns='http://www.w3.org/2000/svg'
 						fill='none'
@@ -74,7 +74,7 @@ export default function Actions({ handleFocus }) {
 								handleFocus();
 							}
 						}}
-						className='w-8 text-black-light select-none cursor-pointer'
+						className='w-8 h-8 text-black-light select-none cursor-pointer'
 						xmlns='http://www.w3.org/2000/svg'
 						fill='none'
 						viewBox='0 0 24 24'

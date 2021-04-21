@@ -10,11 +10,11 @@ export default function Settings({ user: loggedInUser }) {
 
 	return (
 		<LoggedInUserContext.Provider value={{ user }}>
-			<section className='bg-gray-50 pb-2'>
+			<main className='bg-gray-50 pb-2'>
 				<Header />
 				<SettingsContainer />
 				<FooterNav />
-			</section>
+			</main>
 		</LoggedInUserContext.Provider>
 	);
 }

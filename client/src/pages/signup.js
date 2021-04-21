@@ -72,7 +72,7 @@ export default function SignUp() {
 	};
 
 	return (
-		<section className='container flex mx-auto max-w-xs items-center justify-center h-screen px-4 lg:px-0'>
+		<main className='container flex mx-auto max-w-xs items-center justify-center h-screen px-4 lg:px-0'>
 			<div className='flex flex-col'>
 				{/* Div to group form and logo */}
 				<div className='flex flex-col items-center bg-white p-4 border mb-4'>
@@ -152,6 +152,6 @@ export default function SignUp() {
 					</p>
 				</div>
 			</div>
-		</section>
+		</main>
 	);
 }

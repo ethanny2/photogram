@@ -36,7 +36,7 @@ export default function Login() {
 		document.title = 'Login • Photogram';
 	}, []);
 	return (
-		<section className=' bg-gray-50 flex flex-col lg:flex-row justify-center w-screen  items-center h-screen px-4 lg:px-0'>
+		<main className=' bg-gray-50 flex flex-col lg:flex-row justify-center w-screen  items-center h-screen px-4 lg:px-0'>
 			<div className='hidden lg:flex w-5/5 lg:w-2/5 justify-end lg:h-full '>
 				<img
 					src={phoneImg}
@@ -98,6 +98,6 @@ export default function Login() {
 					</p>
 				</div>
 			</div>
-		</section>
+		</main>
 	);
 }

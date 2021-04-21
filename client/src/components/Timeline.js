@@ -8,13 +8,13 @@ export default function Timeline() {
 	const { user } = useContext(LoggedInUserContext);
 	const { photos } = useFollowedUserPhotos(user);
 	return (
-		<section className='col-span-3 md:col-span-2'>
-			{photos ? (
+		<section className='col-span-3 md:col-span-2 '>
+			{photos && photos.length > 1 ? (
 				photos.map((photo) => {
 					return <Post key={photo.docId} content={photo}></Post>;
 				})
 			) : photos?.length <= 0 ? (
-				<p>No posts from followers yet!</p>
+				<p className="text-center h-screen">No posts from followed accounts, try following more accounts!</p>
 			) : (
 				<Skeleton count={4} height={500} className='mb-5' />
 			)}

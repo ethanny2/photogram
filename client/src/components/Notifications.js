@@ -36,7 +36,7 @@ export default function Notifications() {
 			onClick={() => setVisible((prevState) => !prevState)}
 		>
 			{notifications?.length ? (
-				<div className='fixed rounded-full w-3 h-3 bg-blue-500'></div>
+				<div className='absolute rounded-full w-3 h-3 bg-blue-500'></div>
 			) : null}
 			<svg
 				xmlns='http://www.w3.org/2000/svg'
@@ -61,7 +61,7 @@ export default function Notifications() {
 						style={{maxWidth: '25rem'}}
 				>
 					<li
-						className={`py-1 flex flex-row justify-center text-center items-center mb-3 border-b border-gray-primary`}
+						className={`py-2 h-8 flex flex-row justify-center text-center items-center mb-3 border-b border-gray-primary`}
 						onClick={() => clearAllNotifications(userId)}
 					>
 						<p className='w-full'> Clear all notifications</p>
