@@ -46,13 +46,13 @@ The concept for this project was to go beyond the usual React demo applications 
 
 ## Features
 - Sign Up / Login with persistence through Firebase Auth
-- Timeline of photos made by account you follow
+- Timeline of photos made by accounts you follow
 - Commenting and liking photos
 - Ability to double tap to like a photo with Tailwind heart animation
 - Footer navigation on smaller width devices to ensure all the functionality of the app is still accessible
 - Lightbox made using React Portals to view photo when there are more than 3 comments
 - State synchronization through Context between Lightbox and timeline/profile photo
-- Suggestion sidebar on devices with larger widths to find new accounta to follow
+- Suggestion sidebar on devices with larger widths to find new accounts to follow
 - Search bar with lodash debounce to search for users
 - Ability to create a new post with image preview through Amazon S3 Buckets
 - Notifications that are updated in real time through Firestore snapshot listeners
@@ -61,6 +61,7 @@ The concept for this project was to go beyond the usual React demo applications 
 - Settings to change username, profile picture, bio and password
 - Settings to delete account
 - Integration testing through React Testing Library 
+- End to end testing through Cypress
 
 ## Credits 
 
