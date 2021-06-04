@@ -332,25 +332,41 @@ export async function userSearch(keyword, limit = 8) {
 }
 
 /*
+	Helper function to batch the requests of userIds the current
+	logged in user is following.  Firebase 'in' queries only
+	support a max of 10 array values currently.
+*/
+async function getDocsById(userIdArray) {
+	let batches = [];
+	while (userIdArray.length) {
+		const batch = userIdArray.splice(0, 10);
+		const results = await firebase
+			.firestore()
+			.collection('photos')
+			.where('userId', 'in', [...batch])
+			.get();
+		batches.push(
+			...results.docs.map((item) => ({
+				...item.data(),
+				docId: item.id
+			}))
+		);
+	}
+	return batches;
+}
+
+/*
  userID need to check if they liked the photo!
  THIS IS PHOTOS FROM PPL YOU FOLLOW
  Notes:
  Limit to 5-10 photos per user? 
  No I think its fine its still sorted by date so the order 
- of posts should look random. And we only get 10 people so it realistically
- cannot be that many photos.
+ of posts should look random.
  */
 export async function getUserFollowedPhotos(userId, followingUserIds) {
-	const result = await firebase
-		.firestore()
-		.collection('photos')
-		.where('userId', 'in', followingUserIds) //Grabs up to 10 user objects from ur following ID list; 10 random?
-		.get();
-
-	const userFollowedPhotos = result.docs.map((item) => ({
-		...item.data(),
-		docId: item.id
-	}));
+	// Batch the userId query of photos to 10 at a time to get around firebase hard limit
+	// of 10 array values when using an 'in' query
+	const userFollowedPhotos = await getDocsById(followingUserIds);
 	/* We want to get the user details for the photos of the ppl we follow*/
 	const photosWithUserDetails = await Promise.all(
 		userFollowedPhotos.map(async (photo) => {
