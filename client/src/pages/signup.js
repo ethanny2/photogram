@@ -52,7 +52,8 @@ export default function SignUp() {
 					following: [],
 					followers: [],
 					dateCreated: Date.now(),
-					profilePic: defaultProfilePicture
+					profilePic: defaultProfilePicture,
+					bio: ''
 				});
 				history.push(ROUTES.DASHBOARD);
 			} catch (error) {
